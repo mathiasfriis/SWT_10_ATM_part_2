@@ -1,0 +1,1 @@
+Timestamp: 01-Oct-18 15:39:55  Flight 1: TEST2 | Flight 2: TEST1 | SeperationEvent status: Active
