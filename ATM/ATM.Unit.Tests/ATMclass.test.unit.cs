@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ATM.Events;
 using NUnit.Framework;
 using TransponderReceiver;
 
@@ -22,7 +23,7 @@ namespace ATM.Unit.Tests
         FakeLogger logger;
         FakeRenderer renderer;
         ITransponderReceiver TransponderReceiver;
-        List<SeperationEvent> seperationEvents;
+        List<Event> seperationEvents;
         List<TrackData> tracks;
         string timestamp;
 
@@ -37,7 +38,7 @@ namespace ATM.Unit.Tests
             logger = new FakeLogger();
             renderer = new FakeRenderer();
             //Make new fake TransponderReceiver.
-            seperationEvents = new List<SeperationEvent>();
+            seperationEvents = new List<Event>();
             tracks = new List<TrackData>();
             timestamp = "235928121999";
 
