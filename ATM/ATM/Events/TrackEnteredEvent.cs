@@ -8,20 +8,20 @@ namespace ATM.Events
 {
     public class TrackEnteredEvent : Event
     {
-        private string _occurrenceTime { get; set; }
-        private List<TrackData> _involvedTracks { get; set; }
-        private bool _isRaised { get; set; }
+        public string _occurrenceTime { get; set; }
+        public TrackData _involvedTrack { get; set; }
+        public bool _isRaised { get; set; }
 
-        public TrackEnteredEvent(string occurrenceTime, List<TrackData> involvedTracks, bool isRaised)
+        public TrackEnteredEvent(string occurrenceTime, TrackData involvedTrack, bool isRaised)
         {
             _occurrenceTime = occurrenceTime;
-            _involvedTracks = involvedTracks;
+            _involvedTrack = involvedTrack;
             _isRaised = isRaised;
         }
 
         public override string FormatData()
         {
-            throw new NotImplementedException();
+            return "Track entered airspace - Occurencetime: " + _occurrenceTime + "Involved track: " + _involvedTrack;
         }
 
     }

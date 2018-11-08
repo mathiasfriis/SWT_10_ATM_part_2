@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ATM.Events;
 
 namespace ATM.Logger
 {
@@ -19,7 +20,7 @@ namespace ATM.Logger
 
         public void LogActiveSeparationEvent(SeperationEvent seperationEvent)
         {
-            string timeOfOccurence = seperationEvent._OccurrenceTime.ToString();
+            string timeOfOccurence = seperationEvent._occurrenceTime.ToString();
             TrackData track1 = seperationEvent._InvolvedTracks[0];
             TrackData track2 = seperationEvent._InvolvedTracks[1];
 
@@ -37,7 +38,7 @@ namespace ATM.Logger
 
         public void LogInactiveSeparationEvent(SeperationEvent seperationEvent)
         {
-            string timeOfOccurence = seperationEvent._OccurrenceTime.ToString();
+            string timeOfOccurence = seperationEvent._occurrenceTime.ToString();
             TrackData track1 = seperationEvent._InvolvedTracks[0];
             TrackData track2 = seperationEvent._InvolvedTracks[1];
 
