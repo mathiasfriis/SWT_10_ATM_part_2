@@ -69,7 +69,6 @@
     <Compile Include="ATMclass.test.unit.cs" />
     <Compile Include="Renderer.test.unit.cs" />
     <Compile Include="TransponderReceiver.test.unit.cs" />
-    <Compile Include="UnitTests.cs" />
     <Compile Include="Fakes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
