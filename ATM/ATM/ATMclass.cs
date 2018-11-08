@@ -55,6 +55,8 @@ namespace ATM
                 trackToEdit._CurrentZcord = trackdata._CurrentZcord;
                 trackToEdit._CurrentCourse = trackdata._CurrentCourse;
                 trackToEdit._CurrentHorzVel = trackToEdit._CurrentHorzVel;
+                trackToEdit._CurrentHorzVel = CalculateTrackSpeed(trackdata, trackToEdit);
+                trackToEdit._CurrentCourse = CalculateTrackCourse(trackdata, trackToEdit);
 
                 // Remove tracks if out of airspace
 
@@ -221,34 +223,61 @@ namespace ATM
                              x._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE);
         }
 
-        /*private double CalculateTrackSpeed(TrackData newData, TrackData oldData)
+        private double CalculateTrackSpeed(TrackData newData, TrackData oldData)
         {
+            //Get X, Y and Z for old data and new data
             double old_x = oldData._CurrentXcord;
             double new_x = newData._CurrentXcord;
 
             double old_y = oldData._CurrentYcord;
             double new_y = newData._CurrentYcord;
 
-            double old_z = oldData._CurrentZcord;
-            double new_z = newData._CurrentZcord;
+            //Omit Z-axis, since we're only interested in Horizontal velocity
+            //double old_z = oldData._CurrentZcord;
+            //double new_z = newData._CurrentZcord;
 
+            //Get difference in X, Y and Z
             double dx = Math.Abs(old_x - new_x);
             double dy = Math.Abs(old_y - new_y);
-            double dz = Math.Abs(old_z - new_z);
+            //double dz = Math.Abs(old_z - new_z);
 
-            double Distance = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2) + Math.Pow(dz, 2));
-
+            //Calculate distance traveled
+            //double Distance = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2) + Math.Pow(dz, 2));
+            double Distance = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
+            //Get the timestamps as strings
             string oldTime = oldData._TimeStamp;
             string newTime = newData._TimeStamp;
 
+            //Format timestamps to DateTime
             string formatString = "yyyyMMddHHmmssfff";
             DateTime oldDateTime = DateTime.ParseExact(oldTime, formatString, null);
-            DateTime newDateTime = DateTime.ParseExact(oldTime, formatString, null);
+            DateTime newDateTime = DateTime.ParseExact(newTime, formatString, null);
 
-            int dt_ms = (newDateTime - oldDateTime).Milliseconds;
+            //Get difference in DateTimes
+            int dt_ms = Math.Abs((newDateTime - oldDateTime).Milliseconds);
 
-            double speed = Distance
-        }*/
+            //Calculate speed in m/s
+            double speed = Distance / dt_ms / 1000;
+            return speed;
+        }
+
+        private double CalculateTrackCourse(TrackData newData, TrackData oldData)
+        {
+            //Get X and Y for old data and new data
+            double old_x = oldData._CurrentXcord;
+            double new_x = newData._CurrentXcord;
+
+            double old_y = oldData._CurrentYcord;
+            double new_y = newData._CurrentYcord;
+
+            //Get difference in X and Y
+            double dx = Math.Abs(old_x - new_x);
+            double dy = Math.Abs(old_y - new_y);
+
+            //Calculate angle
+            double Angle = Math.Atan(dy / dx);
+            return Angle;
+        }
 
         public void Update(TrackData trackdata)
         {
