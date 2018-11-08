@@ -20,8 +20,8 @@ namespace ATM
             _currentYcord = currentYcord;
             _currentZcord = currentZcord;
             _timeStamp = timeStamp;
-            _currentHorzVel = currentHorzVel;
-            _currentCourse = currentCourse;
+            _currentHorzVel = 0;
+            _currentCourse = 0;
         }
 
 
