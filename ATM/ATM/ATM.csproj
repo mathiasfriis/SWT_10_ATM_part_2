@@ -44,16 +44,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AirSpace.cs" />
+    <Compile Include="Airspace\AirSpace.cs" />
+    <Compile Include="Airspace\IAirspace.cs" />
     <Compile Include="ATMclass.cs" />
-    <Compile Include="ConsoleRenderer.cs" />
-    <Compile Include="IAirspace.cs" />
-    <Compile Include="ILogger.cs" />
+    <Compile Include="Events\SeperationEvent.cs" />
     <Compile Include="IObserver.cs" />
-    <Compile Include="IRenderer.cs" />
-    <Compile Include="FileLogger.cs" />
     <Compile Include="ISubject.cs" />
-    <Compile Include="SeperationEvent.cs" />
+    <Compile Include="Logger\FileLogger.cs" />
+    <Compile Include="Logger\ILogger.cs" />
+    <Compile Include="Render\ConsoleRenderer.cs" />
+    <Compile Include="Render\IRenderer.cs" />
     <Compile Include="TrackData.cs" />
     <Compile Include="TransponderReceiver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

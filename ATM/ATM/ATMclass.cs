@@ -221,7 +221,7 @@ namespace ATM
                              x._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE);
         }
 
-        private double CalculateTrackSpeed(TrackData newData, TrackData oldData)
+        /*private double CalculateTrackSpeed(TrackData newData, TrackData oldData)
         {
             double old_x = oldData._CurrentXcord;
             double new_x = newData._CurrentXcord;
@@ -248,7 +248,7 @@ namespace ATM
             int dt_ms = (newDateTime - oldDateTime).Milliseconds;
 
             double speed = Distance
-        }
+        }*/
 
         public void Update(TrackData trackdata)
         {
