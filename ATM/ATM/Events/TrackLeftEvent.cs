@@ -6,23 +6,22 @@ using System.Threading.Tasks;
 
 namespace ATM.Events
 {
-    public class SeperationEvent : Event
+    public class TrackLeftEvent : Event
     {
-
         private string _occurrenceTime { get; set; }
-        private List<TrackData> _involvedTracks { get; set; }
+        private TrackData _involvedTrack { get; set; }
         private bool _isRaised { get; set; }
 
-        public SeperationEvent(string occurrenceTime, List<TrackData> involvedTracks, bool isRaised)
+        public TrackLeftEvent(string occurrenceTime, TrackData involvedTrack, bool isRaised)
         {
             _occurrenceTime = occurrenceTime;
-            _involvedTracks = involvedTracks;
+            _involvedTrack = involvedTrack;
             _isRaised = isRaised;
         }
 
         public override string FormatData()
         {
-            return "Separation event - Occurencetime: " + _occurrenceTime + "Involved tracks: " + _involvedTracks[0] + ", " + _involvedTracks[1];
+            return "Track left airspace - Occurencetime: " + _occurrenceTime + "Involved track: " + _involvedTrack;
         }
     }
 }
