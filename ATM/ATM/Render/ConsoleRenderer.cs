@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ATM.Events;
 
-namespace ATM
+namespace ATM.Render
 {
     public class ConsoleRenderer : IRenderer
     {
         public void RenderSeperationEvent(SeperationEvent seperationEvent)
         {
-            string timeOfOccurence = seperationEvent._OccurrenceTime;// + seperationEvent.OccurrenceTime.ToLongTimeString();
+            string timeOfOccurence = seperationEvent._occurrenceTime;// + seperationEvent.OccurrenceTime.ToLongTimeString();
             string track1 = seperationEvent._InvolvedTracks[0]._Tag;
             string track2 = seperationEvent._InvolvedTracks[1]._Tag;
 
