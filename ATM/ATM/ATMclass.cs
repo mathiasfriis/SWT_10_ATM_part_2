@@ -221,6 +221,35 @@ namespace ATM
                              x._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE);
         }
 
+        private double CalculateTrackSpeed(TrackData newData, TrackData oldData)
+        {
+            double old_x = oldData._CurrentXcord;
+            double new_x = newData._CurrentXcord;
+
+            double old_y = oldData._CurrentYcord;
+            double new_y = newData._CurrentYcord;
+
+            double old_z = oldData._CurrentZcord;
+            double new_z = newData._CurrentZcord;
+
+            double dx = Math.Abs(old_x - new_x);
+            double dy = Math.Abs(old_y - new_y);
+            double dz = Math.Abs(old_z - new_z);
+
+            double Distance = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2) + Math.Pow(dz, 2));
+
+            string oldTime = oldData._TimeStamp;
+            string newTime = newData._TimeStamp;
+
+            string formatString = "yyyyMMddHHmmssfff";
+            DateTime oldDateTime = DateTime.ParseExact(oldTime, formatString, null);
+            DateTime newDateTime = DateTime.ParseExact(oldTime, formatString, null);
+
+            int dt_ms = (newDateTime - oldDateTime).Milliseconds;
+
+            double speed = Distance
+        }
+
         public void Update(TrackData trackdata)
         {
             HandleNewTrackData(trackdata);

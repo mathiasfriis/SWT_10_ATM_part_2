@@ -11,3 +11,14 @@ C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ConsoleA
 C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ConsoleApplication\obj\Debug\ConsoleApplication.pdb
 C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ConsoleApplication\bin\Debug\ConsoleApplication.exe.CodeAnalysisLog.xml
 C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ConsoleApplication\bin\Debug\ConsoleApplication.exe.lastcodeanalysissucceeded
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ConsoleApplication\bin\Debug\ConsoleApplication.exe.config
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ConsoleApplication\bin\Debug\ConsoleApplication.exe
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ConsoleApplication\bin\Debug\ConsoleApplication.pdb
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ConsoleApplication\bin\Debug\ATM.dll
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ConsoleApplication\bin\Debug\TransponderReceiver.dll
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ConsoleApplication\bin\Debug\ATM.pdb
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ConsoleApplication\obj\Debug\ConsoleApplication.csprojAssemblyReference.cache
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ConsoleApplication\obj\Debug\ConsoleApplication.csproj.CoreCompileInputs.cache
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ConsoleApplication\obj\Debug\ConsoleApplication.csproj.CopyComplete
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ConsoleApplication\obj\Debug\ConsoleApplication.exe
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ConsoleApplication\obj\Debug\ConsoleApplication.pdb
