@@ -50,13 +50,17 @@ namespace ATM
             {
                 // Update trackdata
                 TrackData trackToEdit = _currentTracks.Find(x => x._Tag == trackdata._Tag);
+                trackToEdit._CurrentHorzVel = CalculateTrackSpeed(trackdata, trackToEdit);
+                trackToEdit._CurrentCourse = CalculateTrackCourse(trackdata, trackToEdit);
                 trackToEdit._CurrentXcord = trackdata._CurrentXcord;
                 trackToEdit._CurrentYcord = trackdata._CurrentYcord;
                 trackToEdit._CurrentZcord = trackdata._CurrentZcord;
-                trackToEdit._CurrentCourse = trackdata._CurrentCourse;
                 trackToEdit._CurrentHorzVel = trackToEdit._CurrentHorzVel;
-                trackToEdit._CurrentHorzVel = CalculateTrackSpeed(trackdata, trackToEdit);
-                trackToEdit._CurrentCourse = CalculateTrackCourse(trackdata, trackToEdit);
+
+                //Replace old object with new object
+                int index = _currentTracks.FindIndex(x => x._Tag == trackdata._Tag);
+                _currentTracks.RemoveAt(index);
+                _currentTracks.Insert(index,trackToEdit);
 
                 // Remove tracks if out of airspace
 
@@ -254,10 +258,11 @@ namespace ATM
             DateTime newDateTime = DateTime.ParseExact(newTime, formatString, null);
 
             //Get difference in DateTimes
-            int dt_ms = Math.Abs((newDateTime - oldDateTime).Milliseconds);
+            TimeSpan dt_TimeSpan = newDateTime - oldDateTime;
+            int dt_ms = Math.Abs(dt_TimeSpan.Seconds*1000) + Math.Abs(dt_TimeSpan.Milliseconds);
 
             //Calculate speed in m/s
-            double speed = Distance / dt_ms / 1000;
+            double speed = Distance / dt_ms * 1000;
             return speed;
         }
 
@@ -274,8 +279,8 @@ namespace ATM
             double dx = Math.Abs(old_x - new_x);
             double dy = Math.Abs(old_y - new_y);
 
-            //Calculate angle
-            double Angle = Math.Atan(dy / dx);
+            //Calculate angle in degrees
+            double Angle = Math.Atan(dy / dx)*(180/Math.PI);
             return Angle;
         }
 
