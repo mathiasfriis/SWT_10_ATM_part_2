@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ATM;
+using ATM.Render;
+using ATM.Logger;
 using TransponderReceiver; //Needed in order to use the TransponderReceiver dll
 
 

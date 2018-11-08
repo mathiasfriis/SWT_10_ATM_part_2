@@ -5,6 +5,10 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using TransponderReceiver;
+using ATM.Render;
+using ATM.Logger;
+using ATM.Events;
+using ATM;
 
 namespace ATM
 {
@@ -180,7 +184,6 @@ namespace ATM
             }
                                                                                                                                           
         }
-
 
         public void RenderSeperationEvents()
         {
