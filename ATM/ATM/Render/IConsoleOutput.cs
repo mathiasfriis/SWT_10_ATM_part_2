@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace ATM.Render
 {
-    public interface IRenderer
+    public interface IConsoleOutput
     {
-        void RenderTrack(TrackData trackData);
-
-        void RenderSeperationEvent(SeperationEvent seperationEvent);
+        void Print(string toPrint);
     }
 }
