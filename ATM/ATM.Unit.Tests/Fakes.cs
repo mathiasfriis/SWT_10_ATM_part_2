@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ATM.Render;
+using ATM.Events;
+using ATM.Logger;
 
 namespace ATM.Unit.Tests
 {

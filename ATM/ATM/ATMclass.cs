@@ -181,7 +181,6 @@ namespace ATM
                                                                                                                                           
         }
 
-
         public void RenderSeperationEvents()
         {
             foreach (var seperationEvent in _currentSeperationEvents)
