@@ -59,5 +59,20 @@ namespace ATM.Tests.Integration
             renderer = new ConsoleRenderer();
             //timer = new Timer();
         }
+
+        /*
+        public void Renderer_renderTrackData_OutputReceivesCorrectString()
+        {
+            trackData1.render();
+            string Tag = trackData1._Tag;
+            double x = trackData1._CurrentXcord;
+            double y = trackData1._CurrentYcord;
+            double z = trackData1._CurrentZcord;
+            double horzVel = trackData1._CurrentHorzVel;
+            double course = trackData1._CurrentCourse;
+
+            fakeConsoleOutput.Received(Arg.Any<String>().Contains(Tag + " - " + "(" + x + "," + y + "," + z + ")" + " - " + "Speed: " + horzVel + "m/s - Course: " + course + " degrees."));
+        }
+        */
     }
 }
