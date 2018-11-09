@@ -344,5 +344,346 @@ namespace ATM.Unit.Tests
             Assert.That(() => uut.CheckIfSeperationEventExistsFor(trackDatas[1], trackDatas[0]).Equals(true));
         }
         #endregion
+
+        #region CalculateSpeed
+
+        [Test]
+        public void CalculateSpeed_TrackMoved1Xin1Sec_Returns1()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10000, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(1));
+        }
+
+        [Test]
+        public void CalculateSpeed_TrackMovedMinus1Xin1Sec_Returns1()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 9999, 10000, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(1));
+        }
+
+        [Test]
+        public void CalculateSpeed_TrackMoved1Yin1Sec_Returns1()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10001, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(1));
+        }
+
+        [Test]
+        public void CalculateSpeed_TrackMovedMinus1Yin1Sec_Returns1()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 9999, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(1));
+        }
+
+        [Test]
+        public void CalculateSpeed_TrackMoved1Zin1Sec_Returns0()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1001, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(0));
+        }
+
+        [Test]
+        public void CalculateSpeed_TrackMovedMinus1Zin1Sec_Returns0()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 999, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(0));
+        }
+
+        [Test]
+        public void CalculateSpeed_TrackMoved1X1Yin1Sec_Returns1p414()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0);
+
+           
+
+            double result = Math.Sqrt(Math.Pow(1, 2) + Math.Pow(1, 2));
+
+            Assert.That(uut.CalculateTrackSpeed(testTrack2,testTrack1).Equals(result));
+        }
+
+        [Test]
+        public void CalculateSpeed_MismatchingTags_ThrowsError()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("XYZ", 10001, 10001, 1000, timestampNew, 0, 0);
+
+            Assert.Throws<ArgumentException>(
+                () => uut.CalculateTrackSpeed(testTrack2, testTrack1), "Tags for the supplied TrackData-objects do not match.");
+        }
+
+        [Test]
+        public void CalculateSpeed_NewTimestampIsOlderThanOldTimestamp_ThrowsError()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0);
+
+            Assert.Throws<ArgumentException>(
+                () => uut.CalculateTrackSpeed(testTrack1, testTrack2), "Timestamp of new data is older than Timestamp of old data");
+        }
+        #endregion
+
+        #region CalculateTrackCourse
+
+        [Test]
+        public void CalculateTrackCourse_MoveOnlyInPositiveX_Returns0()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackCourse(testTrack2,testTrack1).Equals(0));
+        }
+
+        [Test]
+        public void CalculateTrackCourse_MoveOnlyInNegativeX_Returns180()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 20000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(180));
+        }
+
+        [Test]
+        public void CalculateTrackCourse_MoveOnlyInPositiveY_Returns90()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 20000, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(90));
+        }
+
+        [Test]
+        public void CalculateTrackCourse_MoveOnlyInNegativeY_ReturnsMinus90()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 20000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(-90));
+        }
+
+        [Test]
+        public void CalculateTrackCourse_MoveEqualInPositiveXPositiveY_Returns45()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 20000, 20000, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(45));
+        }
+
+        [Test]
+        public void CalculateTrackCourse_MoveEqualInPositiveXNegativeY_ReturnsMinus45()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 20000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(-45));
+        }
+
+        [Test]
+        public void CalculateTrackCourse_MoveEqualInNegativeXNegativeY_ReturnsMinus135()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 20000, 20000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(-135));
+        }
+
+        [Test]
+        public void CalculateTrackCourse_MoveEqualInNegativeXPositiveY_Returns135()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 20000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 20000, 1000, timestampNew, 0, 0);
+
+            Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(135));
+        }
+
+        [Test]
+        public void CalculateTrackCourse_MismatchingTags_ThrowsError()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("XYZ", 10001, 10001, 1000, timestampNew, 0, 0);
+
+            Assert.Throws<ArgumentException>(
+                () => uut.CalculateTrackCourse(testTrack2, testTrack1), "Tags for the supplied TrackData-objects do not match.");
+        }
+
+        [Test]
+        public void CalculateTrackCourse_NewTimestampIsOlderThanOldTimestamp_ThrowsError()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0);
+
+            Assert.Throws<ArgumentException>(
+                () => uut.CalculateTrackCourse(testTrack1, testTrack2), "Timestamp of new data is older than Timestamp of old data");
+        }
+
+        #endregion
+
+        #region HandleNewTrackData
+        [Test]
+        public void HandleNewTrackData_TrackJustAdded_SpeedIs0()
+        {
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10);
+            uut.HandleNewTrackData(testTrack1);
+            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(0));
+        }
+
+        [Test]
+        public void HandleNewTrackData_TrackMoved1Xin1Sec_SpeedIsUpdatedTo1()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10000, 1000, timestampNew, 0, 0);
+            uut.HandleNewTrackData(testTrack1);
+            uut.HandleNewTrackData(testTrack2);
+
+            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(1));
+        }
+
+        [Test]
+        public void HandleNewTrackData_TrackMovedMinus1Xin1Sec_SpeedIsUpdatedTo1()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 9999, 10000, 1000, timestampNew, 0, 0);
+            uut.HandleNewTrackData(testTrack1);
+            uut.HandleNewTrackData(testTrack2);
+
+            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(1));
+        }
+
+        [Test]
+        public void HandleNewTrackData_TrackMoved1Yin1Sec_SpeedIsUpdatedTo1()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10001, 1000, timestampNew, 0, 0);
+            uut.HandleNewTrackData(testTrack1);
+            uut.HandleNewTrackData(testTrack2);
+
+            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(1));
+        }
+
+        [Test]
+        public void HandleNewTrackData_TrackMovedMinus1Yin1Sec_SpeedIsUpdatedTo1()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 9999, 1000, timestampNew, 0, 0);
+            uut.HandleNewTrackData(testTrack1);
+            uut.HandleNewTrackData(testTrack2);
+
+            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(1));
+        }
+
+        [Test]
+        public void HandleNewTrackData_TrackMoved1Zin1Sec_SpeedIsUpdatedTo0()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1001, timestampNew, 0, 0);
+            uut.HandleNewTrackData(testTrack1);
+            uut.HandleNewTrackData(testTrack2);
+
+            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(0));
+        }
+
+        [Test]
+        public void HandleNewTrackData_TrackMovedMinus1Zin1Sec_SpeedIsUpdatedTo0()
+        {
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 999, timestampNew, 0, 0);
+            uut.HandleNewTrackData(testTrack1);
+            uut.HandleNewTrackData(testTrack2);
+
+            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(0));
+        }
+
+        [Test]
+        public void HandleNewTrackData_TrackMoved1X1Yin1Sec_SpeedIsUpdatedTo1p414()
+        {
+            //sqrt(3^2+3^2)=3
+            string timestampOld = "20181109103800000";
+            string timestampNew = "20181109103801000"; //Timestamp 1 second later
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0);
+            uut.HandleNewTrackData(testTrack1);
+            uut.HandleNewTrackData(testTrack2);
+
+            double result = Math.Sqrt(Math.Pow(1, 2) + Math.Pow(1, 2));
+
+            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(result));
+        }
+        #endregion
     }
 }

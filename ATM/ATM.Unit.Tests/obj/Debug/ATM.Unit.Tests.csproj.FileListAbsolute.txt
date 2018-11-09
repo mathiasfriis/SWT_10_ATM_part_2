@@ -20,3 +20,4 @@ C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM.Unit.
 C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM.Unit.Tests\obj\Debug\ATM.Unit.Tests.csproj.CopyComplete
 C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM.Unit.Tests\obj\Debug\ATM.Unit.Tests.dll
 C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM.Unit.Tests\obj\Debug\ATM.Unit.Tests.pdb
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM.Unit.Tests\obj\Debug\ATM.Unit.Tests.csprojAssemblyReference.cache

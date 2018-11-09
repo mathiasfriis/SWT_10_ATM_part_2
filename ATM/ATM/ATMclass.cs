@@ -230,8 +230,14 @@ namespace ATM
                              x._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE);
         }
 
-        private double CalculateTrackSpeed(TrackData newData, TrackData oldData)
+        public double CalculateTrackSpeed(TrackData newData, TrackData oldData)
         {
+            //Check that the tags for the supplied data match
+            if (!(newData._Tag.Equals(oldData._Tag)))
+            {
+                throw new System.ArgumentException("Tags for the supplied TrackData-objects do not match.");
+            }
+
             //Get X, Y and Z for old data and new data
             double old_x = oldData._CurrentXcord;
             double new_x = newData._CurrentXcord;
@@ -260,17 +266,47 @@ namespace ATM
             DateTime oldDateTime = DateTime.ParseExact(oldTime, formatString, null);
             DateTime newDateTime = DateTime.ParseExact(newTime, formatString, null);
 
+            //Check that the new data is actually newer than the old data
+            if (oldDateTime > newDateTime)
+            {
+                throw new System.ArgumentException("Timestamp of new data is older than Timestamp of old data");
+            }
+
             //Get difference in DateTimes
             TimeSpan dt_TimeSpan = newDateTime - oldDateTime;
             int dt_ms = Math.Abs(dt_TimeSpan.Seconds*1000) + Math.Abs(dt_TimeSpan.Milliseconds);
+
 
             //Calculate speed in m/s
             double speed = Distance / dt_ms * 1000;
             return speed;
         }
 
-        private double CalculateTrackCourse(TrackData newData, TrackData oldData)
+        public double CalculateTrackCourse(TrackData newData, TrackData oldData)
         {
+            //Check that the tags for the supplied data match
+            if (!(newData._Tag.Equals(oldData._Tag)))
+            {
+                throw new System.ArgumentException("Tags for the supplied TrackData-objects do not match.");
+            }
+
+            //Check that the new data is actually newer than the old data
+
+            //Get the timestamps as strings
+            string oldTime = oldData._TimeStamp;
+            string newTime = newData._TimeStamp;
+
+            //Format timestamps to DateTime
+            string formatString = "yyyyMMddHHmmssfff";
+            DateTime oldDateTime = DateTime.ParseExact(oldTime, formatString, null);
+            DateTime newDateTime = DateTime.ParseExact(newTime, formatString, null);
+
+
+            if (oldDateTime > newDateTime)
+            {
+                throw new System.ArgumentException("Timestamp of new data is older than Timestamp of old data");
+            }
+
             //Get X and Y for old data and new data
             double old_x = oldData._CurrentXcord;
             double new_x = newData._CurrentXcord;
@@ -279,11 +315,11 @@ namespace ATM
             double new_y = newData._CurrentYcord;
 
             //Get difference in X and Y
-            double dx = Math.Abs(old_x - new_x);
-            double dy = Math.Abs(old_y - new_y);
+            double dx = new_x-old_x;
+            double dy = new_y - old_y;
 
             //Calculate angle in degrees
-            double Angle = Math.Atan(dy / dx)*(180/Math.PI);
+            double Angle = Math.Atan2(dy,dx)*(180/Math.PI);
             return Angle;
         }
 
