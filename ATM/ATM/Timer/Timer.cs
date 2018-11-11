@@ -27,7 +27,7 @@ namespace ATM.Timer
 
         public void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            
+            // Runs after time_argument from Start function has elapsed
         }
     }
 }

@@ -8,36 +8,35 @@
   <ReportType>HTML<!-- [HTML|JSON|XML|NDependXML]. A type of the report. XML by default. --></ReportType>
   <InheritConsole><!-- [True|False] Lets the application being analysed to inherit dotCover console. True by default. --> </InheritConsole>
   
-  <!-- Coverage filters. It's possible to use asterisks as wildcard symbols.
-  -->
+  <!-- Coverage filters. It's possible to use asterisks as wildcard symbols. -->
   <Filters>
     <IncludeFilters>
     </IncludeFilters>
     <ExcludeFilters>
 
-      <!--Omit test coverage of getters-->
+    	<!--Omit test coverage of getters-->
       <FilterEntry>
-        <FunctionMask>*get_*</FunctionMask>
+      	<FunctionMask>*get_*</FunctionMask>
       </FilterEntry>
 
       <!--Omit test coverage of getters-->
       <FilterEntry>
-        <FunctionMask>*set_*</FunctionMask>
+      	<FunctionMask>*set_*</FunctionMask>
       </FilterEntry>
 
       <!--Omit test coverage of class FileLogger-->
       <FilterEntry>
-        <ClassMask>ATM.FileLogger</ClassMask>
+      	<ClassMask>ATM.FileLogger</ClassMask>
       </FilterEntry>
 
       <!--Omit test coverage of class ConsoleRenderer-->
       <FilterEntry>
-        <ClassMask>ATM.ConsoleRenderer</ClassMask>
+      	<ClassMask>ATM.ConsoleRenderer</ClassMask>
       </FilterEntry>
 
       <!--Omit test coverage of nunit.framework-->
       <FilterEntry>
-        <ModuleMask>nunit.framework</ModuleMask>
+      	<ModuleMask>nunit.framework</ModuleMask>
       </FilterEntry>
     </ExcludeFilters>
   </Filters>

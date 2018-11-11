@@ -17,6 +17,9 @@ namespace ATM.Events
             _occurrenceTime = occurrenceTime;
             _involvedTracks = involvedTracks;
             _isRaised = isRaised;
+
+            ATM.Timer.Timer _timer = new ATM.Timer.Timer();
+
         }
 
         public override string FormatData()
