@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ATM;
+using ATM.Render;
+using ATM.Logger;
 using TransponderReceiver; //Needed in order to use the TransponderReceiver dll
 
 
@@ -19,7 +21,7 @@ namespace ConsoleApplication
             // TEST AF SYSTEM UDEN SEPARATION EVENT
             FileLogger filelogger = new FileLogger();
             ConsoleRenderer consolerender = new ConsoleRenderer();
-            Airspace airspace = new Airspace(10000, 90000, 10000, 90000, 500, 20000);
+            Airspace airspace = new Airspace(0, 900000000, 0, 900000000, 500, 200000);
 
             var receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
             var system = new ATM.TransponderReceiver(receiver);

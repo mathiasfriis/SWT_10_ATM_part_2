@@ -9,20 +9,20 @@ namespace ATM.Events
     public class SeperationEvent : Event
     {
 
-        private string _occurrenceTime { get; set; }
-        private List<TrackData> _involvedTracks { get; set; }
-        private bool _isRaised { get; set; }
+        public string _occurrenceTime { get; set; }
+        public List<TrackData> _InvolvedTracks { get; set; }
+        public bool _isRaised { get; set; }
 
         public SeperationEvent(string occurrenceTime, List<TrackData> involvedTracks, bool isRaised)
         {
             _occurrenceTime = occurrenceTime;
-            _involvedTracks = involvedTracks;
+            _InvolvedTracks = involvedTracks;
             _isRaised = isRaised;
         }
 
         public override string FormatData()
         {
-            return "Separation event - Occurencetime: " + _occurrenceTime + "Involved tracks: " + _involvedTracks[0] + ", " + _involvedTracks[1];
+            return "Separation event - Occurencetime: " + _occurrenceTime + "Involved tracks: " + _InvolvedTracks[0] + ", " + _InvolvedTracks[1];
         }
     }
 }
