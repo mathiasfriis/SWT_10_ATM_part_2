@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ATM.Render
 {
-    class ConsoleOutput : IConsoleOutput
+    public class ConsoleOutput : IConsoleOutput
     {
         public void Print(string toPrint)
         {

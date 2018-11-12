@@ -9,6 +9,7 @@ namespace ATM.Render
 {
     public class ConsoleRenderer : IRenderer
     {
+        private IConsoleOutput _consoleOutput = new ConsoleOutput();
         public void RenderSeperationEvent(SeperationEvent seperationEvent)
         {
             string timeOfOccurence = seperationEvent._occurrenceTime;// + seperationEvent.OccurrenceTime.ToLongTimeString();
@@ -27,9 +28,10 @@ namespace ATM.Render
             double horzVel = trackData._CurrentHorzVel;
             double course = trackData._CurrentCourse;
 
-            Console.WriteLine(Tag + " - " + "(" + x + "," + y + "," + z + ")" + " - " + "Speed: " + horzVel + "m/s - Course: " + course + " degrees.");
+            string trackInfoToRender = $"{Tag} - ( {x}, {y}, {z}) - Speed: {horzVel} m/s - Course: {course} degrees";
+
+            _consoleOutput.Print(trackInfoToRender);
             
         }
-
     }
 }
