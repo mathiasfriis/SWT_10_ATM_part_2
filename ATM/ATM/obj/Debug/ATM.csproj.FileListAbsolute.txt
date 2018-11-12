@@ -1,0 +1,23 @@
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ATM\obj\Debug\ATM.csproj.CoreCompileInputs.cache
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ATM\bin\Debug\ATM.dll
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ATM\bin\Debug\ATM.pdb
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ATM\bin\Debug\TransponderReceiver.dll
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ATM\obj\Debug\ATM.csproj.CopyComplete
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ATM\obj\Debug\ATM.dll
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ATM\obj\Debug\ATM.pdb
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ATM\bin\Debug\ATM.dll.CodeAnalysisLog.xml
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWTGroup10\Handin2\ATM\ATM\bin\Debug\ATM.dll.lastcodeanalysissucceeded
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM\obj\Debug\ATM.csprojAssemblyReference.cache
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM\obj\Debug\ATM.csproj.CoreCompileInputs.cache
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM\obj\Debug\ATM.dll
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM\obj\Debug\ATM.pdb
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM\bin\Debug\ATM.dll
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM\bin\Debug\ATM.pdb
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM\bin\Debug\TransponderReceiver.dll
+C:\Users\Mathi\OneDrive\Skrivebord\Skole\git\SWT\SWT_10_ATM_part_2\ATM\ATM\obj\Debug\ATM.csproj.CopyComplete
+C:\Users\Lasse Lildholdt\OneDrive - Aarhus universitet\UNI\7.Semester\SWT\SWT_10_ATM_part_2\ATM\ATM\obj\Debug\ATM.csprojResolveAssemblyReference.cache
+C:\Users\Lasse Lildholdt\OneDrive - Aarhus universitet\UNI\7.Semester\SWT\SWT_10_ATM_part_2\ATM\ATM\obj\Debug\ATM.dll
+C:\Users\Lasse Lildholdt\OneDrive - Aarhus universitet\UNI\7.Semester\SWT\SWT_10_ATM_part_2\ATM\ATM\obj\Debug\ATM.pdb
+C:\Users\Lasse Lildholdt\OneDrive - Aarhus universitet\UNI\7.Semester\SWT\SWT_10_ATM_part_2\ATM\ATM\bin\Debug\ATM.dll
+C:\Users\Lasse Lildholdt\OneDrive - Aarhus universitet\UNI\7.Semester\SWT\SWT_10_ATM_part_2\ATM\ATM\bin\Debug\ATM.pdb
+C:\Users\Lasse Lildholdt\OneDrive - Aarhus universitet\UNI\7.Semester\SWT\SWT_10_ATM_part_2\ATM\ATM\bin\Debug\TransponderReceiver.dll

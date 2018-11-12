@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+ATM/.vs/ATM/v15/Server/sqlite3/storage.ide-shm
+ATM/.vs/ATM/v15/Server/sqlite3/storage.ide-wal
