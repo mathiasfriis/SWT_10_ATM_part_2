@@ -5,14 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace ATM.Timer
+namespace ATM.IntervalTimer
 {
-    public interface ITimer
+    public interface IIntervalTimer
     {
         void Start(int time);
 
-        event ElapsedEventHandler Elapsed;
-
-        void TimerElapsed(object sender, ElapsedEventArgs e);
+        void TimerElapsed(object sender, System.Timers.ElapsedEventArgs e);
     }
 }

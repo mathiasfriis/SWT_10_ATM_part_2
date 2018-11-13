@@ -21,7 +21,7 @@ namespace ConsoleApplication
             // TEST AF SYSTEM UDEN SEPARATION EVENT
             FileLogger filelogger = new FileLogger();
             ConsoleRenderer consolerender = new ConsoleRenderer();
-            Airspace airspace = new Airspace(0, 900000000, 0, 900000000, 500, 200000);
+            Airspace airspace = new Airspace(0, 13000, 0, 13000, 500, 2000);
 
             var receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
             var system = new ATM.TransponderReceiver(receiver);
@@ -30,13 +30,13 @@ namespace ConsoleApplication
             system.Attach(atm);
 
             // TEST AF SYSTEM MED SEPARATION EVENTS
-            //TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270);
-            //TrackData trackData2 = new TrackData("TEST2", 12000, 12000, 1000, "14322018", 10, 270);
-  
-            //atm._currentTracks.Add(trackData1);
+            TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270);
+            TrackData trackData2 = new TrackData("TEST2", 12000, 12000, 1000, "14322018", 10, 270);
 
-            //atm.CheckForSeperationEvents(trackData2);
-            //atm.CheckForSeperationEvents(trackData2);
+            atm._currentTracks.Add(trackData1);
+            atm._currentTracks.Add(trackData2);
+
+            atm.CheckForSeperationEvents(trackData2);
 
             // TEST AF SYSTEM MED LOGGER
 
