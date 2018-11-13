@@ -30,18 +30,18 @@ namespace ConsoleApplication
             system.Attach(atm);
 
             // TEST AF SYSTEM MED SEPARATION EVENTS
-            TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270);
-            TrackData trackData2 = new TrackData("TEST2", 12000, 12000, 1000, "14322018", 10, 270);
+            //TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270);
+            //TrackData trackData2 = new TrackData("TEST2", 12000, 12000, 1000, "14322018", 10, 270);
 
-            atm._currentTracks.Add(trackData1);
-            atm._currentTracks.Add(trackData2);
+            //atm._currentTracks.Add(trackData1);
+            //atm._currentTracks.Add(trackData2);
 
-            atm.CheckForSeperationEvents(trackData2);
+            //atm.CheckForSeperationEvents(trackData2);
 
             // TEST AF SYSTEM MED LOGGER
 
             while (true)
-                Thread.Sleep(1000);
+                Thread.Sleep(3000);
         }
     }
 }
