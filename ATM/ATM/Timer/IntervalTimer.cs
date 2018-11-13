@@ -26,6 +26,7 @@ namespace ATM.IntervalTimer
             Console.WriteLine("Timer has starteed");
         }
 
+        
         public void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Console.WriteLine("Reached TimerElapsed state");

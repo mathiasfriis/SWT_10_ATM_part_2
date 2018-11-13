@@ -16,7 +16,10 @@ namespace ATM.Render
             string track1 = seperationEvent._InvolvedTracks[0]._Tag;
             string track2 = seperationEvent._InvolvedTracks[1]._Tag;
 
-            Console.WriteLine("Warning: Seperation event occurred at " + timeOfOccurence + " - Involved tracks are " + track1 + " and " + track2 +".");
+            string seperationEventToRender =
+                $"Warning: Seperation event occurred at {timeOfOccurence} - Involved track are {track1} and {track2}.";
+
+            _consoleOutput.Print(seperationEventToRender);
         }
 
         public void RenderTrack(TrackData trackData)
