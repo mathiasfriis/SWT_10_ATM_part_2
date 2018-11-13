@@ -17,6 +17,9 @@ namespace ATM.Events
             _occurrenceTime = occurrenceTime;
             _involvedTrack = involvedTrack;
             _isRaised = isRaised;
+
+            ATM.IntervalTimer.IntervalTimer _timer = new ATM.IntervalTimer.IntervalTimer();
+            _timer.StartTrackLeftTimer(5000, this);
         }
 
         public override string FormatData()
