@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ATM.Events;
+using ATM.IntervalTimer;
 using ATM.Logger;
 using ATM.Render;
 using NSubstitute;
@@ -19,7 +20,7 @@ namespace ATM.Tests.Integration
         private IFileOutput fakeFileOutput;
         private ILogger fakeFileLogger;
         private IRenderer fakeConsoleRenderer;
-        //private Timer timer;
+        private IIntervalTimer fakeIntervalTimer;
 
         //X's - Modules under test
         private TrackData trackData1;
@@ -42,7 +43,7 @@ namespace ATM.Tests.Integration
             fakeFileOutput = Substitute.For<IFileOutput>();
             fakeFileLogger = Substitute.For<ILogger>();
             fakeConsoleRenderer = Substitute.For<IRenderer>();
-            //timer = new Timer();
+            fakeIntervalTimer = Substitute.For<IIntervalTimer>();
             
             //Set up X's
             trackData1 = new TrackData("ABC123", 10000, 10000, 1000, "201811071337000", 42, 10);
