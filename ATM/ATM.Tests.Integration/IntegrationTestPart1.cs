@@ -60,6 +60,9 @@ namespace ATM.Tests.Integration
             //timer = new Timer();
         }
 
+
+        #region Renderer
+
         /*
         public void Renderer_renderTrackData_OutputReceivesCorrectString()
         {
@@ -74,5 +77,57 @@ namespace ATM.Tests.Integration
             fakeConsoleOutput.Received(Arg.Any<String>().Contains(Tag + " - " + "(" + x + "," + y + "," + z + ")" + " - " + "Speed: " + horzVel + "m/s - Course: " + course + " degrees."));
         }
         */
+
+        #endregion
+
+        #region Logger
+        /*
+
+        #region SeperationEvent
+
+        public void Logger_logSeperationEvent_OutputReceivesCorrectString()
+        {
+            string occurrenceTime = seperationEvent._occurrenceTime;
+            string tag1 = seperationEvent._InvolvedTracks[0]._Tag;
+            string tag2 = seperationEvent._InvolvedTracks[1]._Tag;
+
+            string expectedString = "Some string that describes the seperation event";
+
+            seperationEvent.render();
+
+            fakeConsoleOutput.Received(Arg.Any<String>().Contains(expectedString);
+        }
+
+        #endregion
+
+        #region TrackEnteredEvent
+        public void Logger_logTrackEnteredEvent_OutputReceivesCorrectString()
+        {
+            string occurrenceTime = trackEnteredEvent._occurrenceTime;
+            string tag = trackEnteredEvent._InvolvedTracks[0]._Tag;
+
+            string expectedString = "Some string that describes the seperation event";
+
+            seperationEvent.render();
+
+            fakeConsoleOutput.Received(Arg.Any<String>().Contains(expectedString);
+        }
+        #endregion
+
+        #region TrackLeftEvent
+        public void Logger_logTrackLeftEvent_OutputReceivesCorrectString()
+        {
+            string occurrenceTime = trackEnteredEvent._occurrenceTime;
+            string tag = trackEnteredEvent._InvolvedTracks[0]._Tag;
+
+            string expectedString = "Some string that describes the seperation event";
+
+            seperationEvent.render();
+
+            fakeConsoleOutput.Received(Arg.Any<String>().Contains(expectedString);
+        }
+        #endregion
+    */
+    #endregion
     }
 }
