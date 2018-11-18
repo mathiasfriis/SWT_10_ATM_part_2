@@ -52,15 +52,12 @@ namespace ATM
             }
             else
             {
-                UpdateTrackdata(trackdata);
+                //Update trackdata
+                UpdateTrackData(trackdata);
 
                 // Remove tracks if out of airspace
+                CheckIfTrackdataIsStillInAirspace(trackdata);
 
-                if (!(_airspace.CheckIfInMonitoredArea(trackdata._CurrentXcord, trackdata._CurrentYcord,
-                    trackdata._CurrentZcord)))
-                {
-                    RemoveTrack(trackdata._Tag);
-                }
                 // Check for potential seperation events
                 CheckForSeperationEvents(trackdata);
             }
@@ -316,23 +313,31 @@ namespace ATM
             HandleNewTrackData(trackdata);
         }
 
-        public void UpdateTrackdata(TrackData trackdata)
+        public void UpdateTrackData(TrackData trackData)
         {
             // Update trackdata
-            TrackData trackToEdit = _currentTracks.Find(x => x._Tag == trackdata._Tag);
-            trackToEdit._CurrentHorzVel = CalculateTrackSpeed(trackdata, trackToEdit);
-            trackToEdit._CurrentCourse = CalculateTrackCourse(trackdata, trackToEdit);
-            trackToEdit._CurrentXcord = trackdata._CurrentXcord;
-            trackToEdit._CurrentYcord = trackdata._CurrentYcord;
-            trackToEdit._CurrentZcord = trackdata._CurrentZcord;
+            TrackData trackToEdit = _currentTracks.Find(x => x._Tag == trackData._Tag);
+            trackToEdit._CurrentHorzVel = CalculateTrackSpeed(trackData, trackToEdit);
+            trackToEdit._CurrentCourse = CalculateTrackCourse(trackData, trackToEdit);
+            trackToEdit._CurrentXcord = trackData._CurrentXcord;
+            trackToEdit._CurrentYcord = trackData._CurrentYcord;
+            trackToEdit._CurrentZcord = trackData._CurrentZcord;
             trackToEdit._CurrentHorzVel = trackToEdit._CurrentHorzVel;
 
             //Replace old object with new object
-            int index = _currentTracks.FindIndex(x => x._Tag == trackdata._Tag);
+            int index = _currentTracks.FindIndex(x => x._Tag == trackData._Tag);
             _currentTracks.RemoveAt(index);
             _currentTracks.Insert(index, trackToEdit);
         }
 
+        public void CheckIfTrackdataIsStillInAirspace(TrackData trackData)
+        {
+            if (!(_airspace.CheckIfInMonitoredArea(trackData._CurrentXcord, trackData._CurrentYcord,
+                trackData._CurrentZcord)))
+            {
+                RemoveTrack(trackData._Tag);
+            }
+        }
 
     }
 }
