@@ -52,29 +52,17 @@ namespace ATM
             }
             else
             {
-                // Update trackdata
-                TrackData trackToEdit = _currentTracks.Find(x => x._Tag == trackdata._Tag);
-                trackToEdit._CurrentHorzVel = CalculateTrackSpeed(trackdata, trackToEdit);
-                trackToEdit._CurrentCourse = CalculateTrackCourse(trackdata, trackToEdit);
-                trackToEdit._CurrentXcord = trackdata._CurrentXcord;
-                trackToEdit._CurrentYcord = trackdata._CurrentYcord;
-                trackToEdit._CurrentZcord = trackdata._CurrentZcord;
-                trackToEdit._CurrentHorzVel = trackToEdit._CurrentHorzVel;
-
-                //Replace old object with new object
-                int index = _currentTracks.FindIndex(x => x._Tag == trackdata._Tag);
-                _currentTracks.RemoveAt(index);
-                _currentTracks.Insert(index,trackToEdit);
+                UpdateTrackdata(trackdata);
 
                 // Remove tracks if out of airspace
 
-                if (!(_airspace.CheckIfInMonitoredArea(trackToEdit._CurrentXcord, trackToEdit._CurrentYcord,
-                    trackToEdit._CurrentZcord)))
+                if (!(_airspace.CheckIfInMonitoredArea(trackdata._CurrentXcord, trackdata._CurrentYcord,
+                    trackdata._CurrentZcord)))
                 {
-                    RemoveTrack(trackToEdit._Tag);
+                    RemoveTrack(trackdata._Tag);
                 }
                 // Check for potential seperation events
-                CheckForSeperationEvents(trackToEdit);
+                CheckForSeperationEvents(trackdata);
             }
 
             // Check for potential seperation events
@@ -327,6 +315,24 @@ namespace ATM
         {
             HandleNewTrackData(trackdata);
         }
-        
+
+        public void UpdateTrackdata(TrackData trackdata)
+        {
+            // Update trackdata
+            TrackData trackToEdit = _currentTracks.Find(x => x._Tag == trackdata._Tag);
+            trackToEdit._CurrentHorzVel = CalculateTrackSpeed(trackdata, trackToEdit);
+            trackToEdit._CurrentCourse = CalculateTrackCourse(trackdata, trackToEdit);
+            trackToEdit._CurrentXcord = trackdata._CurrentXcord;
+            trackToEdit._CurrentYcord = trackdata._CurrentYcord;
+            trackToEdit._CurrentZcord = trackdata._CurrentZcord;
+            trackToEdit._CurrentHorzVel = trackToEdit._CurrentHorzVel;
+
+            //Replace old object with new object
+            int index = _currentTracks.FindIndex(x => x._Tag == trackdata._Tag);
+            _currentTracks.RemoveAt(index);
+            _currentTracks.Insert(index, trackToEdit);
+        }
+
+
     }
 }
