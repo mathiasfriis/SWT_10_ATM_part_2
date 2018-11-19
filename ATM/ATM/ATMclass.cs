@@ -24,7 +24,7 @@ namespace ATM
         //private ITransponderReceiver _transponderReceiver;
 
         public List<TrackData> _currentTracks { get; }
-        public List<SeperationEvent> _currentSeperationEvents { get; }
+        public List<Event> _currentSeperationEvents { get; }
 
         
 
@@ -34,7 +34,7 @@ namespace ATM
             _renderer = renderer;
             //_transponderReceiver = transponderReceiver;
             _airspace = airspace;
-            _currentSeperationEvents = new List<SeperationEvent>();
+            _currentSeperationEvents = new List<Event>();
             _currentTracks = new List<TrackData>();
         }
 
@@ -48,6 +48,9 @@ namespace ATM
                     trackdata._CurrentZcord))
                 {
                     AddTrack(trackdata);
+                    string time = trackdata._TimeStamp;
+                    TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackdata, true);
+                    _currentSeperationEvents.Add(TrackEnteredEvent);
                 }
             }
             else
