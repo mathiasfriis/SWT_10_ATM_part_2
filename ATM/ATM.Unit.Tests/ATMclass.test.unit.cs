@@ -23,9 +23,9 @@ namespace ATM.Unit.Tests
         double zMax = 20000;
         Airspace airspace;
         IAirspace fakeAirspace;
-        ILogger logger;
-        IRenderer renderer;
-        ITransponderReceiver TransponderReceiver;
+        IConsoleOutput consoleOutput;
+        IFileOutput fileOutput;
+        ITransponderReceiver transponderReceiver;
         List<Event> seperationEvents;
         List<TrackData> tracks;
         string timestamp;
@@ -38,14 +38,15 @@ namespace ATM.Unit.Tests
             //Setup stuff
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
             fakeAirspace = Substitute.For<IAirspace>();
-            logger = Substitute.For<ILogger>();
-            renderer = Substitute.For<IRenderer>();
+            consoleOutput = Substitute.For<IConsoleOutput>();
+            fileOutput = Substitute.For<IFileOutput>();
             //Make new fake TransponderReceiver.
+            transponderReceiver = Substitute.For<ITransponderReceiver>();
             seperationEvents = new List<Event>();
             tracks = new List<TrackData>();
             timestamp = "235928121999";
 
-            uut = new ATMclass(logger, renderer, fakeAirspace);
+            uut = new ATMclass(consoleOutput, fileOutput, fakeAirspace, transponderReceiver);
         }
 
         #region ATMclass
@@ -59,7 +60,7 @@ namespace ATM.Unit.Tests
         [Test]
         public void ATMclass_HandleNewTrackDataCalledWithNoCurrentTracks_IAirspaceCheckIfInMonitoredAreaIsCalledIs1()
         {
-            TrackData trackData = new TrackData("ABC", 100, 200, 300, "180320180854", 100, 100);
+            TrackData trackData = new TrackData("ABC", 100, 200, 300, "180320180854", 100, 100, consoleOutput);
             uut.HandleNewTrackData(trackData);
 
             //Assert.That(fakeAirspace.CheckIfInMonitoredArea_timesCalled.Equals(1));
@@ -69,8 +70,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void ATMclass_HandleNewTrackDataCalledTwiceWithSameTag_IAirspaceCheckIfInMonitoredAreaIsCalledIs2()
         {
-            TrackData trackData1 = new TrackData("ABC", 100, 200, 300, "20181108102045200", 100, 100);
-            TrackData trackData2 = new TrackData("ABC", 200, 300, 400, "20181108102050100", 200, 200);
+            TrackData trackData1 = new TrackData("ABC", 100, 200, 300, "20181108102045200", 100, 100, consoleOutput);
+            TrackData trackData2 = new TrackData("ABC", 200, 300, 400, "20181108102050100", 200, 200, consoleOutput);
 
             uut.HandleNewTrackData(trackData1);
             uut.HandleNewTrackData(trackData2);
@@ -82,8 +83,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void ATMclass_HandleNewTrackDataCalledTwiceWithDifferentTags_IAirspaceCheckIfInMonitoredAreaIsCalledIs2()
         {
-            TrackData trackData1 = new TrackData("ABC", 100, 200, 300, "180320180854", 100, 100);
-            TrackData trackData2 = new TrackData("DEF", 200, 300, 400, "180320180954", 200, 200);
+            TrackData trackData1 = new TrackData("ABC", 100, 200, 300, "180320180854", 100, 100, consoleOutput);
+            TrackData trackData2 = new TrackData("DEF", 200, 300, 400, "180320180954", 200, 200, consoleOutput);
 
             uut.HandleNewTrackData(trackData1);
             uut.HandleNewTrackData(trackData2);
@@ -96,7 +97,9 @@ namespace ATM.Unit.Tests
         public void ATMclass_HandleNewTrackDataTrackDataInRange_CurrentTracksCountIs1()
         {
             //Track data with coordinates inside airspace.
-            TrackData trackData1 = new TrackData("ABC", xMin + 1, yMin + 1, zMin + 1, "180320180954", 200, 200);
+            TrackData trackData1 = new TrackData("ABC", xMin + 1, yMin + 1, zMin + 1, "180320180954", 200, 200, consoleOutput);
+
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
 
             uut.HandleNewTrackData(trackData1);
 
@@ -107,12 +110,12 @@ namespace ATM.Unit.Tests
         public void ATMclass_HandleNewTrackDataNewTrackDataComesOutOfRange_CurrentTracksCountIs0()
         {
             //We need uut with a REAL airspace, not a FAKE for this test.
-            uut = new ATMclass(logger, renderer, airspace);
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
             //Track data with coordinates inside airspace.
-            TrackData trackData1 = new TrackData("ABC", xMin + 1, yMin + 1, zMin + 1, "20181108102045200", 200, 200);
+            TrackData trackData1 = new TrackData("ABC", xMin + 1, yMin + 1, zMin + 1, "20181108102045200", 200, 200, consoleOutput);
 
             //Track data with same tag, butf coordinates outside airspace.
-            TrackData trackData2 = new TrackData("ABC", xMin - 1, yMin - 1, zMin - 1, "20181108102045200", 200, 200);
+            TrackData trackData2 = new TrackData("ABC", xMin - 1, yMin - 1, zMin - 1, "20181108102045200", 200, 200, consoleOutput);
 
             uut.HandleNewTrackData(trackData1);
             uut.HandleNewTrackData(trackData2);
@@ -123,9 +126,12 @@ namespace ATM.Unit.Tests
         [Test]
         public void ATMclass_TrackDatasAreInvolvedInSeperationEvent_IsInvolvedInSeperationEventReturnsTrue()
         {
+
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
+
             //Create 2 trackDatas that are in seperation event.
-            TrackData trackData1 = new TrackData("ABC", xMin + 1, yMin + 1, zMin + 1, "180320180954", 200, 200);
-            TrackData trackData2 = new TrackData("DEF", xMin + 2, yMin + 2, zMin + 2, "180320180954", 200, 200);
+            TrackData trackData1 = new TrackData("ABC", 10001, 10001, 10001, "180320180954", 200, 200, consoleOutput);
+            TrackData trackData2 = new TrackData("DEF", 10002, 10002, 10002, "180320180954", 200, 200, consoleOutput);
 
             List<TrackData> trackDatas = new List<TrackData>()
             {
@@ -134,7 +140,7 @@ namespace ATM.Unit.Tests
             };
 
             //Create seperation event from the two trackDatas and add to current seperation events.
-            SeperationEvent seperationEvent = new SeperationEvent(trackData1._TimeStamp, trackDatas, true, uut._renderer, uut._logger);
+            SeperationEvent seperationEvent = new SeperationEvent(trackData1._TimeStamp, trackDatas, true, consoleOutput, fileOutput);
             uut._currentEvents.Add(seperationEvent);
 
             Assert.That(() => uut.CheckIfSeperationEventExistsFor(trackData1, trackData2).Equals(true));
@@ -144,8 +150,8 @@ namespace ATM.Unit.Tests
         public void ATMclass_TrackDatasAreNotInvolvedInSeperationEvent_IsInvolvedInSeperationEventReturnsFalse()
         {
             //Create 2 trackDatas that are in seperation event.
-            TrackData trackData1 = new TrackData("ABC", xMin + 1, yMin + 1, zMin + 1, "180320180954", 200, 200);
-            TrackData trackData2 = new TrackData("DEF", xMin + 2, yMin + 2, zMin + 2, "180320180954", 200, 200);
+            TrackData trackData1 = new TrackData("ABC", xMin + 1, yMin + 1, zMin + 1, "180320180954", 200, 200, consoleOutput);
+            TrackData trackData2 = new TrackData("DEF", xMin + 2, yMin + 2, zMin + 2, "180320180954", 200, 200, consoleOutput);
 
             //No current seperation events.
 
@@ -163,7 +169,7 @@ namespace ATM.Unit.Tests
         [Test]
         public void AddTrack_TrackAdded_CountIs1()
         {
-            uut.AddTrack(new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10));
+            uut.AddTrack(new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput));
             Assert.That(() => uut._currentTracks.Count.Equals(1));
         }
 
@@ -172,7 +178,7 @@ namespace ATM.Unit.Tests
         {
             for (int i = 0; i < 10; i++)
             {
-                uut.AddTrack(new TrackData("ABC" + i, 10000, 10000, 1000, timestamp, 100, 10));
+                uut.AddTrack(new TrackData("ABC" + i, 10000, 10000, 1000, timestamp, 100, 10, consoleOutput));
             }
 
             Assert.That(() => uut._currentTracks.Count.Equals(10));
@@ -181,7 +187,7 @@ namespace ATM.Unit.Tests
         [Test]
         public void AddTrack_TrackAdded_TagInFirstListObjectMatchesTagOfAddedTrack()
         {
-            TrackData testTrack = new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10);
+            TrackData testTrack = new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput);
             uut.AddTrack(testTrack);
             Assert.That(() => uut._currentTracks[0]._Tag.Equals(testTrack._Tag));
         }
@@ -189,8 +195,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void AddTrack_AddTrackThenAddTrackWithSameTag_CountIs1()
         {
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10);
-            TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestamp, 100, 10);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestamp, 100, 10, consoleOutput);
             uut.AddTrack(testTrack1);
             uut.AddTrack(testTrack2);
             Assert.That(() => uut._currentTracks.Count.Equals(1));
@@ -199,8 +205,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void AddTrack_AddTrackThenAddTrackWithSameTag_XPositionOfObjectInListMatchesXPositionOfLastAddedTrack()
         {
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10);
-            TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestamp, 100, 10);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestamp, 100, 10, consoleOutput);
             uut.AddTrack(testTrack1);
             uut.AddTrack(testTrack2);
             Assert.That(() => uut._currentTracks[0]._CurrentXcord.Equals(testTrack2._CurrentXcord));
@@ -211,9 +217,9 @@ namespace ATM.Unit.Tests
         [Test]
         public void RemoveTrack_Add3TracksRemove1TrackWIthValidTag_CountIs2()
         {
-            uut.AddTrack(new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10));
-            uut.AddTrack(new TrackData("DEF", 10000, 10000, 1000, timestamp, 100, 10));
-            uut.AddTrack(new TrackData("GHI", 10000, 10000, 1000, timestamp, 100, 10));
+            uut.AddTrack(new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput));
+            uut.AddTrack(new TrackData("DEF", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput));
+            uut.AddTrack(new TrackData("GHI", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput));
 
             uut.RemoveTrack("ABC");
 
@@ -223,9 +229,9 @@ namespace ATM.Unit.Tests
         [Test]
         public void RemoveTrack_Add3TracksRemove1TrackWIthInvalidTag_ThrowsArgumentOutOfRangeException()
         {
-            uut.AddTrack(new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10));
-            uut.AddTrack(new TrackData("DEF", 10000, 10000, 1000, timestamp, 100, 10));
-            uut.AddTrack(new TrackData("GHI", 10000, 10000, 1000, timestamp, 100, 10));
+            uut.AddTrack(new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput));
+            uut.AddTrack(new TrackData("DEF", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput));
+            uut.AddTrack(new TrackData("GHI", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput));
 
             Assert.That(() => uut.RemoveTrack("XYZ"), Throws.Exception.TypeOf<ArgumentOutOfRangeException>());
         }
@@ -241,7 +247,7 @@ namespace ATM.Unit.Tests
         [Test]
         public void CheckForSeperationEvent_TagsForTheTwoTracksAreTheSame_ThrowsException()
         {
-            TrackData track1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 150, 50);
+            TrackData track1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 150, 50, consoleOutput);
 
             string message = "Provided TrackDatas have the same Tag";
 
@@ -251,8 +257,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void CheckForSeperationEvent_NoConditionsMet_ReturnsFalse()
         {
-            TrackData track1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 150, 50);
-            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50);
+            TrackData track1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
             Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
         }
@@ -260,8 +266,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void CheckForSeperationEvent_AllConditionsMet_ReturnsTrue()
         {
-            TrackData track1 = new TrackData("ABC", 30000, 30000, 1000, timestamp, 150, 50);
-            TrackData track2 = new TrackData("DEF", 30001, 30001, 1001, timestamp, 150, 50);
+            TrackData track1 = new TrackData("ABC", 30000, 30000, 1000, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 30001, 30001, 1001, timestamp, 150, 50, consoleOutput);
 
             Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(true));
         }
@@ -269,8 +275,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void CheckForSeperationEvent_OnlyXConditionMet_ReturnsFalse()
         {
-            TrackData track1 = new TrackData("ABC", 50000 - 1, 10000, 1000, timestamp, 150, 50);
-            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50);
+            TrackData track1 = new TrackData("ABC", 50000 - 1, 10000, 1000, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
             Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
         }
@@ -278,8 +284,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void CheckForSeperationEvent_OnlyYConditionMet_ReturnsFalse()
         {
-            TrackData track1 = new TrackData("ABC", 10000, 50000 - 1, 1000, timestamp, 150, 50);
-            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50);
+            TrackData track1 = new TrackData("ABC", 10000, 50000 - 1, 1000, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
             Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
         }
@@ -287,8 +293,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void CheckForSeperationEvent_OnlyZConditionMet_ReturnsFalse()
         {
-            TrackData track1 = new TrackData("ABC", 10000, 10000, 5000 - 1, timestamp, 150, 50);
-            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50);
+            TrackData track1 = new TrackData("ABC", 10000, 10000, 5000 - 1, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
             Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
         }
@@ -296,8 +302,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void CheckForSeperationEvent_XandYConditionsMet_ReturnsFalse()
         {
-            TrackData track1 = new TrackData("ABC", 50000 - 1, 50000 - 1, 1000, timestamp, 150, 50);
-            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50);
+            TrackData track1 = new TrackData("ABC", 50000 - 1, 50000 - 1, 1000, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
             Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
         }
@@ -305,8 +311,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void CheckForSeperationEvent_YandZConditionsMet_ReturnsFalse()
         {
-            TrackData track1 = new TrackData("ABC", 10000, 50000 - 1, 5000 - 1, timestamp, 150, 50);
-            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50);
+            TrackData track1 = new TrackData("ABC", 10000, 50000 - 1, 5000 - 1, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
             Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
         }
@@ -315,8 +321,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void CheckForSeperationEvent_XandZConditionsMet_ReturnsFalse()
         {
-            TrackData track1 = new TrackData("ABC", 50000 - 1, 10000, 5000 - 1, timestamp, 150, 50);
-            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50);
+            TrackData track1 = new TrackData("ABC", 50000 - 1, 10000, 5000 - 1, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
             Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
         }
@@ -328,10 +334,10 @@ namespace ATM.Unit.Tests
         {
             List<TrackData> trackDatas = new List<TrackData>()
             {
-                new TrackData("ABC",1,2,3,"time",5,6),
-                new TrackData("DEF",1,2,3,"time",5,6)
+                new TrackData("ABC",1,2,3,"time",5,6, consoleOutput),
+                new TrackData("DEF",1,2,3,"time",5,6, consoleOutput)
             };
-            SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._renderer, uut._logger);
+            SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._outputConsole, uut._outputFile);
             uut._currentEvents.Add(seperationEvent1);
 
             Assert.That(() => uut.CheckIfSeperationEventExistsFor(trackDatas[0], trackDatas[1]).Equals(true));
@@ -342,10 +348,10 @@ namespace ATM.Unit.Tests
         {
             List<TrackData> trackDatas = new List<TrackData>()
             {
-                new TrackData("ABC",1,2,3,"time",5,6),
-                new TrackData("DEF",1,2,3,"time",5,6)
+                new TrackData("ABC",1,2,3,"time",5,6, consoleOutput),
+                new TrackData("DEF",1,2,3,"time",5,6, consoleOutput)
             };
-            SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._renderer, uut._logger);
+            SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._outputConsole, uut._outputFile);
             uut._currentEvents.Add(seperationEvent1);
 
             Assert.That(() => uut.CheckIfSeperationEventExistsFor(trackDatas[1], trackDatas[0]).Equals(true));
@@ -359,8 +365,8 @@ namespace ATM.Unit.Tests
         {
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10001, 10000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10000, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(1));
         }
@@ -370,8 +376,8 @@ namespace ATM.Unit.Tests
         {
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 9999, 10000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 9999, 10000, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(1));
         }
@@ -381,8 +387,8 @@ namespace ATM.Unit.Tests
         {
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 10001, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10001, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(1));
         }
@@ -392,8 +398,8 @@ namespace ATM.Unit.Tests
         {
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 9999, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 9999, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(1));
         }
@@ -403,8 +409,8 @@ namespace ATM.Unit.Tests
         {
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1001, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1001, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(0));
         }
@@ -414,8 +420,8 @@ namespace ATM.Unit.Tests
         {
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 999, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 999, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackSpeed(testTrack2, testTrack1).Equals(0));
         }
@@ -426,8 +432,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0, consoleOutput);
 
            
 
@@ -442,8 +448,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("XYZ", 10001, 10001, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("XYZ", 10001, 10001, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.Throws<ArgumentException>(
                 () => uut.CalculateTrackSpeed(testTrack2, testTrack1), "Tags for the supplied TrackData-objects do not match.");
@@ -455,8 +461,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.Throws<ArgumentException>(
                 () => uut.CalculateTrackSpeed(testTrack1, testTrack2), "Timestamp of new data is older than Timestamp of old data");
@@ -471,8 +477,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackCourse(testTrack2,testTrack1).Equals(0));
         }
@@ -483,8 +489,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 20000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 20000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(180));
         }
@@ -495,8 +501,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 20000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 20000, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(90));
         }
@@ -507,8 +513,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 20000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 20000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(-90));
         }
@@ -519,8 +525,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 20000, 20000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 20000, 20000, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(45));
         }
@@ -531,8 +537,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 20000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 20000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(-45));
         }
@@ -543,8 +549,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 20000, 20000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 20000, 20000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(-135));
         }
@@ -555,8 +561,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 20000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 20000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 20000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 20000, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.That(uut.CalculateTrackCourse(testTrack2, testTrack1).Equals(135));
         }
@@ -567,8 +573,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("XYZ", 10001, 10001, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("XYZ", 10001, 10001, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.Throws<ArgumentException>(
                 () => uut.CalculateTrackCourse(testTrack2, testTrack1), "Tags for the supplied TrackData-objects do not match.");
@@ -580,8 +586,8 @@ namespace ATM.Unit.Tests
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0, consoleOutput);
 
             Assert.Throws<ArgumentException>(
                 () => uut.CalculateTrackCourse(testTrack1, testTrack2), "Timestamp of new data is older than Timestamp of old data");
@@ -593,7 +599,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void HandleNewTrackData_TrackJustAdded_SpeedIs0()
         {
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10);
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 0, 10, consoleOutput);
             uut.HandleNewTrackData(testTrack1);
             Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(0));
         }
@@ -601,10 +608,12 @@ namespace ATM.Unit.Tests
         [Test]
         public void HandleNewTrackData_TrackMoved1Xin1Sec_SpeedIsUpdatedTo1()
         {
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
+
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10001, 10000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10000, 1000, timestampNew, 0, 0, consoleOutput);
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
@@ -614,10 +623,13 @@ namespace ATM.Unit.Tests
         [Test]
         public void HandleNewTrackData_TrackMovedMinus1Xin1Sec_SpeedIsUpdatedTo1()
         {
+
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
+
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 9999, 10000, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10001, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0, consoleOutput);
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
@@ -627,10 +639,12 @@ namespace ATM.Unit.Tests
         [Test]
         public void HandleNewTrackData_TrackMoved1Yin1Sec_SpeedIsUpdatedTo1()
         {
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
+
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 10001, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10001, 1000, timestampNew, 0, 0, consoleOutput);
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
@@ -640,10 +654,13 @@ namespace ATM.Unit.Tests
         [Test]
         public void HandleNewTrackData_TrackMovedMinus1Yin1Sec_SpeedIsUpdatedTo1()
         {
+
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
+
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 9999, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10001, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0, consoleOutput);
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
@@ -653,10 +670,13 @@ namespace ATM.Unit.Tests
         [Test]
         public void HandleNewTrackData_TrackMoved1Zin1Sec_SpeedIsUpdatedTo0()
         {
+
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
+
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1001, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1001, timestampNew, 0, 0, consoleOutput);
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
@@ -666,10 +686,12 @@ namespace ATM.Unit.Tests
         [Test]
         public void HandleNewTrackData_TrackMovedMinus1Zin1Sec_SpeedIsUpdatedTo0()
         {
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
+
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 999, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1001, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10000, 10000, 1000, timestampNew, 0, 0, consoleOutput);
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
@@ -679,11 +701,14 @@ namespace ATM.Unit.Tests
         [Test]
         public void HandleNewTrackData_TrackMoved1X1Yin1Sec_SpeedIsUpdatedTo1p414()
         {
+
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
+
             //sqrt(3^2+3^2)=3
             string timestampOld = "20181109103800000";
             string timestampNew = "20181109103801000"; //Timestamp 1 second later
-            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0);
-            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0);
+            TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestampOld, 0, 0, consoleOutput);
+            TrackData testTrack2 = new TrackData("ABC", 10001, 10001, 1000, timestampNew, 0, 0, consoleOutput);
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 

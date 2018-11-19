@@ -23,9 +23,9 @@ namespace ATM.Unit.Tests
         double zMax = 20000;
         Airspace airspace;
         IAirspace fakeAirspace;
-        ILogger logger;
-        IRenderer renderer;
-        ITransponderReceiver TransponderReceiver;
+        IConsoleOutput consoleOutput;
+        IFileOutput fileOutput;
+        ITransponderReceiver transponderReceiver;
         List<Event> seperationEvents;
         List<TrackData> tracks;
         string timestamp;
@@ -38,14 +38,14 @@ namespace ATM.Unit.Tests
             //Setup stuff
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
             fakeAirspace = Substitute.For<IAirspace>();
-            logger = Substitute.For<ILogger>();
-            renderer = Substitute.For<IRenderer>();
+            consoleOutput = Substitute.For<IConsoleOutput>();
+            fileOutput = Substitute.For<IFileOutput>();
             //Make new fake TransponderReceiver.
-            seperationEvents = new List<Event>();
+            transponderReceiver = Substitute.For<ITransponderReceiver>(); ;
             tracks = new List<TrackData>();
             timestamp = "235928121999";
 
-            uut = new ATMclass(logger, renderer, fakeAirspace);
+            uut = new ATMclass(consoleOutput, fileOutput, fakeAirspace, transponderReceiver);
         }
 
         #region TransponderReceiver
@@ -93,7 +93,7 @@ namespace ATM.Unit.Tests
             var transponderReceiver = new TransponderReceiver(_fakeTransponderReceiver);
 
             //We need uut with a REAL airspace, not a FAKE for this test.
-            uut = new ATMclass(logger, renderer, airspace);
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, this.transponderReceiver);
 
             // Setup test data
             List<string> testData = new List<string>();
@@ -121,7 +121,7 @@ namespace ATM.Unit.Tests
             var transponderReceiver = new TransponderReceiver(_fakeTransponderReceiver);
 
             //We need uut with a REAL airspace, not a FAKE for this test.
-            uut = new ATMclass(logger, renderer, airspace);
+            uut = new ATMclass(consoleOutput, fileOutput, airspace, this.transponderReceiver);
 
             // Setup test data
             List<string> testData = new List<string>();

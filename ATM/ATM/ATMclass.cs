@@ -19,8 +19,8 @@ namespace ATM
         double MIN_Z_DISTANCE = 300;
 
 
-        private IConsoleOutput _outputConsole;
-        private IFileOutput _outputFile;
+        public IConsoleOutput _outputConsole;
+        public IFileOutput _outputFile;
 
         private IAirspace _airspace;
         private ITransponderReceiver _transponderReceiver;
@@ -217,13 +217,14 @@ namespace ATM
             }
 
             //After logging, remove the given elements.
-            
+            /* Temp udkommentering indtil Mathias fikser det med nye liste af events i ny klasse
             _currentEvents.RemoveAll(x => Math.Abs(x._InvolvedTracks[0]._CurrentXcord -
                              x._InvolvedTracks[1]._CurrentXcord) < MIN_X_DISTANCE &&
                     Math.Abs(x._InvolvedTracks[0]._CurrentYcord -
                              x._InvolvedTracks[1]._CurrentYcord) < MIN_Y_DISTANCE &&
                     Math.Abs(x._InvolvedTracks[0]._CurrentZcord -
                              x._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE);
+                             */
         }
 
         public double CalculateTrackSpeed(TrackData newData, TrackData oldData)

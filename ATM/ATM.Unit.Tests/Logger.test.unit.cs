@@ -23,9 +23,9 @@ namespace ATM.Unit.Tests
         double zMax = 20000;
         Airspace airspace;
         IAirspace fakeAirspace;
-        ILogger logger;
-        IRenderer renderer;
-        ITransponderReceiver TransponderReceiver;
+        IConsoleOutput consoleOutput;
+        IFileOutput fileOutput;
+        ITransponderReceiver transponderReceiver;
         List<Event> seperationEvents;
         List<TrackData> tracks;
         string timestamp;
@@ -38,14 +38,15 @@ namespace ATM.Unit.Tests
             //Setup stuff
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
             fakeAirspace = Substitute.For<IAirspace>();
-            logger = Substitute.For<ILogger>();
-            renderer = Substitute.For<IRenderer>();
+            consoleOutput = Substitute.For<IConsoleOutput>();
+            fileOutput = Substitute.For<IFileOutput>();
             //Make new fake TransponderReceiver.
+            transponderReceiver = Substitute.For<ITransponderReceiver>();
             seperationEvents = new List<Event>();
             tracks = new List<TrackData>();
             timestamp = "235928121999";
 
-            uut = new ATMclass(logger, renderer, fakeAirspace);
+            uut = new ATMclass(consoleOutput, fileOutput, fakeAirspace, transponderReceiver);
         }
 
         #region Logging

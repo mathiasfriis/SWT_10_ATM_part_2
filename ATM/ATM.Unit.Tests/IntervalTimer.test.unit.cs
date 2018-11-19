@@ -25,9 +25,9 @@ namespace ATM.Unit.Tests
         double zMax = 20000;
         Airspace airspace;
         IAirspace fakeAirspace;
-        ILogger logger;
-        IRenderer renderer;
-        ITransponderReceiver TransponderReceiver;
+        IConsoleOutput consoleOutput;
+        IFileOutput fileOutput;
+        ITransponderReceiver transponderReceiver;
         List<Event> seperationEvents;
         List<TrackData> tracks;
         string timestamp;
@@ -40,14 +40,15 @@ namespace ATM.Unit.Tests
             //Setup stuff
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
             fakeAirspace = Substitute.For<IAirspace>();
-            logger = Substitute.For<ILogger>();
-            renderer = Substitute.For<IRenderer>();
+            consoleOutput = Substitute.For<IConsoleOutput>();
+            fileOutput = Substitute.For<IFileOutput>();
             //Make new fake TransponderReceiver.
+            transponderReceiver = Substitute.For<ITransponderReceiver>();
             seperationEvents = new List<Event>();
             tracks = new List<TrackData>();
             timestamp = "235928121999";
         
-            uut = new ATMclass(logger, renderer, fakeAirspace);
+            uut = new ATMclass(consoleOutput, fileOutput, fakeAirspace, transponderReceiver);
         }
 
 
@@ -56,17 +57,22 @@ namespace ATM.Unit.Tests
         [Test]
         public void intervaltimer_trackenteredevent()
         {
-            TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270);
+            TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270, consoleOutput);
 
             string time = trackData1._TimeStamp;
 
-            TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackData1, true, renderer, logger);
-            
+            TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackData1, true, consoleOutput, fileOutput);
+
+            bool before = TrackEnteredEvent._isRaised;
+
+
             //Wait 6 seconds to check if isRaised flag has been set to False by the IntervalTimers Start and TimerElapsed function
-            Thread.Sleep(6);
+            Thread.Sleep(6000);
+
+            bool after = TrackEnteredEvent._isRaised;
 
             //Check if isRaised flag has been set to False
-            Assert.That(() => TrackEnteredEvent._isRaised.Equals(false));
+            Assert.That(() => TrackEnteredEvent.Equals(false));
 
         }
         #endregion
@@ -75,14 +81,14 @@ namespace ATM.Unit.Tests
         [Test]
         public void intervaltimer_trackleftevent()
         {
-            TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270);
+            TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270, consoleOutput);
 
             string time = trackData1._TimeStamp;
 
-            TrackLeftEvent TrackLeftEvent = new TrackLeftEvent(time, trackData1, true, renderer, logger);
+            TrackLeftEvent TrackLeftEvent = new TrackLeftEvent(time, trackData1, true, consoleOutput, fileOutput);
 
             //Wait 6 seconds to check if isRaised flag has been set to False by the IntervalTimers Start and TimerElapsed function
-            Thread.Sleep(6);
+            Thread.Sleep(6000);
 
             //Check if isRaised flag has been set to False
             Assert.That(() => TrackLeftEvent._isRaised.Equals(false));
