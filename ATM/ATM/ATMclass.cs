@@ -18,8 +18,8 @@ namespace ATM
         double MIN_Y_DISTANCE = 5000;
         double MIN_Z_DISTANCE = 300;
 
-        private ILogger _logger;
-        private IRenderer _renderer;
+        public ILogger _logger { get;}
+        public IRenderer _renderer {get;}
         private IAirspace _airspace;
         //private ITransponderReceiver _transponderReceiver;
 

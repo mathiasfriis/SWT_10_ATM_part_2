@@ -34,7 +34,7 @@ namespace ATM.Tests.Integration
         //T's - Modules acted upon.
         private ATMclass atmClass;
 
-
+        /*
         [SetUp]
         public void setup()
         {
@@ -62,7 +62,7 @@ namespace ATM.Tests.Integration
             atmClass = new ATMclass(fakeFileLogger, fakeConsoleRenderer, airspace);
 
         }
-
+        */
 
         #region TrackData
         [Test]

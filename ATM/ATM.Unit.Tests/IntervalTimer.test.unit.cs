@@ -7,6 +7,9 @@ using ATM.Events;
 using NUnit.Framework;
 using TransponderReceiver;
 using System.Threading;
+using ATM.Logger;
+using ATM.Render;
+using NSubstitute;
 
 namespace ATM.Unit.Tests
 {
@@ -21,9 +24,9 @@ namespace ATM.Unit.Tests
         double zMin = 500;
         double zMax = 20000;
         Airspace airspace;
-        FakeAirspace fakeAirspace;
-        FakeLogger logger;
-        FakeRenderer renderer;
+        IAirspace fakeAirspace;
+        ILogger logger;
+        IRenderer renderer;
         ITransponderReceiver TransponderReceiver;
         List<Event> seperationEvents;
         List<TrackData> tracks;
@@ -36,9 +39,9 @@ namespace ATM.Unit.Tests
         {
             //Setup stuff
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
-            fakeAirspace = new FakeAirspace(xMin, xMax, yMin, yMax, zMin, zMax);
-            logger = new FakeLogger();
-            renderer = new FakeRenderer();
+            fakeAirspace = Substitute.For<IAirspace>();
+            logger = Substitute.For<ILogger>();
+            renderer = Substitute.For<IRenderer>();
             //Make new fake TransponderReceiver.
             seperationEvents = new List<Event>();
             tracks = new List<TrackData>();
@@ -57,7 +60,7 @@ namespace ATM.Unit.Tests
 
             string time = trackData1._TimeStamp;
 
-            TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackData1, true);
+            TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackData1, true, renderer, logger);
             
             //Wait 6 seconds to check if isRaised flag has been set to False by the IntervalTimers Start and TimerElapsed function
             Thread.Sleep(6);
@@ -76,7 +79,7 @@ namespace ATM.Unit.Tests
 
             string time = trackData1._TimeStamp;
 
-            TrackLeftEvent TrackLeftEvent = new TrackLeftEvent(time, trackData1, true);
+            TrackLeftEvent TrackLeftEvent = new TrackLeftEvent(time, trackData1, true, renderer, logger);
 
             //Wait 6 seconds to check if isRaised flag has been set to False by the IntervalTimers Start and TimerElapsed function
             Thread.Sleep(6);
