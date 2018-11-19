@@ -28,8 +28,8 @@ namespace ATM
         public List<TrackData> _currentTracks { get; }
         public List<Event> _currentEvents { get; }
 
+        public ATMclass(IConsoleOutput outputConsole, IFileOutput outputFile, IAirspace airspace, ITransponderReceiver transponderReceiver)
 
-        public ATMclass(IConsoleOutput outputConsole ,IFileOutput outputFile, IAirspace airspace, ITransponderReceiver transponderReceiver)
         {
             _outputConsole = outputConsole;
             _outputFile = outputFile;
@@ -69,7 +69,6 @@ namespace ATM
             // Check for potential seperation events
             CheckForSeperationEvents(trackdata);
 
-
             // Remove separations event after update
             RemoveSeparationEvents();
 
@@ -78,6 +77,7 @@ namespace ATM
 
             // Render seperation events
             RenderEvents();
+
         }
 
         public void AddTrack(TrackData trackData)
@@ -182,12 +182,12 @@ namespace ATM
             {
                 Event.Render();
             }
-            Console.WriteLine("Number of separation events: " + _currentEvents.Count);
+            Console.WriteLine("Number of separation events: " + _currentEvents.OfType<SeperationEvent>().Count());
         }
 
         public void RenderTracks()
         {
-            Console.Clear();
+            //Console.Clear();
 
             foreach (var trackData in _currentTracks)
             {
@@ -218,6 +218,7 @@ namespace ATM
 
             //After logging, remove the given elements.
             /* Temp udkommentering indtil Mathias fikser det med nye liste af events i ny klasse
+            /*
             _currentEvents.RemoveAll(x => Math.Abs(x._InvolvedTracks[0]._CurrentXcord -
                              x._InvolvedTracks[1]._CurrentXcord) < MIN_X_DISTANCE &&
                     Math.Abs(x._InvolvedTracks[0]._CurrentYcord -
@@ -351,7 +352,7 @@ namespace ATM
             }
         }
 
-        public void cleanUpEvents()
+        public void CleanUpEvents()
         {
             //For all events, check if they are still valid. If not, remove them.
             foreach (var e in _currentEvents)

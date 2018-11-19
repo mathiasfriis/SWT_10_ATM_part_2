@@ -18,33 +18,34 @@ namespace ConsoleApplication
         
         static void Main(string[] args)
         {
+
             // TEST AF SYSTEM UDEN SEPARATION EVENT
             IConsoleOutput consoleOutput = new ConsoleOutput();
             IFileOutput fileOutput = new FileOutput();
-            ConsoleRenderer consolerender = new ConsoleRenderer();
-            Airspace airspace = new Airspace(10000, 90000, 10000, 90000, 500, 20000);
+            Airspace airspace = new Airspace(0, 900000, 0, 900000, 0, 200000);
 
             var receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
-            var system = new ATM.TransponderReceiver(receiver);
+            var system = new ATM.TransponderReceiver(receiver, consoleOutput);
 
-            ATMclass atm = new ATMclass(consoleOutput, fileOutput, airspace, receiver);
+            var atm = new ATMclass(consoleOutput, fileOutput, airspace, receiver);
+
             system.Attach(atm);
 
-            // TEST AF SYSTEM MED SEPARATION EVENTS
-            //TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270);
-            //TrackData trackData2 = new TrackData("TEST2", 12000, 12000, 1000, "14322018", 10, 270);
 
-            //atm._currentTracks.Add(trackData1);
-            //atm._currentTracks.Add(trackData2);
+            // CHECK FOR REMOVAL OF EVENTS
+            var startTimeSpan = TimeSpan.Zero;
+            var periodTimeSpan = TimeSpan.FromMilliseconds(100);
 
-            //atm.CheckForSeperationEvents(trackData2);
+            var timer = new System.Threading.Timer((e) =>
+            {
+                atm.cleanUpEvents();
+            }, null, startTimeSpan, periodTimeSpan);
 
-            // TEST AF SYSTEM MED LOGGER
-            TrackData trackData3 = new TrackData("DEF456", 10002, 10002, 1002, "201811071339000", 42, 10, consoleOutput);
-            atm.AddTrack(trackData3);
-            atm.RenderTracks();
+
+            // RUN INFINITE
+
             while (true)
-                Thread.Sleep(3000);
+                Thread.Sleep(1000);
         }
     }
 }
