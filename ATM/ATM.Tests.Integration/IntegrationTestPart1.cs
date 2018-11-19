@@ -60,10 +60,9 @@ namespace ATM.Tests.Integration
             //timer = new Timer();
         }
 
-
+        /*
         #region Renderer
 
-        
         public void Renderer_renderTrackData_OutputReceivesCorrectString()
         {
             trackData1.render();
@@ -128,5 +127,6 @@ namespace ATM.Tests.Integration
         #endregion
     
     #endregion
+    */
     }
 }

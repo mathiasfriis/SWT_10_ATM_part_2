@@ -85,6 +85,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <Compile Include="Logger.test.unit.cs" />
+    <Compile Include="EventList.Test.Unit.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
