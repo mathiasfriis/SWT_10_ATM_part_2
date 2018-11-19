@@ -15,7 +15,7 @@ namespace ATM.Events
         public TrackData _involvedTrack { get; set; }
         public bool _isRaised { get; set; }
 
-        public TrackLeftEvent(string occurrenceTime, TrackData involvedTrack, bool isRaised, IRenderer renderer, ILogger logger) : base(renderer, logger)
+        public TrackLeftEvent(string occurrenceTime, TrackData involvedTrack, bool isRaised, IConsoleOutput outputConsole, IFileOutput outputFile) : base(outputFile, outputConsole)
         {
             _occurrenceTime = occurrenceTime;
             _involvedTrack = involvedTrack;

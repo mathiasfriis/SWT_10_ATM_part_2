@@ -18,20 +18,20 @@ namespace ATM
         double MIN_Y_DISTANCE = 5000;
         double MIN_Z_DISTANCE = 300;
 
-        private ILogger _logger;
-        private IRenderer _renderer;
+        private IConsoleOutput _outputConsole;
+        private IFileOutput _outputFile;
         private IAirspace _airspace;
-        //private ITransponderReceiver _transponderReceiver;
+        private ITransponderReceiver _transponderReceiver;
 
         public List<TrackData> _currentTracks { get; }
         public List<Event> _currentEvents { get; }
 
 
-        public ATMclass(ILogger logger, IRenderer renderer, IAirspace airspace)
+        public ATMclass(IConsoleOutput outputConsole ,IFileOutput outputFile, IAirspace airspace, ITransponderReceiver transponderReceiver)
         {
-            _logger = logger;
-            _renderer = renderer;
-            //_transponderReceiver = transponderReceiver;
+            _outputConsole = outputConsole;
+            _outputFile = outputFile;
+            _transponderReceiver = transponderReceiver;
             _airspace = airspace;
             _currentEvents = new List<Event>();
             _currentTracks = new List<TrackData>();
@@ -48,7 +48,7 @@ namespace ATM
                 {
                     AddTrack(trackdata);
                     string time = trackdata._TimeStamp;
-                    TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackdata, true, _renderer, _logger);
+                    TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackdata, true, _outputConsole, _outputFile);
                     _currentEvents.Add(TrackEnteredEvent);
                 }
             }
@@ -138,7 +138,7 @@ namespace ATM
                         trackDataInSeperationEvent.Add(trackData1);
                         trackDataInSeperationEvent.Add(trackData2);
 
-                        SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true, _renderer, _logger);
+                        SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true, _outputConsole, _outputFile);
                         _currentEvents.Add(SeperationEvent);
                         SeperationEvent.LogActive();
                     }
@@ -189,7 +189,7 @@ namespace ATM
 
             foreach (var trackData in _currentTracks)
             {
-                _renderer.RenderTrack(trackData);
+                trackData.Render();
             }
 
         }

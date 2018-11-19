@@ -13,14 +13,14 @@ namespace ATM.Events
         public string _occurrenceTime { get; set; }
         public List<TrackData> _InvolvedTracks { get; set; }
         public bool _isRaised { get; set; }
-        private ILogger _logger;
-        private IRenderer _renderer;
+        private IFileOutput _outputFile;
+        private IConsoleOutput _outputConsole; 
 
 
-        public Event(IRenderer renderer, ILogger logger)
+        public Event(IFileOutput outputFile, IConsoleOutput outputConsole)
         {
-            _logger = logger;
-            _renderer = renderer;
+            _outputFile = outputFile;
+            _outputConsole = outputConsole;
         }
         
 
@@ -40,18 +40,18 @@ namespace ATM.Events
 
         public void LogActive()
         {
-            _logger.LogActiveEvent(this);
+            _outputFile.Write(FormatData());
         }
 
         public void LogInActive()
         {
-            _logger.LogInactiveEvent(this);
+            _outputFile.Write(FormatData());
         }
 
         public void Render()
         {
-            _renderer.RenderEvent(this);
-            
+            _outputConsole.Print(FormatData());
+
         }
     }
 }

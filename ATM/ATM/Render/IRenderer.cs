@@ -9,7 +9,7 @@ namespace ATM.Render
 {
     public interface IRenderer
     {
-        void RenderTrack(TrackData trackData);
+        string RenderTrack(TrackData trackData);
 
         void RenderEvent(Event Event);
     }

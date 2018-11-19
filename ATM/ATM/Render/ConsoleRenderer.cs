@@ -9,7 +9,7 @@ namespace ATM.Render
 {
     public class ConsoleRenderer : IRenderer
     {
-        private IConsoleOutput _consoleOutput = new ConsoleOutput();
+        public IConsoleOutput _consoleOutput = new ConsoleOutput();
 
         /*
         public void RenderSeperationEvent(SeperationEvent seperationEvent)
@@ -31,18 +31,10 @@ namespace ATM.Render
 
         }
 
-        public void RenderTrack(TrackData trackData)
+        public string RenderTrack(TrackData trackData)
         {
-            string Tag = trackData._Tag;
-            double x = trackData._CurrentXcord;
-            double y = trackData._CurrentYcord;
-            double z = trackData._CurrentZcord;
-            double horzVel = trackData._CurrentHorzVel;
-            double course = trackData._CurrentCourse;
-
-            string trackInfoToRender = $"{Tag} - ( {x}, {y}, {z}) - Speed: {horzVel} m/s - Course: {course} degrees";
-
-            _consoleOutput.Print(trackInfoToRender);
+            _consoleOutput.Print(trackData.FormatData());
+            return trackData.FormatData();
         }
         
     }

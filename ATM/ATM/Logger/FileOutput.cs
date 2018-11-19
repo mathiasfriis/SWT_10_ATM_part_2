@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ATM.Logger
 {
-    class FileOutput : IFileOutput
+    public class FileOutput : IFileOutput
     {
         public void Write(string toFile)
         {

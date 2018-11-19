@@ -63,7 +63,7 @@ namespace ATM.Tests.Integration
 
         #region Renderer
 
-        
+        /*
         public void Renderer_renderTrackData_OutputReceivesCorrectString()
         {
             trackData1.render();
@@ -126,7 +126,7 @@ namespace ATM.Tests.Integration
             fakeConsoleOutput.Received(Arg.Any<String>().Contains(expectedString);
         }
         #endregion
-    
+    */
     #endregion
     }
 }

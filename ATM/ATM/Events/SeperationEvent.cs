@@ -16,7 +16,7 @@ namespace ATM.Events
         public bool _isRaised { get; set; }
 
 
-        public SeperationEvent(string occurrenceTime, List<TrackData> involvedTracks, bool isRaised, IRenderer renderer, ILogger logger) : base(renderer, logger)
+        public SeperationEvent(string occurrenceTime, List<TrackData> involvedTracks, bool isRaised, IConsoleOutput outputConsole, IFileOutput outputFile) : base(outputFile, outputConsole)
         {
             _occurrenceTime = occurrenceTime;
             _InvolvedTracks = involvedTracks;
