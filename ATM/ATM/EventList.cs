@@ -10,11 +10,36 @@ namespace ATM
 {
     public class EventList
     {
-        private List<Event> events;
+        public List<Event> events;
+
+        public EventList()
+        {
+            events = new List<Event>();
+        }
 
         public bool CheckIfSeperationEventExistsFor(TrackData trackData1, TrackData trackData2)
         {
+            foreach (Event e in events)
+            {
+                if (e is SeperationEvent)
+                {
+                    if ((e._InvolvedTracks[0]._Tag == trackData1._Tag) && (e._InvolvedTracks[1]._Tag == trackData2._Tag))
+                    {
+                        return true;
+                    }
+                    if ((e._InvolvedTracks[1]._Tag == trackData1._Tag) && (e._InvolvedTracks[0]._Tag == trackData2._Tag))
+                    {
+                        return true;
+                    }
+                }
+            }
 
+            return false;
+            /*
+            if (events == null)
+            {
+                return false;
+            }
             if (events.Exists(x => x is SeperationEvent && x._InvolvedTracks[1]._Tag == trackData1._Tag &&
                                                      x._InvolvedTracks[0]._Tag == trackData2._Tag))
             {
@@ -29,7 +54,7 @@ namespace ATM
             else
             {
                 return false;
-            }
+            }*/
         }
 
         public bool checkIfTrackEnteredEventExistsFor(TrackData trackData)

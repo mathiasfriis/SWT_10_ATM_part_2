@@ -10,12 +10,6 @@ namespace ATM.Events
 {
     public class SeperationEvent : Event
     {
-
-        public string _occurrenceTime { get; set; }
-        public List<TrackData> _InvolvedTracks { get; set; }
-        public bool _isRaised { get; set; }
-
-
         public SeperationEvent(string occurrenceTime, List<TrackData> involvedTracks, bool isRaised, IRenderer renderer, ILogger logger) : base(renderer, logger)
         {
             _occurrenceTime = occurrenceTime;
