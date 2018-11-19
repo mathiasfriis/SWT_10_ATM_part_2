@@ -11,17 +11,16 @@ namespace ATM.IntervalTimer
     class IntervalTimer : IIntervalTimer
     {
         private static Timer aTimer;
-        private TrackEnteredEvent _track_entered_event;
-        private TrackLeftEvent _track_left_event;
+        private Event _trackEvent;
 
-        public void StartTrackEnteredTimer(int seconds, TrackEnteredEvent track_entered_event)
+        public void Start(int seconds, Event trackEvent)
         {
             aTimer = new System.Timers.Timer();
             aTimer.Interval = seconds;
 
-            _track_entered_event = track_entered_event;
+            _trackEvent = trackEvent;
             
-            aTimer.Elapsed += TrackEnteredTimerElapsed;
+            aTimer.Elapsed += TimerElapsed;
 
             //Only run once
             aTimer.AutoReset = false;
@@ -31,40 +30,11 @@ namespace ATM.IntervalTimer
             //Console.WriteLine("Timer has starteed");          
         }
 
-
-        public void StartTrackLeftTimer(int seconds, TrackLeftEvent track_left_event)
-
+        public void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            aTimer = new System.Timers.Timer();
-            aTimer.Interval = seconds;
-
-            _track_left_event = track_left_event;
-
-
-            aTimer.Elapsed += TrackLeftTimerElapsed;
-
-            //Only run once
-            aTimer.AutoReset = false;
-
-            aTimer.Enabled = true;
-
-            //Console.WriteLine("Timer has starteed");
-
-
-        }
-
-        public void TrackEnteredTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            Console.WriteLine("State of isRaised: " + _track_entered_event._isRaised);
-            _track_entered_event._isRaised = false;
-            Console.WriteLine("State of isRaised: " + _track_entered_event._isRaised);
-        }
-
-        public void TrackLeftTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            Console.WriteLine("State of isRaised: " + _track_left_event._isRaised);
-            _track_left_event._isRaised = false;
-            Console.WriteLine("State of isRaised: " + _track_left_event._isRaised);
+            Console.WriteLine("State of isRaised: " + _trackEvent._isRaised);
+            _trackEvent._isRaised = false;
+            Console.WriteLine("State of isRaised: " + _trackEvent._isRaised);
         }
     }
 }

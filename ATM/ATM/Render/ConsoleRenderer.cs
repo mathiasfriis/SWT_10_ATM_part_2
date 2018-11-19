@@ -10,6 +10,8 @@ namespace ATM.Render
     public class ConsoleRenderer : IRenderer
     {
         private IConsoleOutput _consoleOutput = new ConsoleOutput();
+
+        /*
         public void RenderSeperationEvent(SeperationEvent seperationEvent)
         {
             string timeOfOccurence = seperationEvent._occurrenceTime;// + seperationEvent.OccurrenceTime.ToLongTimeString();
@@ -20,6 +22,13 @@ namespace ATM.Render
                 $"Warning: Seperation event occurred at {timeOfOccurence} - Involved track are {track1} and {track2}.";
 
             _consoleOutput.Print(seperationEventToRender);
+        }
+        */
+
+        public void RenderEvent(Event Event)
+        {
+            _consoleOutput.Print(Event.FormatData());
+
         }
 
         public void RenderTrack(TrackData trackData)
@@ -34,7 +43,7 @@ namespace ATM.Render
             string trackInfoToRender = $"{Tag} - ( {x}, {y}, {z}) - Speed: {horzVel} m/s - Course: {course} degrees";
 
             _consoleOutput.Print(trackInfoToRender);
-            
         }
+        
     }
 }

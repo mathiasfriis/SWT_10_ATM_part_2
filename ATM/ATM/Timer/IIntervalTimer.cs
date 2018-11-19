@@ -10,13 +10,9 @@ namespace ATM.IntervalTimer
 {
     public interface IIntervalTimer
     {
-        void StartTrackEnteredTimer(int time, TrackEnteredEvent something);
+        void Start(int time, Event trackEvent);
 
-        void StartTrackLeftTimer(int time, TrackLeftEvent something);
-
-        void TrackEnteredTimerElapsed(object sender, System.Timers.ElapsedEventArgs e);
-
-        void TrackLeftTimerElapsed(object sender, System.Timers.ElapsedEventArgs e);
+        void TimerElapsed(object sender, System.Timers.ElapsedEventArgs e);
 
     }
 }
