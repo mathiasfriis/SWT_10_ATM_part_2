@@ -19,7 +19,7 @@ namespace ATM.Events
             _isRaised = isRaised;
 
             ATM.IntervalTimer.IntervalTimer _timer = new ATM.IntervalTimer.IntervalTimer();
-            _timer.StartTrackLeftTimer(5000, this);
+            _timer.Start(5000, this);
         }
 
         public override string FormatData()
