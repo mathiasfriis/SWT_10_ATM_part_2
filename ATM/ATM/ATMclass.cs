@@ -48,7 +48,7 @@ namespace ATM
                 {
                     AddTrack(trackdata);
                     string time = trackdata._TimeStamp;
-                    TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackdata, true);
+                    TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackdata, true, _renderer, _logger);
                     _currentEvents.Add(TrackEnteredEvent);
                 }
             }
@@ -75,7 +75,7 @@ namespace ATM
             RenderTracks();
 
             // Render seperation events
-            RenderSeperationEvents();
+            RenderEvents();
         }
 
         public void AddTrack(TrackData trackData)
@@ -138,9 +138,9 @@ namespace ATM
                         trackDataInSeperationEvent.Add(trackData1);
                         trackDataInSeperationEvent.Add(trackData2);
 
-                        SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true);
+                        SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true, _renderer, _logger);
                         _currentEvents.Add(SeperationEvent);
-                        _logger.LogActiveSeparationEvent(SeperationEvent);
+                        SeperationEvent.LogActive();
                     }
 
                     return true;
@@ -199,18 +199,23 @@ namespace ATM
             //Log if conditions for seperation event are no longer met.
             foreach (var separationEvent in _currentEvents)
             {
-                if (!(Math.Abs(separationEvent._InvolvedTracks[0]._CurrentXcord -
-                             separationEvent._InvolvedTracks[1]._CurrentXcord) < MIN_X_DISTANCE &&
-                    Math.Abs(separationEvent._InvolvedTracks[0]._CurrentYcord -
-                             separationEvent._InvolvedTracks[1]._CurrentYcord) < MIN_Y_DISTANCE &&
-                    Math.Abs(separationEvent._InvolvedTracks[0]._CurrentZcord -
-                             separationEvent._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE))
+                if (separationEvent is SeperationEvent)
                 {
-                    _logger.LogInactiveSeparationEvent(separationEvent);
+                    if (!(Math.Abs(separationEvent._InvolvedTracks[0]._CurrentXcord -
+                                   separationEvent._InvolvedTracks[1]._CurrentXcord) < MIN_X_DISTANCE &&
+                          Math.Abs(separationEvent._InvolvedTracks[0]._CurrentYcord -
+                                   separationEvent._InvolvedTracks[1]._CurrentYcord) < MIN_Y_DISTANCE &&
+                          Math.Abs(separationEvent._InvolvedTracks[0]._CurrentZcord -
+                                   separationEvent._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE))
+                    {
+                        separationEvent.LogInActive();
+                    }
                 }
+                
             }
 
             //After logging, remove the given elements.
+            
             _currentEvents.RemoveAll(x => Math.Abs(x._InvolvedTracks[0]._CurrentXcord -
                              x._InvolvedTracks[1]._CurrentXcord) < MIN_X_DISTANCE &&
                     Math.Abs(x._InvolvedTracks[0]._CurrentYcord -

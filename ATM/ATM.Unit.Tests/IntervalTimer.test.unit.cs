@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ATM.Events;
 using NUnit.Framework;
 using TransponderReceiver;
+using System.Threading;
 
 namespace ATM.Unit.Tests
 {
@@ -42,21 +43,50 @@ namespace ATM.Unit.Tests
             seperationEvents = new List<Event>();
             tracks = new List<TrackData>();
             timestamp = "235928121999";
-
+        
             uut = new ATMclass(logger, renderer, fakeAirspace);
         }
 
 
-        #region IntervalTimer
-
 
         #region IntervalTimer_TrackEntered
+        [Test]
+        public void intervaltimer_trackenteredevent()
+        {
+            TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270);
+
+            string time = trackData1._TimeStamp;
+
+            TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackData1, true);
+            
+            //Wait 6 seconds to check if isRaised flag has been set to False by the IntervalTimers Start and TimerElapsed function
+            Thread.Sleep(6);
+
+            //Check if isRaised flag has been set to False
+            Assert.That(() => TrackEnteredEvent._isRaised.Equals(false));
+
+        }
         #endregion
 
         #region IntervalTimer_TrackLeft
+        [Test]
+        public void intervaltimer_trackleftevent()
+        {
+            TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270);
+
+            string time = trackData1._TimeStamp;
+
+            TrackLeftEvent TrackLeftEvent = new TrackLeftEvent(time, trackData1, true);
+
+            //Wait 6 seconds to check if isRaised flag has been set to False by the IntervalTimers Start and TimerElapsed function
+            Thread.Sleep(6);
+
+            //Check if isRaised flag has been set to False
+            Assert.That(() => TrackLeftEvent._isRaised.Equals(false));
+
+        }
         #endregion
 
-        #endregion
 
     }
 }

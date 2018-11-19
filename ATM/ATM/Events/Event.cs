@@ -16,11 +16,13 @@ namespace ATM.Events
         private ILogger _logger;
         private IRenderer _renderer;
 
-        private Event(IRenderer renderer, ILogger logger)
+
+        public Event(IRenderer renderer, ILogger logger)
         {
             _logger = logger;
             _renderer = renderer;
         }
+        
 
         public virtual bool CheckIfStillValid()
         {
@@ -36,10 +38,14 @@ namespace ATM.Events
 
         public abstract string FormatData();
 
-        public void Log()
+        public void LogActive()
         {
-            // need to use render
-            Console.WriteLine(FormatData());
+            _logger.LogActiveEvent(this);
+        }
+
+        public void LogInActive()
+        {
+            _logger.LogInactiveEvent(this);
         }
 
         public void Render()
