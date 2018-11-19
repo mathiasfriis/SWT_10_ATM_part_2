@@ -9,6 +9,7 @@ using ATM.Logger;
 using ATM.Render;
 using NSubstitute;
 using NUnit.Framework;
+using System.Threading;
 
 namespace ATM.Tests.Integration
 {
@@ -18,8 +19,6 @@ namespace ATM.Tests.Integration
         //S's - Stubs
         private IConsoleOutput fakeConsoleOutput;
         private IFileOutput fakeFileOutput;
-        private ILogger fakeFileLogger;
-        private IRenderer fakeConsoleRenderer;
         private IIntervalTimer fakeIntervalTimer;
 
         //X's - Modules under test
@@ -34,15 +33,13 @@ namespace ATM.Tests.Integration
         //T's - Modules acted upon.
         private ATMclass atmClass;
 
-        /*
+        
         [SetUp]
         public void setup()
         {
             //Set up S's
             fakeConsoleOutput = Substitute.For<IConsoleOutput>();
             fakeFileOutput = Substitute.For<IFileOutput>();
-            fakeFileLogger = Substitute.For<ILogger>();
-            fakeConsoleRenderer = Substitute.For<IRenderer>();
             fakeIntervalTimer = Substitute.For<IIntervalTimer>();
             
             //Set up X's
@@ -59,30 +56,42 @@ namespace ATM.Tests.Integration
             airspace = new Airspace(0, 13000, 0, 13000, 500, 2000);
 
             //Set up T's
-            atmClass = new ATMclass(fakeFileLogger, fakeConsoleRenderer, airspace);
+            atmClass = new ATMclass(fakeConsoleOutput, fakeFileOutput, airspace);
 
         }
-        */
+        
 
         #region TrackData
         [Test]
         public void TrackData_AddTrackdata_AddTrackToCurrentTracks()
         {
-           //// TrackData trackData3 = new TrackData("DEF456", 10002, 10002, 1002, "201811071339000", 0, 0,fakeConsoleRenderer,fakeFileLogger);
-           // atmClass.AddTrack(trackData3);
-           // atmClass.RenderTracks();
+            TrackData trackData3 = new TrackData("DEF456", 10002, 10002, 1002, "201811071339000", 0, 0,fakeConsoleOutput);
+            atmClass.AddTrack(trackData3);
+            atmClass.RenderTracks();
 
-           // string expectedString =
-           //     $"{trackData3._Tag} - ( {trackData3._CurrentXcord}, {trackData3._CurrentYcord}, {trackData3._CurrentXcord})"
-           //                         + $"- Speed: {trackData3._CurrentHorzVel} m/s - Course: {trackData3._CurrentCourse} degrees";
-            
-           // trackData3.Render();
-            
-            
+            string expectedString =
+                $"{trackData3._Tag} - ( {trackData3._CurrentXcord}, {trackData3._CurrentYcord}, {trackData3._CurrentZcord}) - Speed: {trackData3._CurrentHorzVel} m/s - Course: {trackData3._CurrentCourse} degrees";
+
+            fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
         }
-        
 
+        [Test]
+        /*public void TrackData_UpdataTrackData_UpdataTrackInCurrentTracks()
+        {
+            TrackData trackData3 = new TrackData("DEF456", 10002, 10002, 1002, "20181107133900000", 0, 0, fakeConsoleOutput);
+            TrackData trackData4 = new TrackData("DEF456", 10002, 10002, 1002, "20181107133900000", 0, 0, fakeConsoleOutput);
+            atmClass.AddTrack(trackData3);
+            
+            atmClass.UpdateTrackData(trackData4);
+            atmClass.RenderTracks();
 
+            string expectedString =
+                $"{trackData4._Tag} - ( {trackData4._CurrentXcord}, {trackData4._CurrentYcord}, {trackData4._CurrentZcord}) - Speed: {trackData4._CurrentHorzVel} m/s - Course: {trackData4._CurrentCourse} degrees";
+
+            fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
+
+        }
+        */
         #endregion
 
 

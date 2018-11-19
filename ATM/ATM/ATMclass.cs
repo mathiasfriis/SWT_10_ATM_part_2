@@ -23,17 +23,17 @@ namespace ATM
         private IFileOutput _outputFile;
 
         private IAirspace _airspace;
-        private ITransponderReceiver _transponderReceiver;
+        //private ITransponderReceiver _transponderReceiver;
 
         public List<TrackData> _currentTracks { get; }
         public List<Event> _currentEvents { get; }
 
 
-        public ATMclass(IConsoleOutput outputConsole ,IFileOutput outputFile, IAirspace airspace, ITransponderReceiver transponderReceiver)
+        public ATMclass(IConsoleOutput outputConsole ,IFileOutput outputFile, IAirspace airspace)
         {
             _outputConsole = outputConsole;
             _outputFile = outputFile;
-            _transponderReceiver = transponderReceiver;
+            //_transponderReceiver = transponderReceiver;
             _airspace = airspace;
             _currentEvents = new List<Event>();
             _currentTracks = new List<TrackData>();
@@ -187,7 +187,7 @@ namespace ATM
 
         public void RenderTracks()
         {
-            Console.Clear();
+            //Console.Clear();
 
             foreach (var trackData in _currentTracks)
             {

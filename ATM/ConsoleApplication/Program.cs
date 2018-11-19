@@ -27,7 +27,7 @@ namespace ConsoleApplication
             var receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
             var system = new ATM.TransponderReceiver(receiver);
 
-            ATMclass atm = new ATMclass(consoleOutput, fileOutput, airspace, receiver);
+            ATMclass atm = new ATMclass(consoleOutput, fileOutput, airspace);
             system.Attach(atm);
 
             // TEST AF SYSTEM MED SEPARATION EVENTS
@@ -40,9 +40,13 @@ namespace ConsoleApplication
             //atm.CheckForSeperationEvents(trackData2);
 
             // TEST AF SYSTEM MED LOGGER
-            TrackData trackData3 = new TrackData("DEF456", 10002, 10002, 1002, "201811071339000", 42, 10, consoleOutput);
+            TrackData trackData4 = new TrackData("DEF456", 50002, 50002, 5002, "20181107134000000", 0, 0, consoleOutput);
+
+            TrackData trackData3 = new TrackData("DEF456", 10002, 10002, 1002, "20181107133900000", 0, 0, consoleOutput);
             atm.AddTrack(trackData3);
-            atm.RenderTracks();
+            Thread.Sleep(500);
+            atm.HandleNewTrackData(trackData4);
+            
             while (true)
                 Thread.Sleep(3000);
         }
