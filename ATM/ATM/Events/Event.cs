@@ -8,9 +8,9 @@ namespace ATM.Events
 {
     public abstract class Event
     {
-        private string _occurrenceTime { get; set; }
-        private List<TrackData> _InvolvedTracks { get; set; }
-        private bool _isRaised { get; set; }
+        public string _occurrenceTime { get; set; }
+        public List<TrackData> _InvolvedTracks { get; set; }
+        public bool _isRaised { get; set; }
 
         public virtual bool CheckIfStillValid()
         {

@@ -24,9 +24,8 @@ namespace ATM
         //private ITransponderReceiver _transponderReceiver;
 
         public List<TrackData> _currentTracks { get; }
-        public List<SeperationEvent> _currentSeperationEvents { get; }
+        public List<Event> _currentSeperationEvents { get; }
 
-        
 
         public ATMclass(ILogger logger, IRenderer renderer, IAirspace airspace)
         {
@@ -34,7 +33,7 @@ namespace ATM
             _renderer = renderer;
             //_transponderReceiver = transponderReceiver;
             _airspace = airspace;
-            _currentSeperationEvents = new List<SeperationEvent>();
+            _currentSeperationEvents = new List<Event>();
             _currentTracks = new List<TrackData>();
         }
 
@@ -48,6 +47,9 @@ namespace ATM
                     trackdata._CurrentZcord))
                 {
                     AddTrack(trackdata);
+                    string time = trackdata._TimeStamp;
+                    TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackdata, true);
+                    _currentSeperationEvents.Add(TrackEnteredEvent);
                 }
             }
             else
@@ -151,6 +153,7 @@ namespace ATM
 
         public bool CheckIfSeperationEventExistsFor(TrackData trackData1, TrackData trackData2)
         {
+
 
             if(_currentSeperationEvents.Exists(x => x._InvolvedTracks[1]._Tag == trackData1._Tag && 
                                                     x._InvolvedTracks[0]._Tag == trackData2._Tag))
@@ -336,6 +339,18 @@ namespace ATM
                 trackData._CurrentZcord)))
             {
                 RemoveTrack(trackData._Tag);
+            }
+        }
+
+        public void cleanUpEvents()
+        {
+            //For all events, check if they are still valid. If not, remove them.
+            foreach (var e in _currentSeperationEvents)
+            {
+                if (e._isRaised == false)
+                {
+                    _currentSeperationEvents.Remove(e);
+                }
             }
         }
 
