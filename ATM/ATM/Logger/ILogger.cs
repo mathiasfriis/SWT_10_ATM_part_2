@@ -12,7 +12,5 @@ namespace ATM.Logger
 
         void LogActiveSeparationEvent(SeperationEvent seperationEvent);
         void LogInactiveSeparationEvent(SeperationEvent seperationEvent);
-
-
     }
 }

@@ -11,6 +11,6 @@ namespace ATM.Render
     {
         void RenderTrack(TrackData trackData);
 
-        void RenderSeperationEvent(SeperationEvent seperationEvent);
+        void RenderEvent(Event Event);
     }
 }

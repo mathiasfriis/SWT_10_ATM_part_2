@@ -24,7 +24,7 @@ namespace ATM
         //private ITransponderReceiver _transponderReceiver;
 
         public List<TrackData> _currentTracks { get; }
-        public List<Event> _currentSeperationEvents { get; }
+        public List<Event> _currentEvents { get; }
 
 
         public ATMclass(ILogger logger, IRenderer renderer, IAirspace airspace)
@@ -33,7 +33,7 @@ namespace ATM
             _renderer = renderer;
             //_transponderReceiver = transponderReceiver;
             _airspace = airspace;
-            _currentSeperationEvents = new List<Event>();
+            _currentEvents = new List<Event>();
             _currentTracks = new List<TrackData>();
         }
 
@@ -49,7 +49,7 @@ namespace ATM
                     AddTrack(trackdata);
                     string time = trackdata._TimeStamp;
                     TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackdata, true);
-                    _currentSeperationEvents.Add(TrackEnteredEvent);
+                    _currentEvents.Add(TrackEnteredEvent);
                 }
             }
             else
@@ -139,7 +139,7 @@ namespace ATM
                         trackDataInSeperationEvent.Add(trackData2);
 
                         SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true);
-                        _currentSeperationEvents.Add(SeperationEvent);
+                        _currentEvents.Add(SeperationEvent);
                         _logger.LogActiveSeparationEvent(SeperationEvent);
                     }
 
@@ -155,13 +155,13 @@ namespace ATM
         {
 
 
-            if(_currentSeperationEvents.Exists(x => x._InvolvedTracks[1]._Tag == trackData1._Tag && 
+            if(_currentEvents.Exists(x => x._InvolvedTracks[1]._Tag == trackData1._Tag && 
                                                     x._InvolvedTracks[0]._Tag == trackData2._Tag))
             {
                 return true;
             }
 
-            else if(_currentSeperationEvents.Exists(x => x._InvolvedTracks[1]._Tag == trackData2._Tag &&
+            else if(_currentEvents.Exists(x => x._InvolvedTracks[1]._Tag == trackData2._Tag &&
                                                          x._InvolvedTracks[0]._Tag == trackData1._Tag))
             {
                 return true;
@@ -173,13 +173,14 @@ namespace ATM
                                                                                                                                           
         }
 
-        public void RenderSeperationEvents()
+        public void RenderEvents()
         {
-            foreach (var seperationEvent in _currentSeperationEvents)
+
+            foreach (var Event in _currentEvents)
             {
-                _renderer.RenderSeperationEvent(seperationEvent);
+                Event.Render();
             }
-            Console.WriteLine("Number of separation events: " + _currentSeperationEvents.Count);
+            Console.WriteLine("Number of separation events: " + _currentEvents.Count);
         }
 
         public void RenderTracks()
@@ -196,7 +197,7 @@ namespace ATM
         public void RemoveSeparationEvents()
         {
             //Log if conditions for seperation event are no longer met.
-            foreach (var separationEvent in _currentSeperationEvents)
+            foreach (var separationEvent in _currentEvents)
             {
                 if (!(Math.Abs(separationEvent._InvolvedTracks[0]._CurrentXcord -
                              separationEvent._InvolvedTracks[1]._CurrentXcord) < MIN_X_DISTANCE &&
@@ -210,7 +211,7 @@ namespace ATM
             }
 
             //After logging, remove the given elements.
-            _currentSeperationEvents.RemoveAll(x => Math.Abs(x._InvolvedTracks[0]._CurrentXcord -
+            _currentEvents.RemoveAll(x => Math.Abs(x._InvolvedTracks[0]._CurrentXcord -
                              x._InvolvedTracks[1]._CurrentXcord) < MIN_X_DISTANCE &&
                     Math.Abs(x._InvolvedTracks[0]._CurrentYcord -
                              x._InvolvedTracks[1]._CurrentYcord) < MIN_Y_DISTANCE &&
@@ -345,11 +346,11 @@ namespace ATM
         public void cleanUpEvents()
         {
             //For all events, check if they are still valid. If not, remove them.
-            foreach (var e in _currentSeperationEvents)
+            foreach (var e in _currentEvents)
             {
                 if (e._isRaised == false)
                 {
-                    _currentSeperationEvents.Remove(e);
+                    _currentEvents.Remove(e);
                 }
             }
         }
