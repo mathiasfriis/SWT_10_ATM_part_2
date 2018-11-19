@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ATM.Events;
+using ATM.Logger;
+using ATM.Render;
+using NSubstitute;
 using NUnit.Framework;
 using TransponderReceiver;
 
@@ -19,9 +22,9 @@ namespace ATM.Unit.Tests
         double zMin = 500;
         double zMax = 20000;
         Airspace airspace;
-        FakeAirspace fakeAirspace;
-        FakeLogger logger;
-        FakeRenderer renderer;
+        IAirspace fakeAirspace;
+        ILogger logger;
+        IRenderer renderer;
         ITransponderReceiver TransponderReceiver;
         List<Event> seperationEvents;
         List<TrackData> tracks;
@@ -34,9 +37,9 @@ namespace ATM.Unit.Tests
         {
             //Setup stuff
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
-            fakeAirspace = new FakeAirspace(xMin, xMax, yMin, yMax, zMin, zMax);
-            logger = new FakeLogger();
-            renderer = new FakeRenderer();
+            fakeAirspace = Substitute.For<IAirspace>();
+            logger = Substitute.For<ILogger>();
+            renderer = Substitute.For<IRenderer>();
             //Make new fake TransponderReceiver.
             seperationEvents = new List<Event>();
             tracks = new List<TrackData>();
@@ -49,7 +52,8 @@ namespace ATM.Unit.Tests
         [Test]
         public void ATMclass_NothingCalled_IAirspaceCheckIfInMonitoredAreaIsCalledIs0()
         {
-            Assert.That(fakeAirspace.CheckIfInMonitoredArea_timesCalled.Equals(0));
+            //Assert.That(fakeAirspace.CheckIfInMonitoredArea_timesCalled.Equals(0));
+            fakeAirspace.DidNotReceiveWithAnyArgs().CheckIfInMonitoredArea(1, 1, 1);
         }
 
         [Test]
@@ -58,7 +62,8 @@ namespace ATM.Unit.Tests
             TrackData trackData = new TrackData("ABC", 100, 200, 300, "180320180854", 100, 100);
             uut.HandleNewTrackData(trackData);
 
-            Assert.That(fakeAirspace.CheckIfInMonitoredArea_timesCalled.Equals(1));
+            //Assert.That(fakeAirspace.CheckIfInMonitoredArea_timesCalled.Equals(1));
+            fakeAirspace.ReceivedWithAnyArgs(1).CheckIfInMonitoredArea(1, 1, 1);
         }
 
         [Test]
@@ -70,7 +75,8 @@ namespace ATM.Unit.Tests
             uut.HandleNewTrackData(trackData1);
             uut.HandleNewTrackData(trackData2);
 
-            Assert.That(fakeAirspace.CheckIfInMonitoredArea_timesCalled.Equals(2));
+            //Assert.That(fakeAirspace.CheckIfInMonitoredArea_timesCalled.Equals(2));
+            fakeAirspace.ReceivedWithAnyArgs(2).CheckIfInMonitoredArea(1, 1, 1);
         }
 
         [Test]
@@ -82,7 +88,8 @@ namespace ATM.Unit.Tests
             uut.HandleNewTrackData(trackData1);
             uut.HandleNewTrackData(trackData2);
 
-            Assert.That(fakeAirspace.CheckIfInMonitoredArea_timesCalled.Equals(2));
+            //Assert.That(fakeAirspace.CheckIfInMonitoredArea_timesCalled.Equals(2));
+            fakeAirspace.ReceivedWithAnyArgs(2).CheckIfInMonitoredArea(1, 1, 1);
         }
 
         [Test]
@@ -127,8 +134,8 @@ namespace ATM.Unit.Tests
             };
 
             //Create seperation event from the two trackDatas and add to current seperation events.
-            SeperationEvent seperationEvent = new SeperationEvent(trackData1._TimeStamp, trackDatas, true);
-            uut._currentSeperationEvents.Add(seperationEvent);
+            SeperationEvent seperationEvent = new SeperationEvent(trackData1._TimeStamp, trackDatas, true, uut._renderer, uut._logger);
+            uut._currentEvents.Add(seperationEvent);
 
             Assert.That(() => uut.CheckIfSeperationEventExistsFor(trackData1, trackData2).Equals(true));
         }
@@ -324,8 +331,8 @@ namespace ATM.Unit.Tests
                 new TrackData("ABC",1,2,3,"time",5,6),
                 new TrackData("DEF",1,2,3,"time",5,6)
             };
-            SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true);
-            uut._currentSeperationEvents.Add(seperationEvent1);
+            SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._renderer, uut._logger);
+            uut._currentEvents.Add(seperationEvent1);
 
             Assert.That(() => uut.CheckIfSeperationEventExistsFor(trackDatas[0], trackDatas[1]).Equals(true));
         }
@@ -338,8 +345,8 @@ namespace ATM.Unit.Tests
                 new TrackData("ABC",1,2,3,"time",5,6),
                 new TrackData("DEF",1,2,3,"time",5,6)
             };
-            SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true);
-            uut._currentSeperationEvents.Add(seperationEvent1);
+            SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._renderer, uut._logger);
+            uut._currentEvents.Add(seperationEvent1);
 
             Assert.That(() => uut.CheckIfSeperationEventExistsFor(trackDatas[1], trackDatas[0]).Equals(true));
         }

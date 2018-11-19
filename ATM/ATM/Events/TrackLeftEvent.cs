@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ATM.Logger;
+using ATM.Render;
+
 
 namespace ATM.Events
 {
@@ -12,7 +15,7 @@ namespace ATM.Events
         public TrackData _involvedTrack { get; set; }
         public bool _isRaised { get; set; }
 
-        public TrackLeftEvent(string occurrenceTime, TrackData involvedTrack, bool isRaised)
+        public TrackLeftEvent(string occurrenceTime, TrackData involvedTrack, bool isRaised, IRenderer renderer, ILogger logger) : base(renderer, logger)
         {
             _occurrenceTime = occurrenceTime;
             _involvedTrack = involvedTrack;

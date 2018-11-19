@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ATM.Events;
+using ATM.Logger;
+using ATM.Render;
 using TransponderReceiver;
 
 namespace ATM.Unit.Tests
@@ -20,9 +22,9 @@ namespace ATM.Unit.Tests
         double zMin = 500;
         double zMax = 20000;
         Airspace airspace;
-        FakeAirspace fakeAirspace;
-        FakeLogger logger;
-        FakeRenderer renderer;
+        IAirspace fakeAirspace;
+        ILogger logger;
+        IRenderer renderer;
         ITransponderReceiver TransponderReceiver;
         List<Event> seperationEvents;
         List<TrackData> tracks;
@@ -35,9 +37,9 @@ namespace ATM.Unit.Tests
         {
             //Setup stuff
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
-            fakeAirspace = new FakeAirspace(xMin, xMax, yMin, yMax, zMin, zMax);
-            logger = new FakeLogger();
-            renderer = new FakeRenderer();
+            fakeAirspace = Substitute.For<IAirspace>();
+            logger = Substitute.For<ILogger>();
+            renderer = Substitute.For<IRenderer>();
             //Make new fake TransponderReceiver.
             seperationEvents = new List<Event>();
             tracks = new List<TrackData>();

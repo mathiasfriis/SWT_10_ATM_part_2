@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ATM.Logger;
+using ATM.Render;
 
 namespace ATM.Events
 {
@@ -13,11 +15,13 @@ namespace ATM.Events
         public List<TrackData> _InvolvedTracks { get; set; }
         public bool _isRaised { get; set; }
 
-        public SeperationEvent(string occurrenceTime, List<TrackData> involvedTracks, bool isRaised)
+
+        public SeperationEvent(string occurrenceTime, List<TrackData> involvedTracks, bool isRaised, IRenderer renderer, ILogger logger) : base(renderer, logger)
         {
             _occurrenceTime = occurrenceTime;
             _InvolvedTracks = involvedTracks;
             _isRaised = isRaised;
+
         }
 
         public override string FormatData()
