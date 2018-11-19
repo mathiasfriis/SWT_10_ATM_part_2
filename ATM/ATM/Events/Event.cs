@@ -16,11 +16,13 @@ namespace ATM.Events
         private ILogger _logger;
         private IRenderer _renderer;
 
-        private Event(IRenderer renderer, ILogger logger)
+
+        public Event(IRenderer renderer, ILogger logger)
         {
             _logger = logger;
             _renderer = renderer;
         }
+        
 
         public virtual bool CheckIfStillValid()
         {
