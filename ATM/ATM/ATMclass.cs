@@ -75,7 +75,7 @@ namespace ATM
             RenderTracks();
 
             // Render seperation events
-            RenderSeperationEvents();
+            RenderEvents();
         }
 
         public void AddTrack(TrackData trackData)
@@ -140,7 +140,7 @@ namespace ATM
 
                         SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true);
                         _currentEvents.Add(SeperationEvent);
-                        _logger.LogActiveSeparationEvent(SeperationEvent);
+                        SeperationEvent.LogActive();
                     }
 
                     return true;
@@ -206,7 +206,7 @@ namespace ATM
                     Math.Abs(separationEvent._InvolvedTracks[0]._CurrentZcord -
                              separationEvent._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE))
                 {
-                    _logger.LogInactiveSeparationEvent(separationEvent);
+                    separationEvent.LogInActive();
                 }
             }
 

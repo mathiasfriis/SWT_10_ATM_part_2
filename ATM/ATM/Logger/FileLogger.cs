@@ -17,7 +17,10 @@ namespace ATM.Logger
         private string seperationEventActive = "Active";
         private string seperationEventInactive = "Inactive";
 
+        private IFileOutput _fileOutput = new FileOutput();
 
+
+        /*
         public void LogActiveSeparationEvent(SeperationEvent seperationEvent)
         {
             string timeOfOccurence = seperationEvent._occurrenceTime.ToString();
@@ -53,7 +56,16 @@ namespace ATM.Logger
             streamWriter.Close();
 
         }
+        */
+        public void LogActiveEvent(Event Event)
+        {
+            _fileOutput.Write(Event.FormatData());
+        }
 
+        public void LogInactiveEvent(Event Event)
+        {
+            _fileOutput.Write(Event.FormatData());
+        }
 
     }
 
