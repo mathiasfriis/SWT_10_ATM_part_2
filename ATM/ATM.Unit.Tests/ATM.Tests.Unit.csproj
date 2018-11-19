@@ -70,7 +70,6 @@
     <Compile Include="IntervalTimer.test.unit.cs" />
     <Compile Include="Renderer.test.unit.cs" />
     <Compile Include="TransponderReceiver.test.unit.cs" />
-    <Compile Include="Fakes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +84,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <Compile Include="Logger.test.unit.cs" />
+    <Compile Include="EventList.test.unit.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

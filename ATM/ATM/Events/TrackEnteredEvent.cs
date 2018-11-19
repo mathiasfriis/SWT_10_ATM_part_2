@@ -9,11 +9,15 @@ using ATM.Render;
 namespace ATM.Events
 {
     public class TrackEnteredEvent : Event
+
     {
         public string _occurrenceTime { get; set; }
         public TrackData _involvedTrack { get; set; }
         public bool _isRaised { get; set; }
 
+
+
+     
         public TrackEnteredEvent(string occurrenceTime, TrackData involvedTrack, bool isRaised, IConsoleOutput outputConsole, IFileOutput outputFile) : base(outputFile, outputConsole)
         {
             _occurrenceTime = occurrenceTime;

@@ -34,7 +34,7 @@ namespace ATM.Tests.Integration
         private TrackLeftEvent trackLeftEvent;
 
 
-
+        /*
         [SetUp]
         public void setup()
         {
@@ -59,11 +59,15 @@ namespace ATM.Tests.Integration
             renderer = new ConsoleRenderer();
             //timer = new Timer();
         }
-
-
-        #region Renderer
+        */
 
         /*
+        #region Renderer
+
+<<<<<<< HEAD
+        /*
+=======
+>>>>>>> 2893dabb4e5e0dfd867b79ee778d6b76d5026be7
         public void Renderer_renderTrackData_OutputReceivesCorrectString()
         {
             trackData1.render();
@@ -128,5 +132,6 @@ namespace ATM.Tests.Integration
         #endregion
     */
     #endregion
+    */
     }
 }

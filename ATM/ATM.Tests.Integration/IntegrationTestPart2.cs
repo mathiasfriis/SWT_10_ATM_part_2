@@ -34,7 +34,7 @@ namespace ATM.Tests.Integration
         //T's - Modules acted upon.
         private ATMclass atmClass;
 
-
+        /*
         [SetUp]
         public void setup()
         {
@@ -62,22 +62,22 @@ namespace ATM.Tests.Integration
             atmClass = new ATMclass(fakeFileLogger, fakeConsoleRenderer, airspace);
 
         }
-
+        */
 
         #region TrackData
         [Test]
         public void TrackData_AddTrackdata_AddTrackToCurrentTracks()
         {
-            TrackData trackData3 = new TrackData("DEF456", 10002, 10002, 1002, "201811071339000", 0, 0,fakeConsoleRenderer,fakeFileLogger);
-            atmClass.AddTrack(trackData3);
-            atmClass.RenderTracks();
+           //// TrackData trackData3 = new TrackData("DEF456", 10002, 10002, 1002, "201811071339000", 0, 0,fakeConsoleRenderer,fakeFileLogger);
+           // atmClass.AddTrack(trackData3);
+           // atmClass.RenderTracks();
 
-            string expectedString =
-                $"{trackData3._Tag} - ( {trackData3._CurrentXcord}, {trackData3._CurrentYcord}, {trackData3._CurrentXcord})"
-                                    + $"- Speed: {trackData3._CurrentHorzVel} m/s - Course: {trackData3._CurrentCourse} degrees";
+           // string expectedString =
+           //     $"{trackData3._Tag} - ( {trackData3._CurrentXcord}, {trackData3._CurrentYcord}, {trackData3._CurrentXcord})"
+           //                         + $"- Speed: {trackData3._CurrentHorzVel} m/s - Course: {trackData3._CurrentCourse} degrees";
             
-            trackData3.Render();
-            fakeConsoleRenderer.
+           // trackData3.Render();
+            
             
         }
         

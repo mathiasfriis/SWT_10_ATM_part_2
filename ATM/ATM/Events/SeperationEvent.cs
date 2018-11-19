@@ -11,12 +11,14 @@ namespace ATM.Events
     public class SeperationEvent : Event
     {
 
+
         public string _occurrenceTime { get; set; }
         public List<TrackData> _InvolvedTracks { get; set; }
         public bool _isRaised { get; set; }
 
 
         public SeperationEvent(string occurrenceTime, List<TrackData> involvedTracks, bool isRaised, IConsoleOutput outputConsole, IFileOutput outputFile) : base(outputFile, outputConsole)
+
         {
             _occurrenceTime = occurrenceTime;
             _InvolvedTracks = involvedTracks;

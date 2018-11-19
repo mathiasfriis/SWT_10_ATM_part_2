@@ -18,8 +18,10 @@ namespace ATM
         double MIN_Y_DISTANCE = 5000;
         double MIN_Z_DISTANCE = 300;
 
+
         private IConsoleOutput _outputConsole;
         private IFileOutput _outputFile;
+
         private IAirspace _airspace;
         private ITransponderReceiver _transponderReceiver;
 
