@@ -26,7 +26,6 @@ namespace ATM
         public List<TrackData> _currentTracks { get; }
         public List<Event> _currentSeperationEvents { get; }
 
-        
 
         public ATMclass(ILogger logger, IRenderer renderer, IAirspace airspace)
         {
@@ -154,6 +153,7 @@ namespace ATM
 
         public bool CheckIfSeperationEventExistsFor(TrackData trackData1, TrackData trackData2)
         {
+
 
             if(_currentSeperationEvents.Exists(x => x._InvolvedTracks[1]._Tag == trackData1._Tag && 
                                                     x._InvolvedTracks[0]._Tag == trackData2._Tag))
