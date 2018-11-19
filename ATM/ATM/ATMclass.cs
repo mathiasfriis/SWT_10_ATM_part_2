@@ -339,5 +339,17 @@ namespace ATM
             }
         }
 
+        public void cleanUpEvents()
+        {
+            //For all events, check if they are still valid. If not, remove them.
+            foreach (var e in _currentSeperationEvents)
+            {
+                if (e._isRaised == false)
+                {
+                    _currentSeperationEvents.Remove(e);
+                }
+            }
+        }
+
     }
 }
