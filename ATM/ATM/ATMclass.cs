@@ -28,8 +28,8 @@ namespace ATM
         public List<TrackData> _currentTracks { get; }
         public List<Event> _currentEvents { get; }
 
-
         public ATMclass(IConsoleOutput outputConsole, IFileOutput outputFile, IAirspace airspace, ITransponderReceiver transponderReceiver)
+
         {
             _outputConsole = outputConsole;
             _outputFile = outputFile;
@@ -187,7 +187,7 @@ namespace ATM
 
         public void RenderTracks()
         {
-            Console.Clear();
+            //Console.Clear();
 
             foreach (var trackData in _currentTracks)
             {

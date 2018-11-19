@@ -28,6 +28,7 @@ namespace ConsoleApplication
             var system = new ATM.TransponderReceiver(receiver, consoleOutput);
 
             var atm = new ATMclass(consoleOutput, fileOutput, airspace, receiver);
+
             system.Attach(atm);
 
 
@@ -42,6 +43,7 @@ namespace ConsoleApplication
 
 
             // RUN INFINITE
+
             while (true)
                 Thread.Sleep(1000);
         }

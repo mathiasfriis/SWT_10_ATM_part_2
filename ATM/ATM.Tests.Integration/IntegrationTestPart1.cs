@@ -130,7 +130,7 @@ namespace ATM.Tests.Integration
             fakeConsoleOutput.Received(Arg.Any<String>().Contains(expectedString);
         }
         #endregion
-    */
+    
     #endregion
     */
     }
