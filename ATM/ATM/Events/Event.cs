@@ -36,10 +36,14 @@ namespace ATM.Events
 
         public abstract string FormatData();
 
-        public void Log()
+        public void LogActive()
         {
-            // need to use render
-            Console.WriteLine(FormatData());
+            _logger.LogActiveEvent(this);
+        }
+
+        public void LogInActive()
+        {
+            _logger.LogInactiveEvent(this);
         }
 
         public void Render()

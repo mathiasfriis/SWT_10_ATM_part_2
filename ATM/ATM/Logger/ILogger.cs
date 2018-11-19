@@ -9,8 +9,7 @@ namespace ATM.Logger
 {
     public interface ILogger
     {
-
-        void LogActiveSeparationEvent(SeperationEvent seperationEvent);
-        void LogInactiveSeparationEvent(SeperationEvent seperationEvent);
+        void LogActiveEvent(Event Event);
+        void LogInactiveEvent(Event Event);
     }
 }
