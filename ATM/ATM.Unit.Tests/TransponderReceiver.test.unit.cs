@@ -53,7 +53,7 @@ namespace ATM.Unit.Tests
         public void TransponderReceiver_AttachATM_observersCountIs1()
         {
             var receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
-            var system = new ATM.TransponderReceiver(receiver);
+            var system = new ATM.TransponderReceiver(receiver, consoleOutput);
 
             system.Attach(uut);
 
@@ -64,7 +64,7 @@ namespace ATM.Unit.Tests
         public void TransponderReceiver_AttachATMthenDetach_observersCountIs0()
         {
             var receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
-            var system = new ATM.TransponderReceiver(receiver);
+            var system = new ATM.TransponderReceiver(receiver, consoleOutput);
 
             system.Attach(uut);
             system.Detach(uut);
@@ -76,7 +76,7 @@ namespace ATM.Unit.Tests
         public void TransponderReceiver_DetachATMwithoutAttachingIt_observersCountIs0()
         {
             var receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
-            var system = new ATM.TransponderReceiver(receiver);
+            var system = new ATM.TransponderReceiver(receiver, consoleOutput);
 
             system.Detach(uut);
 
@@ -90,7 +90,7 @@ namespace ATM.Unit.Tests
             // Make a fake Transponder Data Receiver
             var _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
             // Inject the fake TDR
-            var transponderReceiver = new TransponderReceiver(_fakeTransponderReceiver);
+            var transponderReceiver = new TransponderReceiver(_fakeTransponderReceiver, consoleOutput);
 
             //We need uut with a REAL airspace, not a FAKE for this test.
             uut = new ATMclass(consoleOutput, fileOutput, airspace, this.transponderReceiver);
@@ -118,7 +118,7 @@ namespace ATM.Unit.Tests
             // Make a fake Transponder Data Receiver
             var _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
             // Inject the fake TDR
-            var transponderReceiver = new TransponderReceiver(_fakeTransponderReceiver);
+            var transponderReceiver = new TransponderReceiver(_fakeTransponderReceiver, consoleOutput);
 
             //We need uut with a REAL airspace, not a FAKE for this test.
             uut = new ATMclass(consoleOutput, fileOutput, airspace, this.transponderReceiver);

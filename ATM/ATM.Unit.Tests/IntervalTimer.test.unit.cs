@@ -72,7 +72,7 @@ namespace ATM.Unit.Tests
             bool after = TrackEnteredEvent._isRaised;
 
             //Check if isRaised flag has been set to False
-            Assert.That(() => TrackEnteredEvent.Equals(false));
+            Assert.That(() => TrackEnteredEvent._isRaised.Equals(false));
 
         }
         #endregion
