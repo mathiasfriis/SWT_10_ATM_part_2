@@ -19,7 +19,7 @@ namespace ATM.Events
             _isRaised = isRaised;
 
             ATM.IntervalTimer.IntervalTimer _timer = new ATM.IntervalTimer.IntervalTimer();
-            _timer.StartTrackEnteredTimer(5000, this);
+            _timer.Start(5000, this);
 
         }
 
