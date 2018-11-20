@@ -89,11 +89,67 @@ namespace ATM.Unit.Tests
         #endregion
 
         #region checkIfTrackEnteredEventExistsFor
+        [Test]
+        public void CheckIfTrackEnteredEventExistsFor_NoEventExists_ReturnFalse()
+        {
+            Assert.That(uut.checkIfTrackEnteredEventExistsFor(td1).Equals(false));
+        }
 
+        [Test]
+        public void CheckIfTrackEnteredEventExistsFor_OtherTrackEnteredEventExists_ReturnFalse()
+        {
+            TrackEnteredEvent tee = new TrackEnteredEvent(timeStamp, td2, true, consoleOutput, fileOutput);
+            uut.events.Add(tee);
+            Assert.That(uut.checkIfTrackEnteredEventExistsFor(td1).Equals(false));
+        }
+
+        [Test]
+        public void CheckIfTrackEnteredEventExistsFor_TrackLeftEventExists_ReturnFalse()
+        {
+            TrackLeftEvent tle = new TrackLeftEvent(timeStamp, td2, true, consoleOutput, fileOutput);
+            uut.events.Add(tle);
+            Assert.That(uut.checkIfTrackEnteredEventExistsFor(td1).Equals(false));
+        }
+
+        [Test]
+        public void CheckIfTrackEnteredEventExistsFor_InvolvingTrackEnteredEventExists_ReturnTrue()
+        {
+            TrackEnteredEvent tee = new TrackEnteredEvent(timeStamp, td1, true, consoleOutput, fileOutput);
+            uut.events.Add(tee);
+            Assert.That(uut.checkIfTrackEnteredEventExistsFor(td1).Equals(true));
+        }
         #endregion
 
         #region checkIfTrackLeftEventExistsFor
+        [Test]
+        public void CheckIfTrackLeftEventExistsFor_NoEventExists_ReturnFalse()
+        {
+            Assert.That(uut.checkIfTrackEnteredEventExistsFor(td1).Equals(false));
+        }
 
+        [Test]
+        public void CheckIfTrackLeftEventExistsFor_OtherTrackLeftEventExists_ReturnFalse()
+        {
+            TrackLeftEvent tle = new TrackLeftEvent(timeStamp, td2, true, consoleOutput, fileOutput);
+            uut.events.Add(tle);
+            Assert.That(uut.checkIfTrackEnteredEventExistsFor(td1).Equals(false));
+        }
+
+        [Test]
+        public void CheckIfTrackLeftEventExistsFor_TrackEnteredEventExists_ReturnFalse()
+        {
+            TrackEnteredEvent tee = new TrackEnteredEvent(timeStamp, td2, true, consoleOutput, fileOutput);
+            uut.events.Add(tee);
+            Assert.That(uut.checkIfTrackEnteredEventExistsFor(td1).Equals(false));
+        }
+
+        [Test]
+        public void CheckIfTrackLeftEventExistsFor_InvolvingTrackLeftEventExists_ReturnTrue()
+        {
+            TrackLeftEvent tle = new TrackLeftEvent(timeStamp, td1, true, consoleOutput, fileOutput);
+            uut.events.Add(tle);
+            Assert.That(uut.checkIfTrackLeftEventExistsFor(td1).Equals(true));
+        }
         #endregion
     }
 }

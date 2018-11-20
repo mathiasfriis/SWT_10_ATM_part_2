@@ -11,7 +11,7 @@ namespace ATM.Logger
     public class FileLogger : ILogger
     {
         //LogFile is created in this projects "\bin" folder
-        public static string startupPath = System.IO.Directory.GetCurrentDirectory();
+        //public static string startupPath = System.IO.Directory.GetCurrentDirectory();
         private string fileName = "fileLogger.txt";
 
         private string seperationEventActive = "Active";

@@ -38,7 +38,7 @@ namespace ConsoleApplication
 
             var timer = new System.Threading.Timer((e) =>
             {
-                atm.cleanUpEvents();
+                //atm.cleanUpEvents();
             }, null, startTimeSpan, periodTimeSpan);
 
 

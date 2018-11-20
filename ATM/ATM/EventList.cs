@@ -59,7 +59,7 @@ namespace ATM
 
         public bool checkIfTrackEnteredEventExistsFor(TrackData trackData)
         {
-            if (events.Exists(x => (x is TrackEnteredEvent) && (x._InvolvedTracks[0].Equals(trackData._Tag))))
+            if (events.Exists(x => (x is TrackEnteredEvent) && (x._InvolvedTracks[0]._Tag.Equals(trackData._Tag))))
             {
                 return true;
             }
@@ -71,7 +71,7 @@ namespace ATM
 
         public bool checkIfTrackLeftEventExistsFor(TrackData trackData)
         {
-            if (events.Exists(x => (x is TrackLeftEvent) && (x._InvolvedTracks[0].Equals(trackData._Tag))))
+            if (events.Exists(x => (x is TrackLeftEvent) && (x._InvolvedTracks[0]._Tag.Equals(trackData._Tag))))
             {
                 return true;
             }

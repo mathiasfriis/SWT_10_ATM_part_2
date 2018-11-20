@@ -56,12 +56,13 @@ namespace ATM.Tests.Integration
             airspace = new Airspace(0, 13000, 0, 13000, 500, 2000);
 
             //Set up T's
-            atmClass = new ATMclass(fakeConsoleOutput, fakeFileOutput, airspace);
+            //atmClass = new ATMclass(fakeConsoleOutput, fakeFileOutput, airspace);
 
         }
         
-
+        
         #region TrackData
+        /*
         [Test]
         public void TrackData_AddTrackdata_AddTrackToCurrentTracks()
         {
@@ -74,9 +75,10 @@ namespace ATM.Tests.Integration
 
             fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
         }
-
+        */
+        /*
         [Test]
-        /*public void TrackData_UpdataTrackData_UpdataTrackInCurrentTracks()
+        public void TrackData_UpdataTrackData_UpdataTrackInCurrentTracks()
         {
             TrackData trackData3 = new TrackData("DEF456", 10002, 10002, 1002, "20181107133900000", 0, 0, fakeConsoleOutput);
             TrackData trackData4 = new TrackData("DEF456", 10002, 10002, 1002, "20181107133900000", 0, 0, fakeConsoleOutput);

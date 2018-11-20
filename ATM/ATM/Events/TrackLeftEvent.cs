@@ -11,12 +11,11 @@ namespace ATM.Events
 {
     public class TrackLeftEvent : Event
     {
-        public TrackData _involvedTrack { get; set; }
 
         public TrackLeftEvent(string occurrenceTime, TrackData involvedTrack, bool isRaised, IConsoleOutput outputConsole, IFileOutput outputFile) : base(outputFile, outputConsole)
         {
             _occurrenceTime = occurrenceTime;
-            _involvedTrack = involvedTrack;
+            _InvolvedTracks.Add(involvedTrack);
             _isRaised = isRaised;
 
             ATM.IntervalTimer.IntervalTimer _timer = new ATM.IntervalTimer.IntervalTimer();
@@ -25,7 +24,7 @@ namespace ATM.Events
 
         public override string FormatData()
         {
-            return "Track left airspace - Occurencetime: " + _occurrenceTime + "Involved track: " + _involvedTrack;
+            return "Track left airspace - Occurencetime: " + _occurrenceTime + "Involved track: " + _InvolvedTracks[0]._Tag;
         }
     }
 }

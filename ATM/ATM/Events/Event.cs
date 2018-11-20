@@ -19,6 +19,7 @@ namespace ATM.Events
 
         public Event(IFileOutput outputFile, IConsoleOutput outputConsole)
         {
+            _InvolvedTracks = new List<TrackData>();
             _outputFile = outputFile;
             _outputConsole = outputConsole;
         }
