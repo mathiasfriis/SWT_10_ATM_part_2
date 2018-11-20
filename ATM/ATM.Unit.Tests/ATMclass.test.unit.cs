@@ -244,9 +244,9 @@ namespace ATM.Unit.Tests
         }
         #endregion
 
-        #region CheckForSeperationEvent
+        #region CheckForSeperationEventConditions
         [Test]
-        public void CheckForSeperationEvent_TagsForTheTwoTracksAreTheSame_ThrowsException()
+        public void CheckForSeperationEventConditions_TagsForTheTwoTracksAreTheSame_ThrowsException()
         {
             TrackData track1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 150, 50, consoleOutput);
 
@@ -256,7 +256,7 @@ namespace ATM.Unit.Tests
         }
 
         [Test]
-        public void CheckForSeperationEvent_NoConditionsMet_ReturnsFalse()
+        public void CheckForSeperationEventConditions_NoConditionsMet_ReturnsFalse()
         {
             TrackData track1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
@@ -265,7 +265,7 @@ namespace ATM.Unit.Tests
         }
 
         [Test]
-        public void CheckForSeperationEvent_AllConditionsMet_ReturnsTrue()
+        public void CheckForSeperationEventConditions_AllConditionsMet_ReturnsTrue()
         {
             TrackData track1 = new TrackData("ABC", 30000, 30000, 1000, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 30001, 30001, 1001, timestamp, 150, 50, consoleOutput);
@@ -274,7 +274,7 @@ namespace ATM.Unit.Tests
         }
 
         [Test]
-        public void CheckForSeperationEvent_OnlyXConditionMet_ReturnsFalse()
+        public void CheckForSeperationEventConditions_OnlyXConditionMet_ReturnsFalse()
         {
             TrackData track1 = new TrackData("ABC", 50000 - 1, 10000, 1000, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
@@ -283,7 +283,7 @@ namespace ATM.Unit.Tests
         }
 
         [Test]
-        public void CheckForSeperationEvent_OnlyYConditionMet_ReturnsFalse()
+        public void CheckForSeperationEventConditions_OnlyYConditionMet_ReturnsFalse()
         {
             TrackData track1 = new TrackData("ABC", 10000, 50000 - 1, 1000, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
@@ -292,7 +292,7 @@ namespace ATM.Unit.Tests
         }
 
         [Test]
-        public void CheckForSeperationEvent_OnlyZConditionMet_ReturnsFalse()
+        public void CheckForSeperationEventConditions_OnlyZConditionMet_ReturnsFalse()
         {
             TrackData track1 = new TrackData("ABC", 10000, 10000, 5000 - 1, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
@@ -301,7 +301,7 @@ namespace ATM.Unit.Tests
         }
 
         [Test]
-        public void CheckForSeperationEvent_XandYConditionsMet_ReturnsFalse()
+        public void CheckForSeperationEventConditions_XandYConditionsMet_ReturnsFalse()
         {
             TrackData track1 = new TrackData("ABC", 50000 - 1, 50000 - 1, 1000, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
@@ -310,7 +310,7 @@ namespace ATM.Unit.Tests
         }
 
         [Test]
-        public void CheckForSeperationEvent_YandZConditionsMet_ReturnsFalse()
+        public void CheckForSeperationEventConditions_YandZConditionsMet_ReturnsFalse()
         {
             TrackData track1 = new TrackData("ABC", 10000, 50000 - 1, 5000 - 1, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
@@ -320,7 +320,7 @@ namespace ATM.Unit.Tests
 
 
         [Test]
-        public void CheckForSeperationEvent_XandZConditionsMet_ReturnsFalse()
+        public void CheckForSeperationEventConditions_XandZConditionsMet_ReturnsFalse()
         {
             TrackData track1 = new TrackData("ABC", 50000 - 1, 10000, 5000 - 1, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
@@ -328,6 +328,44 @@ namespace ATM.Unit.Tests
             Assert.That(() => uut.CheckForSeperationEventConditions(track1, track2).Equals(false));
         }
         #endregion
+
+        #region CheckForSeperationEvent
+        [Test]
+        public void CheckForSeperationEvent_SeperationConditionsMetAndNoExistingEvent_EventIsCreated()
+        {
+            TrackData track1 = new TrackData("ABC", 30000, 30000, 1000, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 30001, 30001, 1001, timestamp, 150, 50, consoleOutput);
+
+            uut.AddTrack(track1); //track2 and this track will meet conditions for the seperation event
+
+            //List of events is empty before checking
+            Assert.That(uut._currentEvents.events.Count.Equals(0));
+
+            uut.CheckForSeperationEvents(track2);
+
+            //Seperation event has been added
+            Assert.That(uut._currentEvents.events.Count.Equals(1));
+        }
+
+        [Test]
+        public void CheckForSeperationEvent_SeperationConditionsMetAndAlreadyExistingEvent_NoNewEventIsCreated()
+        {
+            TrackData track1 = new TrackData("ABC", 30000, 30000, 1000, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 30001, 30001, 1001, timestamp, 150, 50, consoleOutput);
+
+            uut.AddTrack(track1); //track2 and this track will meet conditions for the seperation event
+
+            //Add seperation event involving the 2 tracks already
+            uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
+            
+            //List of events has 1 event before checking
+            Assert.That(uut._currentEvents.events.Count.Equals(1));
+
+            uut.CheckForSeperationEvents(track2);
+
+            //List of events still only has 1 event
+            Assert.That(uut._currentEvents.events.Count.Equals(1));
+        }
 
         #region CheckIfSeperationEventExists
         [Test]
@@ -719,6 +757,7 @@ namespace ATM.Unit.Tests
 
             Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(result));
         }
+        #endregion
         #endregion
     }
 }
