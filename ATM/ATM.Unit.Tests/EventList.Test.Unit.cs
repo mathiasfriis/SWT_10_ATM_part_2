@@ -75,7 +75,7 @@ namespace ATM.Unit.Tests
         }
 
         [Test]
-        public void CheckIfSeperationEventExistsFor_InvolvingSeperationEventExists_ReturnFalse()
+        public void CheckIfSeperationEventExistsFor_InvolvingSeperationEventExistsTagsMatchRightOrder_ReturnTrue()
         {
             List<TrackData> tracks = new List<TrackData>();
             tracks.Add(td1);
@@ -83,6 +83,17 @@ namespace ATM.Unit.Tests
             SeperationEvent se = new SeperationEvent(timeStamp, tracks, true, consoleOutput, fileOutput);
             uut.events.Add(se);
             Assert.That(uut.CheckIfSeperationEventExistsFor(td1, td2).Equals(true));
+        }
+
+        [Test]
+        public void CheckIfSeperationEventExistsFor_InvolvingSeperationEventExistsTagsMatchWrongOrder_ReturnTrue()
+        {
+            List<TrackData> tracks = new List<TrackData>();
+            tracks.Add(td1);
+            tracks.Add(td2);
+            SeperationEvent se = new SeperationEvent(timeStamp, tracks, true, consoleOutput, fileOutput);
+            uut.events.Add(se);
+            Assert.That(uut.CheckIfSeperationEventExistsFor(td2, td1).Equals(true));
         }
 
 
@@ -124,7 +135,7 @@ namespace ATM.Unit.Tests
         [Test]
         public void CheckIfTrackLeftEventExistsFor_NoEventExists_ReturnFalse()
         {
-            Assert.That(uut.checkIfTrackEnteredEventExistsFor(td1).Equals(false));
+            Assert.That(uut.checkIfTrackLeftEventExistsFor(td1).Equals(false));
         }
 
         [Test]
@@ -132,7 +143,7 @@ namespace ATM.Unit.Tests
         {
             TrackLeftEvent tle = new TrackLeftEvent(timeStamp, td2, true, consoleOutput, fileOutput);
             uut.events.Add(tle);
-            Assert.That(uut.checkIfTrackEnteredEventExistsFor(td1).Equals(false));
+            Assert.That(uut.checkIfTrackLeftEventExistsFor(td1).Equals(false));
         }
 
         [Test]
@@ -140,7 +151,7 @@ namespace ATM.Unit.Tests
         {
             TrackEnteredEvent tee = new TrackEnteredEvent(timeStamp, td2, true, consoleOutput, fileOutput);
             uut.events.Add(tee);
-            Assert.That(uut.checkIfTrackEnteredEventExistsFor(td1).Equals(false));
+            Assert.That(uut.checkIfTrackLeftEventExistsFor(td1).Equals(false));
         }
 
         [Test]
@@ -150,6 +161,62 @@ namespace ATM.Unit.Tests
             uut.events.Add(tle);
             Assert.That(uut.checkIfTrackLeftEventExistsFor(td1).Equals(true));
         }
+        #endregion
+
+        #region CleanUpEvents
+        [Test]
+        public void CleanUpEvents_NoEventsInList_DoesntThrowException()
+        {
+            uut.cleanUpEvents();
+        }
+
+        [Test]
+        public void CleanUpEvents_3Events2Raised_AfterCleanUpOnly2Remain()
+        {
+            //Test is done with seperation events, since the _isRaised-attribute of 
+            //TrackEnteredEvent and TrackLeftEvent goes false after a set amount of time, introducing possible errors
+            List<TrackData> tracks = new List<TrackData>();
+            tracks.Add(td1);
+            tracks.Add(td2);
+            SeperationEvent se1 = new SeperationEvent(timeStamp, tracks, true, consoleOutput, fileOutput);
+            SeperationEvent se2 = new SeperationEvent(timeStamp, tracks, true, consoleOutput, fileOutput);
+            SeperationEvent se3 = new SeperationEvent(timeStamp, tracks, false, consoleOutput, fileOutput);
+
+            uut.events.Add(se1);
+            uut.events.Add(se2);
+            uut.events.Add(se3);
+
+            Assert.That(uut.events.Count.Equals(3));
+            uut.cleanUpEvents();
+            Assert.That(uut.events.Count.Equals(2));
+        }
+
+        [Test]
+        public void CleanUpEvents_5Events1Raised_AfterCleanUpOnly1Remain()
+        {
+            //Test is done with seperation events, since the _isRaised-attribute of 
+            //TrackEnteredEvent and TrackLeftEvent goes false after a set amount of time, introducing possible errors
+            List<TrackData> tracks = new List<TrackData>();
+            tracks.Add(td1);
+            tracks.Add(td2);
+            SeperationEvent se1 = new SeperationEvent(timeStamp, tracks, false, consoleOutput, fileOutput);
+            SeperationEvent se2 = new SeperationEvent(timeStamp, tracks, false, consoleOutput, fileOutput);
+            SeperationEvent se3 = new SeperationEvent(timeStamp, tracks, true, consoleOutput, fileOutput);
+            SeperationEvent se4 = new SeperationEvent(timeStamp, tracks, false, consoleOutput, fileOutput);
+            SeperationEvent se5 = new SeperationEvent(timeStamp, tracks, false, consoleOutput, fileOutput);
+
+            uut.events.Add(se1);
+            uut.events.Add(se2);
+            uut.events.Add(se3);
+            uut.events.Add(se4);
+            uut.events.Add(se5);
+
+            Assert.That(uut.events.Count.Equals(5));
+            uut.cleanUpEvents();
+            Assert.That(uut.events.Count.Equals(1));
+
+        }
+
         #endregion
     }
 }

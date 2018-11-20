@@ -83,13 +83,23 @@ namespace ATM
 
         public void cleanUpEvents()
         {
+            List<int> indiceToRemoveAt = new List<int>();
             //For all events, check if they are still valid. If not, remove them.
             foreach (var e in events)
             {
                 if (e.CheckIfStillValid() == false)
                 {
-                    events.Remove(e);
+                    //Add index to list of indice to remove at.
+                    indiceToRemoveAt.Add(events.IndexOf(e));
                 }
+            }
+
+            //Revert list, to avoid errors when iterating
+            indiceToRemoveAt.Reverse();
+
+            foreach (int i in indiceToRemoveAt)
+            {
+                events.RemoveAt(i);
             }
         }
     }
