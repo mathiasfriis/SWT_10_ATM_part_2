@@ -46,14 +46,6 @@ namespace ATM.Tests.Integration
             fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
 
             //Set up X's
-            tracks = new List<TrackData>()
-            {
-                trackData1,
-                trackData2
-            };
-            //seperationEvent = new SeperationEvent("201811071337000", tracks, true);
-            //trackEnteredEvent = new TrackEnteredEvent(trackData1._TimeStamp, trackData1, true);
-            //trackLeftEvent = new TrackLeftEvent(trackData1._TimeStamp, trackData1, true);
             airspace = new Airspace(10000, 90000, 10000, 90000, 500, 20000);
 
             //Set up T's
@@ -128,7 +120,7 @@ namespace ATM.Tests.Integration
             fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
 
         }*/
-        /*
+        
         [Test]
         public void ATMclass_Event_TwoTracksRaiseASeperationEvent()
         {
@@ -143,8 +135,30 @@ namespace ATM.Tests.Integration
             string expectedString =
                 $"Separation event - Occurencetime: {trackData2._TimeStamp} Involved tracks: {trackData1._Tag}, {trackData2._Tag}";
 
-            fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
+            //fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
+            Assert.That(() => atmClass._currentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2) == true);
+        }
+        /* Noget er galt med Seperation event. De bliver ikke fjernet.
+        [Test]
+        public void ATMclass_Event_TwoTracksIsNoLongerInCollisionDangerSeperationEventDeactivated()
+        {
+            TrackData trackData1 = new TrackData("DEF456", 11002, 11002, 1202, "20181107133900000", 0, 0, fakeConsoleOutput);
 
+            atmClass.HandleNewTrackData(trackData1);
+
+            TrackData trackData2 = new TrackData("ABC123", 10002, 10002, 1001, "20181107134000000", 0, 0, fakeConsoleOutput);
+
+            atmClass.HandleNewTrackData(trackData2);
+
+           TrackData trackData3 = new TrackData("DEF456", 21002, 21002, 2202, "20181107133900000", 0, 0, fakeConsoleOutput);
+
+            atmClass.HandleNewTrackData(trackData3);
+
+            string expectedString =
+                $"Separation event - Occurencetime: {trackData2._TimeStamp} Involved tracks: {trackData1._Tag}, {trackData2._Tag}";
+
+            //fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
+            Assert.That(() => atmClass._currentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2) == false);
         }
         */
         #endregion
