@@ -252,7 +252,7 @@ namespace ATM.Unit.Tests
 
             string message = "Provided TrackDatas have the same Tag";
 
-            Assert.That(() => uut.CheckForSeperationEvent(track1, track1), Throws.Exception.TypeOf<Exception>().With.Message.EqualTo(message));
+            Assert.That(() => uut.CheckForSeperationEventConditions(track1, track1), Throws.Exception.TypeOf<Exception>().With.Message.EqualTo(message));
         }
 
         [Test]
@@ -261,7 +261,7 @@ namespace ATM.Unit.Tests
             TrackData track1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
-            Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
+            Assert.That(() => uut.CheckForSeperationEventConditions(track1, track2).Equals(false));
         }
 
         [Test]
@@ -270,7 +270,7 @@ namespace ATM.Unit.Tests
             TrackData track1 = new TrackData("ABC", 30000, 30000, 1000, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 30001, 30001, 1001, timestamp, 150, 50, consoleOutput);
 
-            Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(true));
+            Assert.That(() => uut.CheckForSeperationEventConditions(track1, track2).Equals(true));
         }
 
         [Test]
@@ -279,7 +279,7 @@ namespace ATM.Unit.Tests
             TrackData track1 = new TrackData("ABC", 50000 - 1, 10000, 1000, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
-            Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
+            Assert.That(() => uut.CheckForSeperationEventConditions(track1, track2).Equals(false));
         }
 
         [Test]
@@ -288,7 +288,7 @@ namespace ATM.Unit.Tests
             TrackData track1 = new TrackData("ABC", 10000, 50000 - 1, 1000, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
-            Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
+            Assert.That(() => uut.CheckForSeperationEventConditions(track1, track2).Equals(false));
         }
 
         [Test]
@@ -297,7 +297,7 @@ namespace ATM.Unit.Tests
             TrackData track1 = new TrackData("ABC", 10000, 10000, 5000 - 1, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
-            Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
+            Assert.That(() => uut.CheckForSeperationEventConditions(track1, track2).Equals(false));
         }
 
         [Test]
@@ -306,7 +306,7 @@ namespace ATM.Unit.Tests
             TrackData track1 = new TrackData("ABC", 50000 - 1, 50000 - 1, 1000, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
-            Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
+            Assert.That(() => uut.CheckForSeperationEventConditions(track1, track2).Equals(false));
         }
 
         [Test]
@@ -315,7 +315,7 @@ namespace ATM.Unit.Tests
             TrackData track1 = new TrackData("ABC", 10000, 50000 - 1, 5000 - 1, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
-            Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
+            Assert.That(() => uut.CheckForSeperationEventConditions(track1, track2).Equals(false));
         }
 
 
@@ -325,7 +325,7 @@ namespace ATM.Unit.Tests
             TrackData track1 = new TrackData("ABC", 50000 - 1, 10000, 5000 - 1, timestamp, 150, 50, consoleOutput);
             TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
-            Assert.That(() => uut.CheckForSeperationEvent(track1, track2).Equals(false));
+            Assert.That(() => uut.CheckForSeperationEventConditions(track1, track2).Equals(false));
         }
         #endregion
 

@@ -110,12 +110,32 @@ namespace ATM
             {
                 if (trackData != null && track._Tag != trackData._Tag)
                 {
-                    CheckForSeperationEvent(trackData, track);
+                    if(CheckForSeperationEventConditions(trackData, track)==true)
+                    {
+                        //If seperation event does not exist yet, create it and add it to currentSeperationEvents
+                        //Check if separation event already exists
+                        if (!_currentEvents.CheckIfSeperationEventExistsFor(trackData, track))
+                        {
+                            // Add new separation event 
+                            //string time = DateTime.Now.ToString();
+                            string time = trackData._TimeStamp;
+                            List<TrackData> trackDataInSeperationEvent = new List<TrackData>();
+                            trackDataInSeperationEvent.Add(trackData);
+                            trackDataInSeperationEvent.Add(track);
+
+                            //_currentEvents.Add(SeperationEvent);
+                            _currentEvents.AddSeperationEventFor(trackData, track, _outputFile);
+
+                            //Create event to log
+                            SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true, _outputConsole, _outputFile);
+                            SeperationEvent.LogActive();
+                        }
+                    }
                 }   
             }
         }
 
-        public bool CheckForSeperationEvent(TrackData trackData1, TrackData trackData2)
+        public bool CheckForSeperationEventConditions(TrackData trackData1, TrackData trackData2)
         {
             //Check if both tracks are the same
             if(trackData1._Tag==trackData2._Tag)
@@ -129,25 +149,6 @@ namespace ATM
                     Math.Abs(trackData1._CurrentYcord - trackData2._CurrentYcord) < MIN_Y_DISTANCE &&
                     Math.Abs(trackData1._CurrentZcord - trackData2._CurrentZcord) < MIN_Z_DISTANCE)
                 {
-                    //If seperation event does not exist yet, create it and add it to currentSeperationEvents
-                    //Check if separation event already exists
-                    if (!_currentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2))
-                    {
-                        // Add new separation event 
-                        //string time = DateTime.Now.ToString();
-                        string time = trackData1._TimeStamp;
-                        List<TrackData> trackDataInSeperationEvent = new List<TrackData>();
-                        trackDataInSeperationEvent.Add(trackData1);
-                        trackDataInSeperationEvent.Add(trackData2);
-
-                        //_currentEvents.Add(SeperationEvent);
-                        _currentEvents.AddSeperationEventFor(trackData1, trackData2, _outputFile);
-
-                        //Create event to log
-                        SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true, _outputConsole, _outputFile);
-                        SeperationEvent.LogActive();
-                    }
-
                     return true;
                 }
 
@@ -155,30 +156,6 @@ namespace ATM
                     return false;
             }
         }
-        
-        /*
-        public bool CheckIfSeperationEventExistsFor(TrackData trackData1, TrackData trackData2)
-        {
-
-
-            if(_currentEvents.Exists(x => x._InvolvedTracks[1]._Tag == trackData1._Tag && 
-                                                    x._InvolvedTracks[0]._Tag == trackData2._Tag))
-            {
-                return true;
-            }
-
-            else if(_currentEvents.Exists(x => x._InvolvedTracks[1]._Tag == trackData2._Tag &&
-                                                         x._InvolvedTracks[0]._Tag == trackData1._Tag))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-                                                                                                                                          
-        }
-        */
 
         public void RenderEvents()
         {
