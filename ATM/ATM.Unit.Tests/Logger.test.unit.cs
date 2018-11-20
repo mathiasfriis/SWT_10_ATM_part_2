@@ -24,7 +24,7 @@ namespace ATM.Unit.Tests
         Airspace airspace;
         IAirspace fakeAirspace;
         IConsoleOutput consoleOutput;
-        IFileOutput fileOutput;
+        IFileOutput fakeFileOutput;
         ITransponderReceiver transponderReceiver;
         List<Event> seperationEvents;
         List<TrackData> tracks;
@@ -39,28 +39,27 @@ namespace ATM.Unit.Tests
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
             fakeAirspace = Substitute.For<IAirspace>();
             consoleOutput = Substitute.For<IConsoleOutput>();
-            fileOutput = Substitute.For<IFileOutput>();
+            fakeFileOutput = Substitute.For<IFileOutput>();
             //Make new fake TransponderReceiver.
             transponderReceiver = Substitute.For<ITransponderReceiver>();
             seperationEvents = new List<Event>();
             tracks = new List<TrackData>();
             timestamp = "235928121999";
 
-            uut = new ATMclass(consoleOutput, fileOutput, fakeAirspace, transponderReceiver);
+            uut = new ATMclass(consoleOutput, fakeFileOutput, fakeAirspace, transponderReceiver);
         }
 
         #region Logging
 
         #region ActiveSeparationEvent logging
 
-        /*
+        
         [Test]
         public void active_logging_nothingCalled_MethodHasNotBeenCalled()
-        {
-            Assert.That(logger.LogActiveSeparationEvent_timesCalled.Equals(0));
-            logger.DidNotReceiveWithAnyArgs().LogActiveEvent();
+        {;
+            fakeFileOutput.DidNotReceiveWithAnyArgs().Write("Any string");
         }
-        */
+        
 
         /*
         [Test]
@@ -72,7 +71,8 @@ namespace ATM.Unit.Tests
             uut.CheckForSeperationEvent(trackData1,trackData2);
             Assert.That(logger.LogActiveSeparationEvent_timesCalled.Equals(1));
         }
-        */  
+        */
+        
 
         /*
         [Test]
@@ -90,7 +90,7 @@ namespace ATM.Unit.Tests
             uut.CheckForSeperationEvent(trackData1,trackData2);
             Assert.That(logger.ParametersList[0]._InvolvedTracks[0]._Tag.Equals(seperationEvent._InvolvedTracks[0]._Tag));
         }
-        */
+        */    
 
         /*
         [Test]
@@ -126,7 +126,7 @@ namespace ATM.Unit.Tests
             uut.CheckForSeperationEvent(trackData1, trackData2);
             Assert.That(logger.ParametersList[0]._occurrenceTime.Equals(seperationEvent._occurrenceTime));
         }
-        */
+        */    
 
         /*
         [Test]
@@ -145,6 +145,7 @@ namespace ATM.Unit.Tests
             Assert.That(logger.ParametersList[0]._isRaised.Equals(seperationEvent._isRaised));
         }
         */
+        
 
         #endregion
 
@@ -158,8 +159,8 @@ namespace ATM.Unit.Tests
             Assert.That(logger.LogInactiveSeparationEvent_timesCalled.Equals(0));
         }
         */
-
         /*
+        
         [Test]
         public void logging_LogInactiveSeperationEvent_MethodHasBeenCalled()
         {
@@ -179,8 +180,8 @@ namespace ATM.Unit.Tests
             uut.RemoveSeparationEvents();
             Assert.That(logger.LogInactiveSeparationEvent_timesCalled.Equals(1));
         }
-        */
-        /*
+        
+        
         [Test]
         public void logging_LogInactiveSeperationEvent_Tag1IsSameAsTrackData1Tag()
         {
@@ -200,8 +201,8 @@ namespace ATM.Unit.Tests
             uut.RemoveSeparationEvents();
             Assert.That(logger.ParametersList[0]._InvolvedTracks[0]._Tag.Equals(trackData1._Tag));
         }
-        */
-        /*
+        
+        
         [Test]
         public void logging_LogInactiveSeperationEvent_Tag2IsSameAsTrackData2Tag()
         {
@@ -221,9 +222,9 @@ namespace ATM.Unit.Tests
             uut.RemoveSeparationEvents();
             Assert.That(logger.ParametersList[0]._InvolvedTracks[1]._Tag.Equals(trackData2._Tag));
         }
-        */
+        
 
-        /*
+        
         [Test]
         public void logging_LogInactiveSeperationEvent_OccurenceTimeIsSameAsForSeperationEvent()
         {
@@ -243,8 +244,8 @@ namespace ATM.Unit.Tests
             uut.RemoveSeparationEvents();
             Assert.That(logger.ParametersList[0]._occurrenceTime.Equals(seperationEvent._occurrenceTime));
         }
-        */
-        /*
+        
+        
         [Test]
         public void logging_LogInactiveSeperationEvent_IsRaisedIsSameAsForSeperationEvent()
         {
@@ -264,8 +265,8 @@ namespace ATM.Unit.Tests
             uut.RemoveSeparationEvents();
             Assert.That(logger.ParametersList[0]._isRaised.Equals(seperationEvent._isRaised));
         }
+        
         */
-
         #endregion
 
         #endregion

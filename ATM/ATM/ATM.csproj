@@ -54,14 +54,10 @@
     <Compile Include="Events\TrackLeftEvent.cs" />
     <Compile Include="IObserver.cs" />
     <Compile Include="ISubject.cs" />
-    <Compile Include="Logger\FileLogger.cs" />
     <Compile Include="Logger\FileOutput.cs" />
     <Compile Include="Logger\IFileOutput.cs" />
-    <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Render\ConsoleOutput.cs" />
-    <Compile Include="Render\ConsoleRenderer.cs" />
     <Compile Include="Render\IConsoleOutput.cs" />
-    <Compile Include="Render\IRenderer.cs" />
     <Compile Include="Timer\IIntervalTimer.cs" />
     <Compile Include="Timer\IntervalTimer.cs" />
     <Compile Include="TrackData.cs" />

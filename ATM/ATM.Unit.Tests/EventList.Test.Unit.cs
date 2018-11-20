@@ -21,14 +21,12 @@ namespace ATM.Unit.Tests
         private TrackData td2;
         private TrackData td3;
         private string timeStamp;
-        private IRenderer fakeRenderer;
         private IFileOutput fakeFileOutput;
         private IConsoleOutput fakeConsoleOutput;
 
         [SetUp]
         public void setup()
         {
-            fakeRenderer = Substitute.For<IRenderer>();
             fakeFileOutput = Substitute.For<IFileOutput>();
             fakeConsoleOutput = Substitute.For<IConsoleOutput>();
             timeStamp = "235928121999";

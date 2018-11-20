@@ -21,8 +21,8 @@ namespace ATM.Tests.Integration
         private IFileOutput fakeFileOutput;
 
         //X's - Modules under test
-        private FileLogger logger;
-        private ConsoleRenderer renderer;
+        private FileOutput logger;
+        private ConsoleOutput renderer;
         //private Timer timer;
         
         //T's - Modules acted upon.

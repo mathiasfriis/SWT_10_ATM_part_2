@@ -69,6 +69,7 @@
     <Compile Include="ATMclass.test.unit.cs" />
     <Compile Include="IntervalTimer.test.unit.cs" />
     <Compile Include="Renderer.test.unit.cs" />
+    <Compile Include="TrackData.Test.Unit.cs" />
     <Compile Include="TransponderReceiver.test.unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
