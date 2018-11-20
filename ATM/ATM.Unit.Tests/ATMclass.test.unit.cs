@@ -140,10 +140,11 @@ namespace ATM.Unit.Tests
             };
 
             //Create seperation event from the two trackDatas and add to current seperation events.
-            SeperationEvent seperationEvent = new SeperationEvent(trackData1._TimeStamp, trackDatas, true, consoleOutput, fileOutput);
-            uut._currentEvents.Add(seperationEvent);
+            //SeperationEvent seperationEvent = new SeperationEvent(trackData1._TimeStamp, trackDatas, true, consoleOutput, fileOutput);
+            //uut._currentEvents.Add(seperationEvent);
+            uut._currentEvents.AddSeperationEventFor(trackData1, trackData2, fileOutput);
 
-            Assert.That(() => uut.CheckIfSeperationEventExistsFor(trackData1, trackData2).Equals(true));
+            Assert.That(() => uut._currentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2).Equals(true));
         }
 
         [Test]
@@ -155,7 +156,7 @@ namespace ATM.Unit.Tests
 
             //No current seperation events.
 
-            Assert.That(() => uut.CheckIfSeperationEventExistsFor(trackData1, trackData2).Equals(false));
+            Assert.That(() => uut._currentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2).Equals(false));
         }
         #endregion
 
@@ -337,10 +338,11 @@ namespace ATM.Unit.Tests
                 new TrackData("ABC",1,2,3,"time",5,6, consoleOutput),
                 new TrackData("DEF",1,2,3,"time",5,6, consoleOutput)
             };
-            SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._outputConsole, uut._outputFile);
-            uut._currentEvents.Add(seperationEvent1);
+            //SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._outputConsole, uut._outputFile);
+            //uut._currentEvents.Add(seperationEvent1);
+            uut._currentEvents.AddSeperationEventFor(trackDatas[0], trackDatas[1], fileOutput);
 
-            Assert.That(() => uut.CheckIfSeperationEventExistsFor(trackDatas[0], trackDatas[1]).Equals(true));
+            Assert.That(() => uut._currentEvents.CheckIfSeperationEventExistsFor(trackDatas[0], trackDatas[1]).Equals(true));
         }
 
         [Test]
@@ -351,10 +353,11 @@ namespace ATM.Unit.Tests
                 new TrackData("ABC",1,2,3,"time",5,6, consoleOutput),
                 new TrackData("DEF",1,2,3,"time",5,6, consoleOutput)
             };
-            SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._outputConsole, uut._outputFile);
-            uut._currentEvents.Add(seperationEvent1);
+            //SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._outputConsole, uut._outputFile);
+            //uut._currentEvents.Add(seperationEvent1);
+            uut._currentEvents.AddSeperationEventFor(trackDatas[0], trackDatas[1], fileOutput);
 
-            Assert.That(() => uut.CheckIfSeperationEventExistsFor(trackDatas[1], trackDatas[0]).Equals(true));
+            Assert.That(() => uut._currentEvents.CheckIfSeperationEventExistsFor(trackDatas[1], trackDatas[0]).Equals(true));
         }
         #endregion
 

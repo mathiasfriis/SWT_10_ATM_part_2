@@ -26,7 +26,7 @@ namespace ATM
         private ITransponderReceiver _transponderReceiver;
 
         public List<TrackData> _currentTracks { get; }
-        public List<Event> _currentEvents { get; }
+        public EventList _currentEvents { get; }
 
         public ATMclass(IConsoleOutput outputConsole, IFileOutput outputFile, IAirspace airspace, ITransponderReceiver transponderReceiver)
 
@@ -35,7 +35,7 @@ namespace ATM
             _outputFile = outputFile;
             _transponderReceiver = transponderReceiver;
             _airspace = airspace;
-            _currentEvents = new List<Event>();
+            _currentEvents = new EventList();
             _currentTracks = new List<TrackData>();
         }
 
@@ -49,9 +49,9 @@ namespace ATM
                     trackdata._CurrentZcord))
                 {
                     AddTrack(trackdata);
-                    string time = trackdata._TimeStamp;
-                    TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackdata, true, _outputConsole, _outputFile);
-                    _currentEvents.Add(TrackEnteredEvent);
+                    //string time = trackdata._TimeStamp;
+                    //TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackdata, true, _outputConsole, _outputFile);
+                    _currentEvents.AddTrackEnteredEventFor(trackdata, _outputFile);
                 }
             }
             else
@@ -131,7 +131,7 @@ namespace ATM
                 {
                     //If seperation event does not exist yet, create it and add it to currentSeperationEvents
                     //Check if separation event already exists
-                    if (!CheckIfSeperationEventExistsFor(trackData1, trackData2))
+                    if (!_currentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2))
                     {
                         // Add new separation event 
                         //string time = DateTime.Now.ToString();
@@ -140,8 +140,11 @@ namespace ATM
                         trackDataInSeperationEvent.Add(trackData1);
                         trackDataInSeperationEvent.Add(trackData2);
 
+                        //_currentEvents.Add(SeperationEvent);
+                        _currentEvents.AddSeperationEventFor(trackData1, trackData2, _outputFile);
+
+                        //Create event to log
                         SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true, _outputConsole, _outputFile);
-                        _currentEvents.Add(SeperationEvent);
                         SeperationEvent.LogActive();
                     }
 
@@ -152,7 +155,8 @@ namespace ATM
                     return false;
             }
         }
-
+        
+        /*
         public bool CheckIfSeperationEventExistsFor(TrackData trackData1, TrackData trackData2)
         {
 
@@ -174,15 +178,16 @@ namespace ATM
             }
                                                                                                                                           
         }
+        */
 
         public void RenderEvents()
         {
 
-            foreach (var Event in _currentEvents)
+            foreach (var Event in _currentEvents.events)
             {
                 Event.Render();
             }
-            Console.WriteLine("Number of separation events: " + _currentEvents.OfType<SeperationEvent>().Count());
+            Console.WriteLine("Number of separation events: " + _currentEvents.events.OfType<SeperationEvent>().Count());
         }
 
         public void RenderTracks()
@@ -199,18 +204,21 @@ namespace ATM
         public void RemoveSeparationEvents()
         {
             //Log if conditions for seperation event are no longer met.
-            foreach (var separationEvent in _currentEvents)
+            foreach (var e in _currentEvents.events)
             {
-                if (separationEvent is SeperationEvent)
+                if (e is SeperationEvent)
                 {
-                    if (!(Math.Abs(separationEvent._InvolvedTracks[0]._CurrentXcord -
-                                   separationEvent._InvolvedTracks[1]._CurrentXcord) < MIN_X_DISTANCE &&
-                          Math.Abs(separationEvent._InvolvedTracks[0]._CurrentYcord -
-                                   separationEvent._InvolvedTracks[1]._CurrentYcord) < MIN_Y_DISTANCE &&
-                          Math.Abs(separationEvent._InvolvedTracks[0]._CurrentZcord -
-                                   separationEvent._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE))
+                    if (!(Math.Abs(e._InvolvedTracks[0]._CurrentXcord -
+                                   e._InvolvedTracks[1]._CurrentXcord) < MIN_X_DISTANCE &&
+                          Math.Abs(e._InvolvedTracks[0]._CurrentYcord -
+                                   e._InvolvedTracks[1]._CurrentYcord) < MIN_Y_DISTANCE &&
+                          Math.Abs(e._InvolvedTracks[0]._CurrentZcord -
+                                   e._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE))
                     {
-                        separationEvent.LogInActive();
+                        //Log that seperation event is no longer active
+                        e.LogInActive();
+                        //Mark that seperation event is no longer active - It will now be removed at next "cleanUp"
+                        e._isRaised = false;
                     }
                 }
                 
@@ -351,18 +359,5 @@ namespace ATM
                 RemoveTrack(trackData._Tag);
             }
         }
-
-        public void CleanUpEvents()
-        {
-            //For all events, check if they are still valid. If not, remove them.
-            foreach (var e in _currentEvents)
-            {
-                if (e._isRaised == false)
-                {
-                    _currentEvents.Remove(e);
-                }
-            }
-        }
-
     }
 }
