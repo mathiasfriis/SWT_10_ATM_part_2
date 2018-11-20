@@ -70,7 +70,7 @@ namespace ATM
             CheckForSeperationEvents(trackdata);
 
             // Remove separations event after update
-            RemoveSeparationEvents();
+            UpdateSeperationEventStatus();
 
             // Render updated tracks to console 
             RenderTracks();
@@ -178,19 +178,14 @@ namespace ATM
 
         }
 
-        public void RemoveSeparationEvents()
+        public void UpdateSeperationEventStatus()
         {
             //Log if conditions for seperation event are no longer met.
             foreach (var e in _currentEvents.events)
             {
                 if (e is SeperationEvent)
                 {
-                    if (!(Math.Abs(e._InvolvedTracks[0]._CurrentXcord -
-                                   e._InvolvedTracks[1]._CurrentXcord) < MIN_X_DISTANCE &&
-                          Math.Abs(e._InvolvedTracks[0]._CurrentYcord -
-                                   e._InvolvedTracks[1]._CurrentYcord) < MIN_Y_DISTANCE &&
-                          Math.Abs(e._InvolvedTracks[0]._CurrentZcord -
-                                   e._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE))
+                    if (CheckForSeperationEventConditions(e._InvolvedTracks[0],e._InvolvedTracks[1])==false)
                     {
                         //Log that seperation event is no longer active
                         e.LogInActive();
