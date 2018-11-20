@@ -38,6 +38,7 @@ namespace ATM
         public double _CurrentHorzVel { get { return _currentHorzVel; } set { _currentHorzVel = value; } }
         public double _CurrentCourse { get { return _currentCourse; } set { _currentCourse = value; } }
 
+        public IConsoleOutput _consoleOutput { get { return _output;} }
 
         public void Render()
         {

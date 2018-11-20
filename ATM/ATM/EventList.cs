@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using ATM.Events;
+using ATM.Logger;
 
 namespace ATM
 {
@@ -101,6 +102,29 @@ namespace ATM
             {
                 events.RemoveAt(i);
             }
+        }
+
+        public void AddTrackEnteredEventFor(TrackData td, IFileOutput logger)
+        {
+            TrackEnteredEvent tee = new TrackEnteredEvent(td._TimeStamp, td, true, td._consoleOutput, logger);
+            events.Add(tee);
+        }
+
+        public void AddTrackLeftEventFor(TrackData td, IFileOutput logger)
+        {
+            TrackLeftEvent tle = new TrackLeftEvent(td._TimeStamp, td, true, td._consoleOutput, logger);
+            events.Add(tle);
+        }
+
+        public void AddSeperationEventFor(TrackData td1, TrackData td2, IFileOutput logger)
+        {
+            List<TrackData> tracks = new List<TrackData>()
+            {
+                td1,
+                td2
+            };
+            SeperationEvent se = new SeperationEvent(td1._TimeStamp, tracks, true, td1._consoleOutput, logger);
+            events.Add(se);
         }
     }
 }
