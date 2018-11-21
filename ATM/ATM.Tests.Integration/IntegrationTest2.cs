@@ -61,18 +61,21 @@ namespace ATM.Tests.Integration
         }
 
         [Test]
-        public void TrackEnteredEvent_NewTrackInAirspaceAdded_TrackEnteredEventAdded()
+        public void TrackEnteredEvent_NewTrackInAirspaceAdded_RendererPrintsExpectedString()
         {
             string expectedString = "Track entered airspace - Occurencetime: 235928121999 Involved track: ABC123";
 
             ATM.HandleNewTrackData(trackData1);
+
+            //Sleep for a bit, to make sure that new event has been rendered
+            Thread.Sleep(100);
 
             fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
 
         }
 
         [Test]
-        public void TrackLeftEvent_NewTrackInAirspaceAdded_TrackEnteredEventAdded()
+        public void TrackLeftEvent_NewTrackInAirspaceAdded_RendererPrintsExpectedString()
         {
             string expectedString = "Track left airspace - Occurencetime: 235928121999 Involved track: ABC123";
 
@@ -86,7 +89,20 @@ namespace ATM.Tests.Integration
             Thread.Sleep(100);
 
             fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
+        }
 
+        [Test]
+        public void SeperationEvent_CollidingTracksAdded_RendererPrintsExpectedString()
+        {
+            string expectedString = "Seperation event - Occurencetime: 235928121999 Involved tracks: ABC123, DEF123";
+
+            ATM.HandleNewTrackData(trackData1);
+            ATM.HandleNewTrackData(trackData2);
+
+            //Sleep for a bit, to make sure that new event has been rendered
+            Thread.Sleep(100);
+
+            fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
         }
 
     }
