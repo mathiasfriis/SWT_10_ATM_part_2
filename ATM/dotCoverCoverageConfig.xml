@@ -25,14 +25,19 @@
         <FunctionMask>*set_*</FunctionMask>
       </FilterEntry>
 
-      <!--Omit test coverage of class FileLogger-->
+      <!--Omit test coverage of class Render.ConsoleOutput-->
       <FilterEntry>
-        <ClassMask>ATM.FileLogger</ClassMask>
+        <ClassMask>ATM.Render.ConsoleOutput</ClassMask>
       </FilterEntry>
 
-      <!--Omit test coverage of class ConsoleRenderer-->
+      <!--Omit test coverage of class Logger.FileOutput-->
       <FilterEntry>
-        <ClassMask>ATM.ConsoleRenderer</ClassMask>
+        <ClassMask>ATM.Logger.FileOutput</ClassMask>
+      </FilterEntry>
+
+      <!--Omit test coverage of unit tests-->
+      <FilterEntry>
+        <ModuleMask>ATM.Test*</ModuleMask>
       </FilterEntry>
 
       <!--Omit test coverage of nunit.framework-->
