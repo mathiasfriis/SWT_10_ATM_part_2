@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using ATM.Events;
 using ATM.Logger;
 
@@ -86,12 +87,12 @@ namespace ATM
         {
             List<int> indiceToRemoveAt = new List<int>();
             //For all events, check if they are still valid. If not, remove them.
-            foreach (var e in events)
+            foreach (var a in events)
             {
-                if (e.CheckIfStillValid() == false)
+                if (a.CheckIfStillValid() == false)
                 {
                     //Add index to list of indice to remove at.
-                    indiceToRemoveAt.Add(events.IndexOf(e));
+                    indiceToRemoveAt.Add(events.IndexOf(a));
                 }
             }
 

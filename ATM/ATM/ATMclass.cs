@@ -8,7 +8,9 @@ using TransponderReceiver;
 using ATM.Render;
 using ATM.Logger;
 using ATM.Events;
+using System.Timers;
 using ATM;
+using ATM.IntervalTimer;
 
 namespace ATM
 {
@@ -28,6 +30,8 @@ namespace ATM
         public List<TrackData> _currentTracks { get; }
         public EventList _currentEvents { get; }
 
+        private static Timer Timer;
+
         public ATMclass(IConsoleOutput outputConsole, IFileOutput outputFile, IAirspace airspace, ITransponderReceiver transponderReceiver)
 
         {
@@ -37,7 +41,20 @@ namespace ATM
             _airspace = airspace;
             _currentEvents = new EventList();
             _currentTracks = new List<TrackData>();
+
+            Timer = new System.Timers.Timer();
+            Timer.Interval = 0.05;
+            Timer.Elapsed += TimerElapsed;
+            Timer.AutoReset = true;
+            Timer.Enabled = true;
+
         }
+
+        public void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            _currentEvents.cleanUpEvents();
+        }
+
 
         public void HandleNewTrackData(TrackData trackdata)
         {

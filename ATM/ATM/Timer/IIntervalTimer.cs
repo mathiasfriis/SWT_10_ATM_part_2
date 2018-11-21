@@ -14,5 +14,6 @@ namespace ATM.IntervalTimer
 
         void TimerElapsed(object sender, System.Timers.ElapsedEventArgs e);
 
+        
     }
 }
