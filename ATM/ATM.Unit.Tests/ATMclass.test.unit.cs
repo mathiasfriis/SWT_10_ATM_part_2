@@ -762,6 +762,23 @@ namespace ATM.Unit.Tests
 
         #region UpdateSeperationEventStatus
         [Test]
+        public void UpdateSeperationEventStatus_NewEventCreated_isRaisedIsTrue()
+        {
+            TrackData track1 = new TrackData("ABC", 30000, 30000, 1000, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
+
+            //Add tracks in order to have some data to update from
+            uut.AddTrack(track1);
+            uut.AddTrack(track2);
+
+            //Add seperation event involving the 2 tracks already
+            uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
+
+            //Check that status is true before update
+            Assert.That(uut._currentEvents.events[0]._isRaised.Equals(true));
+        }
+
+        [Test]
         public void UpdateSeperationEventStatus_SeperationEventConditionsStillMet_isRaisedIsStillTrue()
         {
             TrackData track1 = new TrackData("ABC", 30000, 30000, 1000, timestamp, 150, 50, consoleOutput);
@@ -773,9 +790,6 @@ namespace ATM.Unit.Tests
 
             //Add seperation event involving the 2 tracks already
             uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
-
-            //Check that status is true before update
-            Assert.That(uut._currentEvents.events[0]._isRaised.Equals(true));
 
             uut.UpdateSeperationEventStatus();
 
@@ -796,9 +810,6 @@ namespace ATM.Unit.Tests
             //Add seperation event involving the 2 tracks already
             uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
 
-            //Check that status is true before update
-            Assert.That(uut._currentEvents.events[0]._isRaised.Equals(true));
-
             uut.UpdateSeperationEventStatus();
 
             //Check that status is true after update
@@ -813,8 +824,8 @@ namespace ATM.Unit.Tests
             TrackData track2 = new TrackData("DEF", 30001, 30001, 1001, timestamp, 150, 50, consoleOutput);
 
             //Tracks that will not meet seperation event conditions upon check
-            TrackData track3 = new TrackData("ABC", 30000, 30000, 1000, timestamp, 150, 50, consoleOutput);
-            TrackData track4 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
+            TrackData track3 = new TrackData("GHI", 30000, 30000, 1000, timestamp, 150, 50, consoleOutput);
+            TrackData track4 = new TrackData("JKL", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
 
             //Add tracks in order to have some data to update from
             uut.AddTrack(track1);
@@ -826,10 +837,7 @@ namespace ATM.Unit.Tests
             uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
             uut._currentEvents.AddSeperationEventFor(track3, track4, fileOutput);
 
-            //Check that status is true before update
-            Assert.That(uut._currentEvents.events[0]._isRaised.Equals(true));
-            Assert.That(uut._currentEvents.events[1]._isRaised.Equals(true));
-
+            //Update status
             uut.UpdateSeperationEventStatus();
 
             //Check that status is true after update
