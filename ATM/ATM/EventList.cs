@@ -109,12 +109,14 @@ namespace ATM
         {
             TrackEnteredEvent tee = new TrackEnteredEvent(td._TimeStamp, td, true, td._consoleOutput, logger);
             events.Add(tee);
+            logger.Write(tee.FormatData());
         }
 
         public void AddTrackLeftEventFor(TrackData td, IFileOutput logger)
         {
             TrackLeftEvent tle = new TrackLeftEvent(td._TimeStamp, td, true, td._consoleOutput, logger);
             events.Add(tle);
+            logger.Write(tle.FormatData());
         }
 
         public void AddSeperationEventFor(TrackData td1, TrackData td2, IFileOutput logger)
