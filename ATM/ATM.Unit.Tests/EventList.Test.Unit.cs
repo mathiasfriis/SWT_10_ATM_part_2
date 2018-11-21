@@ -278,5 +278,108 @@ namespace ATM.Unit.Tests
             Assert.That(uut.events[2] is SeperationEvent);
         }
         #endregion
+
+        #region RenderEvents
+        [Test]
+        public void RenderEvents_OneEventInList_PrintCalledOnce()
+        {
+            //Test is done with seperation events, since the _isRaised-attribute of 
+            //TrackEnteredEvent and TrackLeftEvent goes false after a set amount of time, introducing possible errors
+            List<TrackData> tracks = new List<TrackData>();
+            tracks.Add(td1);
+            tracks.Add(td2);
+            SeperationEvent se1 = new SeperationEvent(timeStamp, tracks, false, fakeConsoleOutput, fakeFileOutput);
+            
+            uut.events.Add(se1);
+
+            string expectedString = se1.FormatData();
+
+            //Console output did not receive anything before rendering
+            fakeConsoleOutput.DidNotReceiveWithAnyArgs().Print("Any string");
+
+            uut.RenderEvents();
+            
+            //Check that Print was called only once
+            fakeConsoleOutput.ReceivedWithAnyArgs().Print("Any string");
+        }
+
+        [Test]
+        public void RenderEvents_OneEventInList_CorrectStringPrinted()
+        {
+            //Test is done with seperation events, since the _isRaised-attribute of 
+            //TrackEnteredEvent and TrackLeftEvent goes false after a set amount of time, introducing possible errors
+            List<TrackData> tracks = new List<TrackData>();
+            tracks.Add(td1);
+            tracks.Add(td2);
+            SeperationEvent se1 = new SeperationEvent(timeStamp, tracks, false, fakeConsoleOutput, fakeFileOutput);
+
+            uut.events.Add(se1);
+
+            string expectedString = se1.FormatData();
+
+            //Console output did not receive anything before rendering
+            fakeConsoleOutput.DidNotReceiveWithAnyArgs().Print("Any string");
+
+            uut.RenderEvents();
+
+            //Console output received the expected string
+            fakeConsoleOutput.Received().Print(Arg.Is<string>(str => str.Contains(expectedString)));
+        }
+
+        [Test]
+        public void RenderEvents_ThreeEventsDifferentTypesInList_PrintCalledThreeTimes()
+        {
+            //Test is done with seperation events, since the _isRaised-attribute of 
+            //TrackEnteredEvent and TrackLeftEvent goes false after a set amount of time, introducing possible errors
+            List<TrackData> tracks = new List<TrackData>();
+            tracks.Add(td1);
+            tracks.Add(td2);
+            SeperationEvent se1 = new SeperationEvent(timeStamp, tracks, false, fakeConsoleOutput, fakeFileOutput);
+            TrackEnteredEvent tee1 = new TrackEnteredEvent(timeStamp, td1, true, fakeConsoleOutput, fakeFileOutput);
+            TrackLeftEvent tle1 = new TrackLeftEvent(timeStamp, td1, true, fakeConsoleOutput, fakeFileOutput);
+            uut.events.Add(se1);
+            uut.events.Add(tee1);
+            uut.events.Add(tle1);
+
+            //Console output did not receive anything before rendering
+            fakeConsoleOutput.DidNotReceiveWithAnyArgs().Print("Any string");
+
+            uut.RenderEvents();
+
+            //Check that Print was called only once
+            fakeConsoleOutput.ReceivedWithAnyArgs(3).Print("Any string");
+        }
+
+        [Test]
+        public void RenderEvents_ThreeEventsDifferentTypesInList_CorrectStringsPrinted()
+        {
+            //Test is done with seperation events, since the _isRaised-attribute of 
+            //TrackEnteredEvent and TrackLeftEvent goes false after a set amount of time, introducing possible errors
+            List<TrackData> tracks = new List<TrackData>();
+            tracks.Add(td1);
+            tracks.Add(td2);
+            SeperationEvent se1 = new SeperationEvent(timeStamp, tracks, false, fakeConsoleOutput, fakeFileOutput);
+            TrackEnteredEvent tee1 = new TrackEnteredEvent(timeStamp, td1, true, fakeConsoleOutput, fakeFileOutput);
+            TrackLeftEvent tle1 = new TrackLeftEvent(timeStamp, td1, true, fakeConsoleOutput, fakeFileOutput);
+            uut.events.Add(se1);
+            uut.events.Add(tee1);
+            uut.events.Add(tle1);
+
+            string expectedString1 = se1.FormatData();
+            string expectedString2 = tee1.FormatData();
+            string expectedString3 = tle1.FormatData();
+
+            //Console output did not receive anything before rendering
+            fakeConsoleOutput.DidNotReceiveWithAnyArgs().Print("Any string");
+
+            uut.RenderEvents();
+            
+            //Console output received the expected string
+            fakeConsoleOutput.Received().Print(Arg.Is<string>(str => str.Contains(expectedString1)));
+            fakeConsoleOutput.Received().Print(Arg.Is<string>(str => str.Contains(expectedString2)));
+            fakeConsoleOutput.Received().Print(Arg.Is<string>(str => str.Contains(expectedString3)));
+
+        }
+        #endregion
     }
 }
