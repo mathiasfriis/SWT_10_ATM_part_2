@@ -63,7 +63,6 @@
   <ItemGroup>
     <Compile Include="IntegrationTest1.cs" />
     <Compile Include="IntegrationTest2.cs" />
-    <Compile Include="IntegrationTestPart2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -69,6 +69,7 @@ namespace ATM
                     //string time = trackdata._TimeStamp;
                     //TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackdata, true, _outputConsole, _outputFile);
                     _currentEvents.AddTrackEnteredEventFor(trackdata, _outputFile);
+                    
                 }
             }
             else
@@ -291,7 +292,7 @@ namespace ATM
 
             //Get difference in DateTimes
             TimeSpan dt_TimeSpan = newDateTime - oldDateTime;
-            int dt_ms = Math.Abs(dt_TimeSpan.Seconds*1000) + Math.Abs(dt_TimeSpan.Milliseconds);
+            int dt_ms = Math.Abs(dt_TimeSpan.Minutes * 1000*60) + Math.Abs(dt_TimeSpan.Seconds*1000) + Math.Abs(dt_TimeSpan.Milliseconds);
 
 
             //Calculate speed in m/s
