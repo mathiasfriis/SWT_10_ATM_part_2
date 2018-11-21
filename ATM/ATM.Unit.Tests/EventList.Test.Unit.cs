@@ -374,10 +374,7 @@ namespace ATM.Unit.Tests
             uut.events.Add(se1);
             uut.events.Add(tee1);
             uut.events.Add(tle1);
-
-            //Console output did not receive anything before rendering
-            fakeConsoleOutput.DidNotReceiveWithAnyArgs().Print("Any string");
-
+            
             uut.RenderEvents();
 
             //Check that Print was called only once
