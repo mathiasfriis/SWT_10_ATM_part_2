@@ -194,9 +194,14 @@ namespace ATM
                     //get updated track data
                     try
                     {
-
                         track0 = _currentTracks.Find(x => x._Tag == tag0);
                         track1 = _currentTracks.Find(x => x._Tag == tag1);
+                        //if the updated track data no longer matches conditions for SeperationEvent, set the isRaise-attribute to false
+                        if (CheckForSeperationEventConditions(track0, track1) == false)
+                        {
+                            //Mark that seperation event is no longer active - It will now be removed at next "cleanUp"
+                            e._isRaised = false;
+                        }
                     }
                     catch
                     {
@@ -205,12 +210,7 @@ namespace ATM
                     }
                     
 
-                    //if the updated track data no longer matches conditions for SeperationEvent, set the isRaise-attribute to false
-                    if (CheckForSeperationEventConditions(track0,track1)==false)
-                    {
-                        //Mark that seperation event is no longer active - It will now be removed at next "cleanUp"
-                        e._isRaised = false;
-                    }
+                    
                 }
                 
             }
