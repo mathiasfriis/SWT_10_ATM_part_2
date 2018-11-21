@@ -188,9 +188,24 @@ namespace ATM
                     string tag0 = e._InvolvedTracks[0]._Tag;
                     string tag1 = e._InvolvedTracks[1]._Tag;
 
-                    TrackData track0 = _currentTracks.Find(x => x._Tag == tag0);
-                    TrackData track1 = _currentTracks.Find(x => x._Tag == tag1);
+                    TrackData track0;
+                    TrackData track1;
 
+                    //get updated track data
+                    try
+                    {
+
+                        track0 = _currentTracks.Find(x => x._Tag == tag0);
+                        track1 = _currentTracks.Find(x => x._Tag == tag1);
+                    }
+                    catch
+                    {
+                        //Mark that seperation event is no longer active - It will now be removed at next "cleanUp"
+                        e._isRaised = false;
+                    }
+                    
+
+                    //if the updated track data no longer matches conditions for SeperationEvent, set the isRaise-attribute to false
                     if (CheckForSeperationEventConditions(track0,track1)==false)
                     {
                         //Mark that seperation event is no longer active - It will now be removed at next "cleanUp"
