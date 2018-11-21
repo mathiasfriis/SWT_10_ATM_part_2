@@ -69,6 +69,7 @@ namespace ATM
                     //string time = trackdata._TimeStamp;
                     //TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackdata, true, _outputConsole, _outputFile);
                     _currentEvents.AddTrackEnteredEventFor(trackdata, _outputFile);
+                    
                 }
             }
             else
