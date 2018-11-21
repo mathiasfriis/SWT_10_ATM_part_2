@@ -12,5 +12,10 @@ namespace ATM.Render
         {
             Console.WriteLine(toPrint);
         }
+
+        public void Clear()
+        {
+            Console.Clear();
+        }
     }
 }

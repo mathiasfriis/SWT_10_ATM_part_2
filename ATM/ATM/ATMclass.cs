@@ -92,6 +92,9 @@ namespace ATM
             // Remove separations event after update
             UpdateSeperationEventStatus();
 
+            // Clear console 
+            _outputConsole.Clear();
+
             // Render updated tracks to console 
             RenderTracks();
 
@@ -352,6 +355,7 @@ namespace ATM
             trackToEdit._CurrentYcord = trackData._CurrentYcord;
             trackToEdit._CurrentZcord = trackData._CurrentZcord;
             trackToEdit._CurrentHorzVel = trackToEdit._CurrentHorzVel;
+            trackToEdit._TimeStamp = trackData._TimeStamp;
 
             //Replace old object with new object
             int index = _currentTracks.FindIndex(x => x._Tag == trackData._Tag);

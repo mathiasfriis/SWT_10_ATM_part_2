@@ -47,7 +47,6 @@ namespace ATM.Events
         public void Render()
         {
             _outputConsole.Print(FormatData());
-
         }
     }
 }
