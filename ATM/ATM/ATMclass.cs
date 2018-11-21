@@ -66,6 +66,9 @@ namespace ATM
                 CheckForSeperationEvents(trackdata);
             }
 
+            //Remove all events that are not relevant anymore
+            _currentEvents.cleanUpEvents();
+
             // Check for potential seperation events
             CheckForSeperationEvents(trackdata);
 
