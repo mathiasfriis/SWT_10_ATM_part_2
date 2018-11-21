@@ -185,7 +185,13 @@ namespace ATM
             {
                 if (e is SeperationEvent)
                 {
-                    if (CheckForSeperationEventConditions(e._InvolvedTracks[0],e._InvolvedTracks[1])==false)
+                    string tag0 = e._InvolvedTracks[0]._Tag;
+                    string tag1 = e._InvolvedTracks[1]._Tag;
+
+                    TrackData track0 = _currentTracks.Find(x => x._Tag == tag0);
+                    TrackData track1 = _currentTracks.Find(x => x._Tag == tag1);
+
+                    if (CheckForSeperationEventConditions(track0,track1)==false)
                     {
                         //Mark that seperation event is no longer active - It will now be removed at next "cleanUp"
                         e._isRaised = false;
