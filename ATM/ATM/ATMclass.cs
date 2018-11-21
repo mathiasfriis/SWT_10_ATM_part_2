@@ -92,6 +92,9 @@ namespace ATM
             // Remove separations event after update
             UpdateSeperationEventStatus();
 
+            // Clear console 
+            _outputConsole.Clear();
+
             // Render updated tracks to console 
             RenderTracks();
 

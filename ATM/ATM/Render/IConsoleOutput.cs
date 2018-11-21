@@ -9,5 +9,6 @@ namespace ATM.Render
     public interface IConsoleOutput
     {
         void Print(string toPrint);
+        void Clear();
     }
 }
