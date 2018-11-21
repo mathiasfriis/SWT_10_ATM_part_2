@@ -31,17 +31,6 @@ namespace ConsoleApplication
 
             system.Attach(atm);
 
-
-            // CHECK FOR REMOVAL OF EVENTS
-            var startTimeSpan = TimeSpan.Zero;
-            var periodTimeSpan = TimeSpan.FromMilliseconds(100);
-
-            var timer = new System.Threading.Timer((e) =>
-            {
-                //atm.cleanUpEvents();
-            }, null, startTimeSpan, periodTimeSpan);
-
-
             // RUN INFINITE
 
             while (true)

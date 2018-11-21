@@ -323,6 +323,7 @@ namespace ATM
             if (!(_airspace.CheckIfInMonitoredArea(trackData._CurrentXcord, trackData._CurrentYcord,
                 trackData._CurrentZcord)))
             {
+                _currentEvents.AddTrackLeftEventFor(trackData,_outputFile);
                 RemoveTrack(trackData._Tag);
             }
         }
