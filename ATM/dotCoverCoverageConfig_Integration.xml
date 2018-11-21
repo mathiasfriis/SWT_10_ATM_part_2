@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AnalyseParams>
+  <TargetExecutable>C:\Program Files (x86)\NUnit.org\nunit-console\nunit3-console.exe</TargetExecutable>
+  <TargetArguments>bin\Debug\ATM.Tests.Integration.dll --result:TestIntegrationResult.xml</TargetArguments>
+  <TargetWorkingDir>ATM.Tests.Integration</TargetWorkingDir>
+  <TempDir><!-- Directory for the auxiliary files. Set to system temp by default. --></TempDir>
+  <Output>coverage_integration_report.html</Output>
+  <ReportType>HTML<!-- [HTML|JSON|XML|NDependXML]. A type of the report. XML by default. --></ReportType>
+  <InheritConsole><!-- [True|False] Lets the application being analysed to inherit dotCover console. True by default. --> </InheritConsole>
+  
+  <!-- Coverage filters. It's possible to use asterisks as wildcard symbols.
+  -->
+  <Filters>
+    <IncludeFilters>
+    </IncludeFilters>
+    <ExcludeFilters>
+
+      <!--Omit test coverage of getters-->
+      <FilterEntry>
+        <FunctionMask>*get_*</FunctionMask>
+      </FilterEntry>
+
+      <!--Omit test coverage of getters-->
+      <FilterEntry>
+        <FunctionMask>*set_*</FunctionMask>
+      </FilterEntry>
+
+      <!--Omit test coverage of class Render.ConsoleOutput-->
+      <FilterEntry>
+        <ClassMask>ATM.Render.ConsoleOutput</ClassMask>
+      </FilterEntry>
+
+      <!--Omit test coverage of class Logger.FileOutput-->
+      <FilterEntry>
+        <ClassMask>ATM.Logger.FileOutput</ClassMask>
+      </FilterEntry>
+
+      <!--Omit test coverage of unit tests-->
+      <FilterEntry>
+        <ModuleMask>ATM.Test*</ModuleMask>
+      </FilterEntry>
+
+      <FilterEntry>
+        <ModuleMask>ATM.Unit.Tests</ModuleMask>
+      </FilterEntry>
+
+      <!--Omit test coverage of nunit.framework-->
+      <FilterEntry>
+        <ModuleMask>nunit.framework</ModuleMask>
+      </FilterEntry>
+    </ExcludeFilters>
+  </Filters>
+  <!-- Attribute filters. It's possible to use asterisks as wildcard symbols.
+  <AttributeFilters>
+    <AttributeFilterEntry>...</AttributeFilterEntry>
+    <AttributeFilterEntry>...</AttributeFilterEntry>
+  </AttributeFilters>
+  -->
+</AnalyseParams>

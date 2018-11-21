@@ -34,7 +34,7 @@ namespace ATM.Tests.Integration
         private TrackLeftEvent trackLeftEvent;
 
 
-        /*
+        
         [SetUp]
         public void setup()
         {
@@ -43,31 +43,22 @@ namespace ATM.Tests.Integration
             fakeFileOutput = Substitute.For<IFileOutput>();
 
             //Set up T's
-            trackData1 = new TrackData("ABC123",10000,10000,1000,"201811071337000",42,10);
-            trackData1 = new TrackData("XYZ987", 10001, 10001, 1001, "201811071338000", 42, 10);
+            trackData1 = new TrackData("ABC123",10000,10000,1000,"201811071337000",42,10,fakeConsoleOutput);
+            trackData1 = new TrackData("XYZ987", 10001, 10001, 1001, "201811071338000", 42, 10, fakeConsoleOutput);
             tracks = new List<TrackData>()
             {
                 trackData1,
                 trackData2
             };
-            seperationEvent = new SeperationEvent("201811071337000",tracks,true);
-            trackEnteredEvent = new TrackEnteredEvent(trackData1._TimeStamp,trackData1,true);
-            trackLeftEvent = new TrackLeftEvent(trackData1._TimeStamp,trackData1,true);
+            seperationEvent = new SeperationEvent("201811071337000",tracks,true, fakeConsoleOutput,fakeFileOutput);
+            trackEnteredEvent = new TrackEnteredEvent(trackData1._TimeStamp,trackData1,true, fakeConsoleOutput, fakeFileOutput);
+            trackLeftEvent = new TrackLeftEvent(trackData1._TimeStamp,trackData1,true, fakeConsoleOutput, fakeFileOutput);
 
             //Set up X's
-            logger = new FileLogger();
-            renderer = new ConsoleRenderer();
-            //timer = new Timer();
         }
-        */
 
-        /*
+        
         #region Renderer
-
-<<<<<<< HEAD
-        /*
-=======
->>>>>>> 2893dabb4e5e0dfd867b79ee778d6b76d5026be7
         public void Renderer_renderTrackData_OutputReceivesCorrectString()
         {
             trackData1.render();

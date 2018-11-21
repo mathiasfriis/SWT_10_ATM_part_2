@@ -63,13 +63,8 @@ namespace ATM.Unit.Tests
 
             TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackData1, true, consoleOutput, fileOutput);
 
-            bool before = TrackEnteredEvent._isRaised;
-
-
             //Wait 6 seconds to check if isRaised flag has been set to False by the IntervalTimers Start and TimerElapsed function
             Thread.Sleep(6000);
-
-            bool after = TrackEnteredEvent._isRaised;
 
             //Check if isRaised flag has been set to False
             Assert.That(() => TrackEnteredEvent._isRaised.Equals(false));
