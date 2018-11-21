@@ -102,7 +102,7 @@ namespace ATM.Tests.Integration
             fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
 
         }
-        /* TrackLeftAirspace event endnu ikke implementeret i atm
+        //TrackLeftAirspace event endnu ikke implementeret i atm
         [Test]
         public void ATMclass_Event_TrackleftAirspaceEvent()
         {
@@ -119,7 +119,7 @@ namespace ATM.Tests.Integration
 
             fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
 
-        }*/
+        }
         
         [Test]
         public void ATMclass_Event_TwoTracksRaiseASeperationEvent()
@@ -138,7 +138,7 @@ namespace ATM.Tests.Integration
             //fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
             Assert.That(() => atmClass._currentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2) == true);
         }
-        /* Noget er galt med Seperation event. De bliver ikke fjernet.
+        // Noget er galt med Seperation event. De bliver ikke fjernet.
         [Test]
         public void ATMclass_Event_TwoTracksIsNoLongerInCollisionDangerSeperationEventDeactivated()
         {
@@ -154,13 +154,14 @@ namespace ATM.Tests.Integration
 
             atmClass.HandleNewTrackData(trackData3);
 
+
             string expectedString =
                 $"Separation event - Occurencetime: {trackData2._TimeStamp} Involved tracks: {trackData1._Tag}, {trackData2._Tag}";
 
             //fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
-            Assert.That(() => atmClass._currentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2) == false);
+            Assert.That(() => atmClass._currentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData3) == false);
         }
-        */
+        
         #endregion
 
 
@@ -191,11 +192,6 @@ namespace ATM.Tests.Integration
         #endregion
 
 
-        #region TimedEvent
-
-
-
-        #endregion
     }
 
 }
