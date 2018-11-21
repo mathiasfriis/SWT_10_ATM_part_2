@@ -39,12 +39,7 @@ namespace ATM.Events
 
         public abstract string FormatData();
 
-        public void LogActive()
-        {
-            _outputFile.Write(FormatData());
-        }
-
-        public void LogInActive()
+        public void Log()
         {
             _outputFile.Write(FormatData());
         }

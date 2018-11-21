@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Airspace.test.unit.cs" />
     <Compile Include="ATMclass.test.unit.cs" />
+    <Compile Include="Events.test.unit.cs" />
     <Compile Include="IntervalTimer.test.unit.cs" />
     <Compile Include="Renderer.test.unit.cs" />
     <Compile Include="TrackData.Test.Unit.cs" />

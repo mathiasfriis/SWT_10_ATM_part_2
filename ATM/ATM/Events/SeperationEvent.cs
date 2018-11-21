@@ -21,7 +21,7 @@ namespace ATM.Events
 
         public override string FormatData()
         {
-            return "Separation event - Occurencetime: " + _occurrenceTime + "Involved tracks: " + _InvolvedTracks[0] + ", " + _InvolvedTracks[1];
+            return "Separation event - Occurencetime: " + _occurrenceTime + " Involved tracks: " + _InvolvedTracks[0]._Tag + ", " + _InvolvedTracks[1]._Tag;
         }
     }
 }

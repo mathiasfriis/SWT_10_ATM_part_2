@@ -24,7 +24,7 @@ namespace ATM.Events
 
         public override string FormatData()
         {
-            return "Track left airspace - Occurencetime: " + _occurrenceTime + "Involved track: " + _InvolvedTracks[0]._Tag;
+            return "Track left airspace - Occurencetime: " + _occurrenceTime + " Involved track: " + _InvolvedTracks[0]._Tag;
         }
     }
 }

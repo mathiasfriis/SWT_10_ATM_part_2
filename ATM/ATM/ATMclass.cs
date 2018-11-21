@@ -128,7 +128,7 @@ namespace ATM
 
                             //Create event to log
                             SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true, _outputConsole, _outputFile);
-                            SeperationEvent.LogActive();
+                            SeperationEvent.Log();
                         }
                     }
                 }   
@@ -160,10 +160,7 @@ namespace ATM
         public void RenderEvents()
         {
 
-            foreach (var Event in _currentEvents.events)
-            {
-                Event.Render();
-            }
+            _currentEvents.RenderEvents();
             Console.WriteLine("Number of separation events: " + _currentEvents.events.OfType<SeperationEvent>().Count());
         }
 
@@ -187,8 +184,6 @@ namespace ATM
                 {
                     if (CheckForSeperationEventConditions(e._InvolvedTracks[0],e._InvolvedTracks[1])==false)
                     {
-                        //Log that seperation event is no longer active
-                        e.LogInActive();
                         //Mark that seperation event is no longer active - It will now be removed at next "cleanUp"
                         e._isRaised = false;
                     }
