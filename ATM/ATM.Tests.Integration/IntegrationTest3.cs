@@ -67,6 +67,8 @@ namespace ATM.Tests.Integration
 
         }
 
+        #region Events
+
         #region Renderer
         #region trackEnteredEvent
         [Test]
@@ -538,6 +540,135 @@ namespace ATM.Tests.Integration
         }
 
         #endregion
+        #endregion
+
+        #endregion
+
+        #region Tracks
+
+        #region TrackData
+
+        [Test]
+        public void ATMclass_TrackData_AddNewTrack()
+        {
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
+
+            //Course and speed = 0, because we need to observe two instances of trackData for the same track, to calculate speed and course
+            string expectedString =
+                "ABC123 - ( 30000, 30000, 3000) - Speed: 0 m/s - Course: 0 degrees";
+
+            //Sleep for a bit to make sure that the render function has been called
+            Thread.Sleep(200);
+
+            fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
+        }
+
+        [Test]
+        public void ATMclass_TrackData_NewTrackOutOfAirSpace()
+        {
+            //Track not in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;1030000;30000;3000;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
+
+            fakeConsoleOutput.Received(0).Print(Arg.Is<string>(str => str.Contains("Track")));
+        }
+
+        [Test]
+        public void ATMclass_TrackData_TrackUpdatedCorrectly()
+        {
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
+
+            //Same Track - moved 30m in x-direction over 1 second
+            List<string> dataUpdated = new List<string>
+            {
+                "ABC123;30030;30000;3000;20181224200051123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+            RawTransponderDataEventArgs newEventUpdated = new RawTransponderDataEventArgs(dataUpdated);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEventUpdated);
+
+            //ClearReceivedCalls() Da vi ikke er interesseret i trackData1 bliver renderet (Testest i testen forinden)
+            fakeConsoleOutput.ClearReceivedCalls();
+            
+            //30 m/s because it moved 30m in one direction over 1 sec, and course = 0, because it only moved in x-direction
+            string expectedString =
+                "ABC123 - ( 30030, 30000, 3000) - Speed: 30 m/s - Course: 0 degrees";
+
+            //Sleep for a bit to make sure that the render function has been called
+            Thread.Sleep(200);
+
+            fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
+
+        }
+
+
+        [Test]
+        public void ATMclass_TrackData_TrackIsNoLongerInAirspace()
+        {
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
+
+            //Same Track - moved 30m in x-direction over 1 second
+            List<string> dataUpdated = new List<string>
+            {
+                "ABC123;103000;30000;3000;20181224200051123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+            RawTransponderDataEventArgs newEventUpdated = new RawTransponderDataEventArgs(dataUpdated);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEventUpdated);
+            
+            //Sleep for more than 5 seconds, so TrackLeftEvent is no longer rendered
+            Thread.Sleep(5200);
+
+            fakeConsoleOutput.ClearReceivedCalls();
+
+            //Sleep for a bit to make sure renderer has been caleld
+            Thread.Sleep(200);
+
+            fakeConsoleOutput.Received(0).Print(Arg.Is<string>(str => str.Contains("Track")));
+        }
+
+        #endregion
+
         #endregion
     }
 }
