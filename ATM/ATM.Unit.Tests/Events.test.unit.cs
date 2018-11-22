@@ -50,7 +50,7 @@ namespace ATM.Unit.Tests
         [Test]
         public void TrackEnteredEventCheckIfStillValid_isRaisedIsTrue_ReturnsTrue()
         {
-            uut_tee._isRaised = true;
+            uut_tee.isRaised = true;
 
             Assert.That(() => uut_tee.CheckIfStillValid().Equals(true));
         }
@@ -58,7 +58,7 @@ namespace ATM.Unit.Tests
         [Test]
         public void TrackEnteredEventCheckIfStillValid_isRaisedIsFalse_ReturnsFalse()
         {
-            uut_tee._isRaised = false;
+            uut_tee.isRaised = false;
 
             Assert.That(() => uut_tee.CheckIfStillValid().Equals(false));
         }
@@ -95,7 +95,7 @@ namespace ATM.Unit.Tests
         [Test]
         public void TrackLeftEventCheckIfStillValid_isRaisedIsTrue_ReturnsTrue()
         {
-            uut_tle._isRaised = true;
+            uut_tle.isRaised = true;
 
             Assert.That(() => uut_tle.CheckIfStillValid().Equals(true));
         }
@@ -103,7 +103,7 @@ namespace ATM.Unit.Tests
         [Test]
         public void TrackLeftEventCheckIfStillValid_isRaisedIsFalse_ReturnsFalse()
         {
-            uut_tle._isRaised = false;
+            uut_tle.isRaised = false;
 
             Assert.That(() => uut_tle.CheckIfStillValid().Equals(false));
         }
@@ -140,7 +140,7 @@ namespace ATM.Unit.Tests
         [Test]
         public void SeperationEventCheckIfStillValid_isRaisedIsTrue_ReturnsTrue()
         {
-            uut_se._isRaised = true;
+            uut_se.isRaised = true;
 
             Assert.That(() => uut_se.CheckIfStillValid().Equals(true));
         }
@@ -148,7 +148,7 @@ namespace ATM.Unit.Tests
         [Test]
         public void SeperationEventCheckIfStillValid_isRaisedIsFalse_ReturnsFalse()
         {
-            uut_se._isRaised = false;
+            uut_se.isRaised = false;
 
             Assert.That(() => uut_se.CheckIfStillValid().Equals(false));
         }

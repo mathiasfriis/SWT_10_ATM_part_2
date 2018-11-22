@@ -9,14 +9,14 @@ using ATM.Render;
 
 namespace ATM.Events
 {
-    public class TrackLeftEvent : Event
+    public class TrackLeftEvent : FlightEvent
     {
 
         public TrackLeftEvent(string occurrenceTime, TrackData involvedTrack, bool isRaised, IConsoleOutput outputConsole, IFileOutput outputFile) : base(outputFile, outputConsole)
         {
-            _occurrenceTime = occurrenceTime;
-            _InvolvedTracks.Add(involvedTrack);
-            _isRaised = isRaised;
+            base.occurrenceTime = occurrenceTime;
+            InvolvedTracks.Add(involvedTrack);
+            base.isRaised = isRaised;
 
             ATM.IntervalTimer.IntervalTimer _timer = new ATM.IntervalTimer.IntervalTimer();
             _timer.Start(5000, this);
@@ -24,7 +24,7 @@ namespace ATM.Events
 
         public override string FormatData()
         {
-            return "Track left airspace - Occurencetime: " + _occurrenceTime + " Involved track: " + _InvolvedTracks[0]._Tag;
+            return "Track left airspace - Occurencetime: " + occurrenceTime + " Involved track: " + InvolvedTracks[0].Tag;
         }
     }
 }

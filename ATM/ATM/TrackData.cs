@@ -30,15 +30,15 @@ namespace ATM
         }
 
 
-        public String _Tag { get { return _tag; } set { _tag = value; } }
-        public double _CurrentXcord { get { return _currentXcord; } set { _currentXcord = value; } }
-        public double _CurrentYcord { get { return _currentYcord; } set { _currentYcord = value; } }
-        public double _CurrentZcord { get { return _currentZcord; } set { _currentZcord = value; } }
-        public string _TimeStamp { get { return _timeStamp; } set { _timeStamp = value; } }
-        public double _CurrentHorzVel { get { return _currentHorzVel; } set { _currentHorzVel = value; } }
-        public double _CurrentCourse { get { return _currentCourse; } set { _currentCourse = value; } }
+        public string Tag { get { return _tag; } set { _tag = value; } }
+        public double CurrentXcord { get { return _currentXcord; } set { _currentXcord = value; } }
+        public double CurrentYcord { get { return _currentYcord; } set { _currentYcord = value; } }
+        public double CurrentZcord { get { return _currentZcord; } set { _currentZcord = value; } }
+        public string TimeStamp { get { return _timeStamp; } set { _timeStamp = value; } }
+        public double CurrentHorzVel { get { return _currentHorzVel; } set { _currentHorzVel = value; } }
+        public double CurrentCourse { get { return _currentCourse; } set { _currentCourse = value; } }
 
-        public IConsoleOutput _consoleOutput { get { return _output;} }
+        public IConsoleOutput ConsoleOutput { get { return _output;} }
 
         public void Render()
         {
@@ -48,12 +48,12 @@ namespace ATM
 
         public string FormatData()
         {
-            string Tag = this._Tag;
-            double x = this._CurrentXcord;
-            double y = this._CurrentYcord;
-            double z = this._CurrentZcord;
-            double horzVel = this._CurrentHorzVel;
-            double course = this._CurrentCourse;
+            string Tag = this.Tag;
+            double x = this.CurrentXcord;
+            double y = this.CurrentYcord;
+            double z = this.CurrentZcord;
+            double horzVel = this.CurrentHorzVel;
+            double course = this.CurrentCourse;
 
             string trackInfoToRender = $"{Tag} - ( {x}, {y}, {z}) - Speed: {horzVel} m/s - Course: {course} degrees";
 

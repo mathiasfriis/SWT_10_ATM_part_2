@@ -15,25 +15,25 @@ namespace ATM.Unit.Tests
     [TestFixture]
     class ATMclass_test_unit
     {
-        double xMin = 10000;
-        double xMax = 90000;
-        double yMin = 10000;
-        double yMax = 90000;
-        double zMin = 500;
-        double zMax = 20000;
+        readonly double xMin = 10000;
+        readonly double xMax = 90000;
+        readonly double yMin = 10000;
+        readonly double yMax = 90000;
+        readonly double zMin = 500;
+        readonly double zMax = 20000;
         Airspace airspace;
         IAirspace fakeAirspace;
         IConsoleOutput consoleOutput;
         IFileOutput fileOutput;
         ITransponderReceiver transponderReceiver;
-        List<Event> seperationEvents;
+        List<FlightEvent> seperationEvents;
         List<TrackData> tracks;
         string timestamp;
 
         ATMclass uut;
 
         [SetUp]
-        public void setup()
+        public void Setup()
         {
             //Setup stuff
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
@@ -42,7 +42,7 @@ namespace ATM.Unit.Tests
             fileOutput = Substitute.For<IFileOutput>();
             //Make new fake TransponderReceiver.
             transponderReceiver = Substitute.For<ITransponderReceiver>();
-            seperationEvents = new List<Event>();
+            seperationEvents = new List<FlightEvent>();
             tracks = new List<TrackData>();
             timestamp = "235928121999";
 
@@ -103,7 +103,7 @@ namespace ATM.Unit.Tests
 
             uut.HandleNewTrackData(trackData1);
 
-            Assert.That(uut._currentTracks.Count.Equals(1));
+            Assert.That(uut.CurrentTracks.Count.Equals(1));
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace ATM.Unit.Tests
             uut.HandleNewTrackData(trackData1);
             uut.HandleNewTrackData(trackData2);
 
-            Assert.That(uut._currentTracks.Count.Equals(0));
+            Assert.That(uut.CurrentTracks.Count.Equals(0));
         }
 
         [Test]
@@ -142,9 +142,9 @@ namespace ATM.Unit.Tests
             //Create seperation event from the two trackDatas and add to current seperation events.
             //SeperationEvent seperationEvent = new SeperationEvent(trackData1._TimeStamp, trackDatas, true, consoleOutput, fileOutput);
             //uut._currentEvents.Add(seperationEvent);
-            uut._currentEvents.AddSeperationEventFor(trackData1, trackData2, fileOutput);
+            uut.CurrentEvents.AddSeperationEventFor(trackData1, trackData2, fileOutput);
 
-            Assert.That(() => uut._currentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2).Equals(true));
+            Assert.That(() => uut.CurrentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2).Equals(true));
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace ATM.Unit.Tests
 
             //No current seperation events.
 
-            Assert.That(() => uut._currentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2).Equals(false));
+            Assert.That(() => uut.CurrentEvents.CheckIfSeperationEventExistsFor(trackData1, trackData2).Equals(false));
         }
         #endregion
 
@@ -164,14 +164,14 @@ namespace ATM.Unit.Tests
         [Test]
         public void AddTrack_NoTracksAdded_CountIs0()
         {
-            Assert.That(() => uut._currentTracks.Count.Equals(0));
+            Assert.That(() => uut.CurrentTracks.Count.Equals(0));
         }
 
         [Test]
         public void AddTrack_TrackAdded_CountIs1()
         {
             uut.AddTrack(new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput));
-            Assert.That(() => uut._currentTracks.Count.Equals(1));
+            Assert.That(() => uut.CurrentTracks.Count.Equals(1));
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace ATM.Unit.Tests
                 uut.AddTrack(new TrackData("ABC" + i, 10000, 10000, 1000, timestamp, 100, 10, consoleOutput));
             }
 
-            Assert.That(() => uut._currentTracks.Count.Equals(10));
+            Assert.That(() => uut.CurrentTracks.Count.Equals(10));
         }
 
         [Test]
@@ -190,7 +190,7 @@ namespace ATM.Unit.Tests
         {
             TrackData testTrack = new TrackData("ABC", 10000, 10000, 1000, timestamp, 100, 10, consoleOutput);
             uut.AddTrack(testTrack);
-            Assert.That(() => uut._currentTracks[0]._Tag.Equals(testTrack._Tag));
+            Assert.That(() => uut.CurrentTracks[0].Tag.Equals(testTrack.Tag));
         }
 
         [Test]
@@ -200,7 +200,7 @@ namespace ATM.Unit.Tests
             TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestamp, 100, 10, consoleOutput);
             uut.AddTrack(testTrack1);
             uut.AddTrack(testTrack2);
-            Assert.That(() => uut._currentTracks.Count.Equals(1));
+            Assert.That(() => uut.CurrentTracks.Count.Equals(1));
         }
 
         [Test]
@@ -210,7 +210,7 @@ namespace ATM.Unit.Tests
             TrackData testTrack2 = new TrackData("ABC", 20000, 10000, 1000, timestamp, 100, 10, consoleOutput);
             uut.AddTrack(testTrack1);
             uut.AddTrack(testTrack2);
-            Assert.That(() => uut._currentTracks[0]._CurrentXcord.Equals(testTrack2._CurrentXcord));
+            Assert.That(() => uut.CurrentTracks[0].CurrentXcord.Equals(testTrack2.CurrentXcord));
         }
         #endregion
 
@@ -224,7 +224,7 @@ namespace ATM.Unit.Tests
 
             uut.RemoveTrack("ABC");
 
-            Assert.That(() => uut._currentTracks.Count.Equals(2));
+            Assert.That(() => uut.CurrentTracks.Count.Equals(2));
         }
 
         [Test]
@@ -339,12 +339,12 @@ namespace ATM.Unit.Tests
             uut.AddTrack(track1); //track2 and this track will meet conditions for the seperation event
 
             //List of events is empty before checking
-            Assert.That(uut._currentEvents.events.Count.Equals(0));
+            Assert.That(uut.CurrentEvents.events.Count.Equals(0));
 
             uut.CheckForSeperationEvents(track2);
 
             //Seperation event has been added
-            Assert.That(uut._currentEvents.events.Count.Equals(1));
+            Assert.That(uut.CurrentEvents.events.Count.Equals(1));
         }
 
         [Test]
@@ -356,15 +356,15 @@ namespace ATM.Unit.Tests
             uut.AddTrack(track1); //track2 and this track will meet conditions for the seperation event
 
             //Add seperation event involving the 2 tracks already
-            uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
+            uut.CurrentEvents.AddSeperationEventFor(track1, track2, fileOutput);
             
             //List of events has 1 event before checking
-            Assert.That(uut._currentEvents.events.Count.Equals(1));
+            Assert.That(uut.CurrentEvents.events.Count.Equals(1));
 
             uut.CheckForSeperationEvents(track2);
 
             //List of events still only has 1 event
-            Assert.That(uut._currentEvents.events.Count.Equals(1));
+            Assert.That(uut.CurrentEvents.events.Count.Equals(1));
         }
 
         #region CheckIfSeperationEventExists
@@ -378,9 +378,9 @@ namespace ATM.Unit.Tests
             };
             //SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._outputConsole, uut._outputFile);
             //uut._currentEvents.Add(seperationEvent1);
-            uut._currentEvents.AddSeperationEventFor(trackDatas[0], trackDatas[1], fileOutput);
+            uut.CurrentEvents.AddSeperationEventFor(trackDatas[0], trackDatas[1], fileOutput);
 
-            Assert.That(() => uut._currentEvents.CheckIfSeperationEventExistsFor(trackDatas[0], trackDatas[1]).Equals(true));
+            Assert.That(() => uut.CurrentEvents.CheckIfSeperationEventExistsFor(trackDatas[0], trackDatas[1]).Equals(true));
         }
 
         [Test]
@@ -393,9 +393,9 @@ namespace ATM.Unit.Tests
             };
             //SeperationEvent seperationEvent1 = new SeperationEvent("time", trackDatas, true, uut._outputConsole, uut._outputFile);
             //uut._currentEvents.Add(seperationEvent1);
-            uut._currentEvents.AddSeperationEventFor(trackDatas[0], trackDatas[1], fileOutput);
+            uut.CurrentEvents.AddSeperationEventFor(trackDatas[0], trackDatas[1], fileOutput);
 
-            Assert.That(() => uut._currentEvents.CheckIfSeperationEventExistsFor(trackDatas[1], trackDatas[0]).Equals(true));
+            Assert.That(() => uut.CurrentEvents.CheckIfSeperationEventExistsFor(trackDatas[1], trackDatas[0]).Equals(true));
         }
         #endregion
 
@@ -643,7 +643,7 @@ namespace ATM.Unit.Tests
             uut = new ATMclass(consoleOutput, fileOutput, airspace, transponderReceiver);
             TrackData testTrack1 = new TrackData("ABC", 10000, 10000, 1000, timestamp, 0, 10, consoleOutput);
             uut.HandleNewTrackData(testTrack1);
-            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(0));
+            Assert.That(uut.CurrentTracks[0].CurrentHorzVel.Equals(0));
         }
 
         [Test]
@@ -658,7 +658,7 @@ namespace ATM.Unit.Tests
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
-            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(1));
+            Assert.That(uut.CurrentTracks[0].CurrentHorzVel.Equals(1));
         }
 
         [Test]
@@ -674,7 +674,7 @@ namespace ATM.Unit.Tests
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
-            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(1));
+            Assert.That(uut.CurrentTracks[0].CurrentHorzVel.Equals(1));
         }
 
         [Test]
@@ -689,7 +689,7 @@ namespace ATM.Unit.Tests
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
-            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(1));
+            Assert.That(uut.CurrentTracks[0].CurrentHorzVel.Equals(1));
         }
 
         [Test]
@@ -705,7 +705,7 @@ namespace ATM.Unit.Tests
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
-            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(1));
+            Assert.That(uut.CurrentTracks[0].CurrentHorzVel.Equals(1));
         }
 
         [Test]
@@ -721,7 +721,7 @@ namespace ATM.Unit.Tests
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
-            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(0));
+            Assert.That(uut.CurrentTracks[0].CurrentHorzVel.Equals(0));
         }
 
         [Test]
@@ -736,7 +736,7 @@ namespace ATM.Unit.Tests
             uut.HandleNewTrackData(testTrack1);
             uut.HandleNewTrackData(testTrack2);
 
-            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(0));
+            Assert.That(uut.CurrentTracks[0].CurrentHorzVel.Equals(0));
         }
 
         [Test]
@@ -755,7 +755,7 @@ namespace ATM.Unit.Tests
 
             double result = Math.Sqrt(Math.Pow(1, 2) + Math.Pow(1, 2));
 
-            Assert.That(uut._currentTracks[0]._CurrentHorzVel.Equals(result));
+            Assert.That(uut.CurrentTracks[0].CurrentHorzVel.Equals(result));
         }
         #endregion
         #endregion
@@ -772,10 +772,10 @@ namespace ATM.Unit.Tests
             uut.AddTrack(track2);
 
             //Add seperation event involving the 2 tracks already
-            uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
+            uut.CurrentEvents.AddSeperationEventFor(track1, track2, fileOutput);
 
             //Check that status is true before update
-            Assert.That(uut._currentEvents.events[0]._isRaised.Equals(true));
+            Assert.That(uut.CurrentEvents.events[0].isRaised.Equals(true));
         }
 
         [Test]
@@ -789,12 +789,12 @@ namespace ATM.Unit.Tests
             uut.AddTrack(track2);
 
             //Add seperation event involving the 2 tracks already
-            uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
+            uut.CurrentEvents.AddSeperationEventFor(track1, track2, fileOutput);
 
             uut.UpdateSeperationEventStatus();
 
             //Check that status is true after update
-            Assert.That(uut._currentEvents.events[0]._isRaised.Equals(true));
+            Assert.That(uut.CurrentEvents.events[0].isRaised.Equals(true));
         }
 
         [Test]
@@ -808,12 +808,12 @@ namespace ATM.Unit.Tests
             uut.AddTrack(track2);
 
             //Add seperation event involving the 2 tracks already
-            uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
+            uut.CurrentEvents.AddSeperationEventFor(track1, track2, fileOutput);
 
             uut.UpdateSeperationEventStatus();
 
             //Check that status is true after update
-            Assert.That(uut._currentEvents.events[0]._isRaised.Equals(false));
+            Assert.That(uut.CurrentEvents.events[0].isRaised.Equals(false));
         }
 
         [Test]
@@ -827,15 +827,15 @@ namespace ATM.Unit.Tests
             uut.AddTrack(track2);
 
             //Add seperation event involving the 2 tracks already
-            uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
+            uut.CurrentEvents.AddSeperationEventFor(track1, track2, fileOutput);
 
             //Simulate that one track has left airspace
-            uut.RemoveTrack(track2._Tag);
+            uut.RemoveTrack(track2.Tag);
 
             uut.UpdateSeperationEventStatus();
 
             //Check that status is true after update
-            Assert.That(uut._currentEvents.events[0]._isRaised.Equals(false));
+            Assert.That(uut.CurrentEvents.events[0].isRaised.Equals(false));
         }
 
         [Test]
@@ -856,15 +856,15 @@ namespace ATM.Unit.Tests
             uut.AddTrack(track4);
 
             //Add seperation event involving the 2 tracks already
-            uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
-            uut._currentEvents.AddSeperationEventFor(track3, track4, fileOutput);
+            uut.CurrentEvents.AddSeperationEventFor(track1, track2, fileOutput);
+            uut.CurrentEvents.AddSeperationEventFor(track3, track4, fileOutput);
 
             //Update status
             uut.UpdateSeperationEventStatus();
 
             //Check that status is true after update
-            Assert.That(uut._currentEvents.events[0]._isRaised.Equals(true));
-            Assert.That(uut._currentEvents.events[1]._isRaised.Equals(false));
+            Assert.That(uut.CurrentEvents.events[0].isRaised.Equals(true));
+            Assert.That(uut.CurrentEvents.events[1].isRaised.Equals(false));
         }
         #endregion
     }

@@ -62,7 +62,10 @@ namespace ATM.Tests.Integration
             atmClass.HandleNewTrackData(trackData);
 
             string expectedString =
-                $"{trackData._Tag} - ( {trackData._CurrentXcord}, {trackData._CurrentYcord}, {trackData._CurrentZcord}) - Speed: {trackData._CurrentHorzVel} m/s - Course: {trackData._CurrentCourse} degrees";
+                $"{trackData.Tag} - ( {trackData.CurrentXcord}, {trackData.CurrentYcord}, {trackData.CurrentZcord}) - Speed: {trackData.CurrentHorzVel} m/s - Course: {trackData.CurrentCourse} degrees";
+
+            //Sleep for a bit to make sure that the render function has been called
+            Thread.Sleep(200);
 
             fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
         }
@@ -97,7 +100,10 @@ namespace ATM.Tests.Integration
 
             atmClass.HandleNewTrackData(trackData2);
             string expectedString =
-                $"{trackData2._Tag} - ( {trackData2._CurrentXcord}, {trackData2._CurrentYcord}, {trackData2._CurrentZcord}) - Speed: {trackData2._CurrentHorzVel} m/s - Course: {trackData2._CurrentCourse} degrees";
+                $"{trackData2.Tag} - ( {trackData2.CurrentXcord}, {trackData2.CurrentYcord}, {trackData2.CurrentZcord}) - Speed: {trackData2.CurrentHorzVel} m/s - Course: {trackData2.CurrentCourse} degrees";
+
+            //Sleep for a bit to make sure that the render function has been called
+            Thread.Sleep(200);
 
             fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
 
@@ -116,18 +122,22 @@ namespace ATM.Tests.Integration
                 new TrackData("DEF456", 10002, 9002, 1002, "20181107134000000", 0, 0, fakeConsoleOutput);
 
             atmClass.HandleNewTrackData(trackData1);
-
-            //Sætter tråden til at sove i 5sek. da TrackEnteredEvent bliver Renderet i 5 sekunder.
-            Thread.Sleep(5000);
-
-            fakeConsoleOutput.ClearReceivedCalls();
-
+            
+            //Track updated so it leaves airspace
             atmClass.HandleNewTrackData(trackData2);
 
             string expectedString =
-                $"Track left airspace - Occurencetime: {trackData2._TimeStamp} Involved track: {trackData2._Tag}";
+                $"Track left airspace - Occurencetime: {trackData2.TimeStamp} Involved track: {trackData2.Tag}";
 
-            fakeConsoleOutput.Received(1).Print(Arg.Is<string>(expectedString));
+            //Sleep for more than 5 seconds, so TrackLeftEvent is no longer rendered
+            Thread.Sleep(5200);
+
+            fakeConsoleOutput.ClearReceivedCalls();
+
+            //Sleep for a bit to make sure renderer has been caleld
+            Thread.Sleep(200);
+
+            fakeConsoleOutput.Received(0).Print(Arg.Is<string>(str => str.Contains("Track")));
         }
 
         #endregion

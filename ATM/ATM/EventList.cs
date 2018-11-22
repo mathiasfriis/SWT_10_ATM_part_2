@@ -12,24 +12,24 @@ namespace ATM
 {
     public class EventList
     {
-        public List<Event> events;
+        public List<FlightEvent> events;
 
         public EventList()
         {
-            events = new List<Event>();
+            events = new List<FlightEvent>();
         }
 
         public bool CheckIfSeperationEventExistsFor(TrackData trackData1, TrackData trackData2)
         {
-            foreach (Event e in events)
+            foreach (FlightEvent e in events)
             {
                 if (e is SeperationEvent)
                 {
-                    if ((e._InvolvedTracks[0]._Tag == trackData1._Tag) && (e._InvolvedTracks[1]._Tag == trackData2._Tag))
+                    if ((e.InvolvedTracks[0].Tag == trackData1.Tag) && (e.InvolvedTracks[1].Tag == trackData2.Tag))
                     {
                         return true;
                     }
-                    if ((e._InvolvedTracks[1]._Tag == trackData1._Tag) && (e._InvolvedTracks[0]._Tag == trackData2._Tag))
+                    if ((e.InvolvedTracks[1].Tag == trackData1.Tag) && (e.InvolvedTracks[0].Tag == trackData2.Tag))
                     {
                         return true;
                     }
@@ -61,7 +61,7 @@ namespace ATM
 
         public bool checkIfTrackEnteredEventExistsFor(TrackData trackData)
         {
-            if (events.Exists(x => (x is TrackEnteredEvent) && (x._InvolvedTracks[0]._Tag.Equals(trackData._Tag))))
+            if (events.Exists(x => (x is TrackEnteredEvent) && (x.InvolvedTracks[0].Tag.Equals(trackData.Tag))))
             {
                 return true;
             }
@@ -73,7 +73,7 @@ namespace ATM
 
         public bool checkIfTrackLeftEventExistsFor(TrackData trackData)
         {
-            if (events.Exists(x => (x is TrackLeftEvent) && (x._InvolvedTracks[0]._Tag.Equals(trackData._Tag))))
+            if (events.Exists(x => (x is TrackLeftEvent) && (x.InvolvedTracks[0].Tag.Equals(trackData.Tag))))
             {
                 return true;
             }
@@ -107,14 +107,14 @@ namespace ATM
 
         public void AddTrackEnteredEventFor(TrackData td, IFileOutput logger)
         {
-            TrackEnteredEvent tee = new TrackEnteredEvent(td._TimeStamp, td, true, td._consoleOutput, logger);
+            TrackEnteredEvent tee = new TrackEnteredEvent(td.TimeStamp, td, true, td.ConsoleOutput, logger);
             events.Add(tee);
             logger.Write(tee.FormatData());
         }
 
         public void AddTrackLeftEventFor(TrackData td, IFileOutput logger)
         {
-            TrackLeftEvent tle = new TrackLeftEvent(td._TimeStamp, td, true, td._consoleOutput, logger);
+            TrackLeftEvent tle = new TrackLeftEvent(td.TimeStamp, td, true, td.ConsoleOutput, logger);
             events.Add(tle);
             logger.Write(tle.FormatData());
         }
@@ -126,14 +126,14 @@ namespace ATM
                 td1,
                 td2
             };
-            SeperationEvent se = new SeperationEvent(td1._TimeStamp, tracks, true, td1._consoleOutput, logger);
+            SeperationEvent se = new SeperationEvent(td1.TimeStamp, tracks, true, td1.ConsoleOutput, logger);
             events.Add(se);
             logger.Write(se.FormatData());
         }
 
         public void RenderEvents()
         {
-            foreach(Event e in events)
+            foreach(FlightEvent e in events)
             {
                 e.Render();
             }

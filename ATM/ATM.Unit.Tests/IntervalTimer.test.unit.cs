@@ -28,7 +28,7 @@ namespace ATM.Unit.Tests
         IConsoleOutput consoleOutput;
         IFileOutput fileOutput;
         ITransponderReceiver transponderReceiver;
-        List<Event> seperationEvents;
+        List<FlightEvent> seperationEvents;
         List<TrackData> tracks;
 
         ATMclass uut;
@@ -43,7 +43,7 @@ namespace ATM.Unit.Tests
             fileOutput = Substitute.For<IFileOutput>();
             //Make new fake TransponderReceiver.
             transponderReceiver = Substitute.For<ITransponderReceiver>();
-            seperationEvents = new List<Event>();
+            seperationEvents = new List<FlightEvent>();
             tracks = new List<TrackData>();
         
             uut = new ATMclass(consoleOutput, fileOutput, fakeAirspace, transponderReceiver);
@@ -57,7 +57,7 @@ namespace ATM.Unit.Tests
         {
             TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270, consoleOutput);
 
-            string time = trackData1._TimeStamp;
+            string time = trackData1.TimeStamp;
 
             TrackEnteredEvent TrackEnteredEvent = new TrackEnteredEvent(time, trackData1, true, consoleOutput, fileOutput);
 
@@ -65,7 +65,7 @@ namespace ATM.Unit.Tests
             Thread.Sleep(6000);
 
             //Check if isRaised flag has been set to False
-            Assert.That(() => TrackEnteredEvent._isRaised.Equals(false));
+            Assert.That(() => TrackEnteredEvent.isRaised.Equals(false));
 
         }
         #endregion
@@ -76,7 +76,7 @@ namespace ATM.Unit.Tests
         {
             TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270, consoleOutput);
 
-            string time = trackData1._TimeStamp;
+            string time = trackData1.TimeStamp;
 
             TrackLeftEvent TrackLeftEvent = new TrackLeftEvent(time, trackData1, true, consoleOutput, fileOutput);
 
@@ -84,7 +84,7 @@ namespace ATM.Unit.Tests
             Thread.Sleep(6000);
 
             //Check if isRaised flag has been set to False
-            Assert.That(() => TrackLeftEvent._isRaised.Equals(false));
+            Assert.That(() => TrackLeftEvent.isRaised.Equals(false));
 
         }
         #endregion

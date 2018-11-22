@@ -24,12 +24,12 @@ namespace ATM.Unit.Tests
 
         public void TrackData_FormatData_CorrectStringIsReturned()
         {
-            string Tag = uut._Tag;
-            double x = uut._CurrentXcord;
-            double y = uut._CurrentYcord;
-            double z = uut._CurrentZcord;
-            double horzVel = uut._CurrentHorzVel;
-            double course = uut._CurrentCourse;
+            string Tag = uut.Tag;
+            double x = uut.CurrentXcord;
+            double y = uut.CurrentYcord;
+            double z = uut.CurrentZcord;
+            double horzVel = uut.CurrentHorzVel;
+            double course = uut.CurrentCourse;
 
             string expectedString = $"{Tag} - ( {x}, {y}, {z}) - Speed: {horzVel} m/s - Course: {course} degrees";
             Assert.That(() => uut.FormatData().Equals(expectedString));
@@ -37,12 +37,12 @@ namespace ATM.Unit.Tests
 
         public void TrackData_Render_RendererReceivedCorrectString()
         {
-            string Tag = uut._Tag;
-            double x = uut._CurrentXcord;
-            double y = uut._CurrentYcord;
-            double z = uut._CurrentZcord;
-            double horzVel = uut._CurrentHorzVel;
-            double course = uut._CurrentCourse;
+            string Tag = uut.Tag;
+            double x = uut.CurrentXcord;
+            double y = uut.CurrentYcord;
+            double z = uut.CurrentZcord;
+            double horzVel = uut.CurrentHorzVel;
+            double course = uut.CurrentCourse;
 
             string expectedString = $"{Tag} - ( {x}, {y}, {z}) - Speed: {horzVel} m/s - Course: {course} degrees";
 
