@@ -128,6 +128,7 @@ namespace ATM
             };
             SeperationEvent se = new SeperationEvent(td1.TimeStamp, tracks, true, td1.ConsoleOutput, logger);
             events.Add(se);
+            logger.Write(se.FormatData());
         }
 
         public void RenderEvents()

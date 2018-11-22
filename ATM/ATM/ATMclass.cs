@@ -44,7 +44,7 @@ namespace ATM
 
             Timer = new System.Timers.Timer
             {
-                Interval = 0.05
+                Interval = 100
             };
             Timer.Elapsed += TimerElapsed;
             Timer.AutoReset = true;
@@ -97,15 +97,6 @@ namespace ATM
 
             // Remove separations event after update
             UpdateSeperationEventStatus();
-
-            // Clear console 
-            _outputConsole.Clear();
-
-            // Render updated tracks to console 
-            RenderTracks();
-
-            // Render seperation events
-            RenderEvents();
 
         }
 
@@ -160,6 +151,8 @@ namespace ATM
                             //Create event to log
                             SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true, _outputConsole, _outputFile);
                             SeperationEvent.Log();
+
+                            CurrentEvents.AddSeperationEventFor(trackData, track, _outputFile);
                         }
                     }
                 }   
@@ -191,9 +184,10 @@ namespace ATM
         public void RenderEvents()
         {
 
-            CurrentEvents.RenderEvents();
-            _outputConsole.Print("Number of separation events: " + CurrentEvents.events.OfType<SeperationEvent>().Count());
             //Console.WriteLine("Number of separation events: " + _currentEvents.events.OfType<SeperationEvent>().Count());
+
+           CurrentEvents.RenderEvents();
+            _outputConsole.Print("Number of separation events: " + CurrentEvents.events.OfType<SeperationEvent>().Count());
         }
 
         public void RenderTracks()
@@ -244,16 +238,6 @@ namespace ATM
                 
             }
 
-            //After logging, remove the given elements.
-            /* Temp udkommentering indtil Mathias fikser det med nye liste af events i ny klasse
-            /*
-            _currentEvents.RemoveAll(x => Math.Abs(x._InvolvedTracks[0]._CurrentXcord -
-                             x._InvolvedTracks[1]._CurrentXcord) < MIN_X_DISTANCE &&
-                    Math.Abs(x._InvolvedTracks[0]._CurrentYcord -
-                             x._InvolvedTracks[1]._CurrentYcord) < MIN_Y_DISTANCE &&
-                    Math.Abs(x._InvolvedTracks[0]._CurrentZcord -
-                             x._InvolvedTracks[1]._CurrentZcord) < MIN_Z_DISTANCE);
-                             */
         }
 
         public double CalculateTrackSpeed(TrackData newData, TrackData oldData)
@@ -271,17 +255,11 @@ namespace ATM
             double old_y = oldData.CurrentYcord;
             double new_y = newData.CurrentYcord;
 
-            //Omit Z-axis, since we're only interested in Horizontal velocity
-            //double old_z = oldData._CurrentZcord;
-            //double new_z = newData._CurrentZcord;
-
             //Get difference in X, Y and Z
             double dx = Math.Abs(old_x - new_x);
             double dy = Math.Abs(old_y - new_y);
-            //double dz = Math.Abs(old_z - new_z);
 
             //Calculate distance traveled
-            //double Distance = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2) + Math.Pow(dz, 2));
             double Distance = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
             //Get the timestamps as strings
             string oldTime = oldData.TimeStamp;
@@ -317,7 +295,6 @@ namespace ATM
             }
 
             //Check that the new data is actually newer than the old data
-
             //Get the timestamps as strings
             string oldTime = oldData.TimeStamp;
             string newTime = newData.TimeStamp;
