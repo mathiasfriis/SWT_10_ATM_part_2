@@ -54,11 +54,10 @@ namespace ATM
 
         public void TimerElapsed(object sender, ElapsedEventArgs e)
         {
+            CurrentEvents.cleanUpEvents();
             _outputConsole.Clear();
-            _currentEvents.cleanUpEvents();
             RenderEvents();
             RenderTracks();
-            _currentEvents.cleanUpEvents();
         }
 
 
@@ -138,21 +137,6 @@ namespace ATM
                         if (!CurrentEvents.CheckIfSeperationEventExistsFor(trackData, track))
                         {
                             // Add new separation event 
-                            //string time = DateTime.Now.ToString();
-                            string time = trackData.TimeStamp;
-                            List<TrackData> trackDataInSeperationEvent = new List<TrackData>
-                            {
-                                trackData,
-                                track
-                            };
-
-                            //_currentEvents.Add(SeperationEvent);
-                            CurrentEvents.AddSeperationEventFor(trackData, track, _outputFile);
-
-                            //Create event to log
-                            SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true, _outputConsole, _outputFile);
-                            SeperationEvent.Log();
-
                             CurrentEvents.AddSeperationEventFor(trackData, track, _outputFile);
                         }
                     }
