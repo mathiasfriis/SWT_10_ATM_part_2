@@ -145,10 +145,6 @@ namespace ATM
 
                             //_currentEvents.Add(SeperationEvent);
                             _currentEvents.AddSeperationEventFor(trackData, track, _outputFile);
-
-                            //Create event to log
-                            SeperationEvent SeperationEvent = new SeperationEvent(time, trackDataInSeperationEvent, true, _outputConsole, _outputFile);
-                            SeperationEvent.Log();
                         }
                     }
                 }   
