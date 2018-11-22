@@ -76,7 +76,7 @@ namespace ATM.Tests.Integration
 
             atmClass.HandleNewTrackData(trackData);
 
-            fakeConsoleOutput.Received(0).Print(Arg.Any<string>());
+            fakeConsoleOutput.Received(0).Print(Arg.Is<string>(str => str.Contains("Track")));
         }
 
         [Test]
