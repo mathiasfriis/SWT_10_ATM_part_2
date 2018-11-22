@@ -293,9 +293,9 @@ namespace ATM.Tests.Integration
         }
 
         [Test]
-        public void TrackLeftEvent_TrackLeftAirspace_LoggerStillOnlyWroteOnce()
+        public void TrackLeftEvent_TrackLeftAirspaceWait5secs_LoggerStillOnlyWroteOnce()
         {
-            string expectedString = "Track left airspace - Occurencetime: 20181224200050123 Involved tracWk: ABC123";
+            string expectedString = "Track left airspace - Occurencetime: 20181224200050123 Involved track: ABC123";
 
             ATM.HandleNewTrackData(trackData1);
 
