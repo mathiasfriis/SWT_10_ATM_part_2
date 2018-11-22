@@ -29,7 +29,7 @@ namespace ATM
             _output = output;
         }
 
-        private void ReceiverOnTransponderDataReady(object sender, RawTransponderDataEventArgs e)
+        public void ReceiverOnTransponderDataReady(object sender, RawTransponderDataEventArgs e)
         {
 
             foreach (var data in e.TransponderData)

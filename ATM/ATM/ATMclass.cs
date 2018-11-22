@@ -25,7 +25,7 @@ namespace ATM
         public IFileOutput _outputFile;
 
         private IAirspace _airspace;
-        private ITransponderReceiver _transponderReceiver;
+        public ITransponderReceiver _transponderReceiver;
 
         public List<TrackData> _currentTracks { get; }
         public EventList _currentEvents { get; }
