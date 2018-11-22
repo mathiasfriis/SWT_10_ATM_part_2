@@ -242,4 +242,15 @@ AddSeparationEventFor(trackData, track, _outputFile)</panel_attributes>
 </panel_attributes>
     <additional_attributes>10.0;20.0;280.0;20.0</additional_attributes>
   </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>150</x>
+      <y>210</y>
+      <w>1060</w>
+      <h>490</h>
+    </coordinates>
+    <panel_attributes>*SD - add new separation event*</panel_attributes>
+    <additional_attributes/>
+  </element>
 </diagram>
