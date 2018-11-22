@@ -10,7 +10,7 @@ namespace ATM.IntervalTimer
 {
     public interface IIntervalTimer
     {
-        void Start(int time, Event trackEvent);
+        void Start(int time, FlightEvent trackEvent);
 
         void TimerElapsed(object sender, System.Timers.ElapsedEventArgs e);
 

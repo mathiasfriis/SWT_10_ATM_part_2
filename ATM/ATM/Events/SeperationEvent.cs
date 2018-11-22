@@ -8,20 +8,20 @@ using ATM.Render;
 
 namespace ATM.Events
 {
-    public class SeperationEvent : Event
+    public class SeperationEvent : FlightEvent
     {
         public SeperationEvent(string occurrenceTime, List<TrackData> involvedTracks, bool isRaised, IConsoleOutput outputConsole, IFileOutput outputFile) : base(outputFile, outputConsole)
 
         {
-            _occurrenceTime = occurrenceTime;
-            _InvolvedTracks = involvedTracks;
-            _isRaised = isRaised;
+            base.occurrenceTime = occurrenceTime;
+            InvolvedTracks = involvedTracks;
+            base.isRaised = isRaised;
 
         }
 
         public override string FormatData()
         {
-            return "Separation event - Occurencetime: " + _occurrenceTime + " Involved tracks: " + _InvolvedTracks[0]._Tag + ", " + _InvolvedTracks[1]._Tag;
+            return "Separation event - Occurencetime: " + occurrenceTime + " Involved tracks: " + InvolvedTracks[0].Tag + ", " + InvolvedTracks[1].Tag;
         }
     }
 }

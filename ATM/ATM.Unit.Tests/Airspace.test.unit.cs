@@ -26,7 +26,7 @@ namespace ATM.Unit.Tests
         IConsoleOutput consoleOutput;
         IFileOutput fileOutput;
         ITransponderReceiver transponderReceiver;
-        List<Event> seperationEvents;
+        List<FlightEvent> seperationEvents;
         List<TrackData> tracks;
         ATMclass uut;
 
@@ -40,7 +40,7 @@ namespace ATM.Unit.Tests
             fileOutput = Substitute.For<IFileOutput>();
             //Make new fake TransponderReceiver.
             transponderReceiver = Substitute.For<ITransponderReceiver>();
-            seperationEvents = new List<Event>();
+            seperationEvents = new List<FlightEvent>();
             tracks = new List<TrackData>();
 
             uut = new ATMclass(consoleOutput, fileOutput, fakeAirspace, transponderReceiver);

@@ -122,7 +122,7 @@ namespace ATM.Tests.Integration
 
             ATM.HandleNewTrackData(trackData1);
 
-            trackData1._CurrentXcord += 100000;
+            trackData1.CurrentXcord += 100000;
 
             ATM.HandleNewTrackData(trackData1);
 
@@ -139,7 +139,7 @@ namespace ATM.Tests.Integration
 
             ATM.HandleNewTrackData(trackData1);
 
-            trackData1._CurrentXcord += 100000;
+            trackData1.CurrentXcord += 100000;
 
             ATM.HandleNewTrackData(trackData1);
 
@@ -160,7 +160,7 @@ namespace ATM.Tests.Integration
 
             ATM.HandleNewTrackData(trackData1);
 
-            trackData1._CurrentXcord += 100000;
+            trackData1.CurrentXcord += 100000;
 
             ATM.HandleNewTrackData(trackData1);
 
@@ -224,7 +224,7 @@ namespace ATM.Tests.Integration
             ATM.HandleNewTrackData(trackData2);
 
             //Change x-coordinate for one track, so that seperation event does not occur anymore
-            trackData1._CurrentXcord += 5002;
+            trackData1.CurrentXcord += 5002;
             ATM.HandleNewTrackData(trackData1);
 
             //Wait for a little time to make sure that seperation event is cleared from list at next render.
@@ -284,7 +284,7 @@ namespace ATM.Tests.Integration
             ATM.HandleNewTrackData(trackData1);
 
             //Update track data so that the new position is out of the monitored airspace
-            trackData1._CurrentXcord += 100000;
+            trackData1.CurrentXcord += 100000;
             ATM.HandleNewTrackData(trackData1);
 
             fakeFileOutput.Received(1).Write(Arg.Is<string>(expectedString));
@@ -298,7 +298,7 @@ namespace ATM.Tests.Integration
             ATM.HandleNewTrackData(trackData1);
 
             //Update track data so that the new position is out of the monitored airspace
-            trackData1._CurrentXcord += 100000;
+            trackData1.CurrentXcord += 100000;
             ATM.HandleNewTrackData(trackData1);
 
             //Wait 5 secs

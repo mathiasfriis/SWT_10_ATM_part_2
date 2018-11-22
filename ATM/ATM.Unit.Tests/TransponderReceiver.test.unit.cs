@@ -109,7 +109,7 @@ namespace ATM.Unit.Tests
             _fakeTransponderReceiver.TransponderDataReady
                 += Raise.EventWith(this, new RawTransponderDataEventArgs(testData));
 
-            Assert.That(uut._currentTracks.Count.Equals(3));
+            Assert.That(uut.CurrentTracks.Count.Equals(3));
         }
 
         [Test]
@@ -139,7 +139,7 @@ namespace ATM.Unit.Tests
             _fakeTransponderReceiver.TransponderDataReady
                 += Raise.EventWith(this, new RawTransponderDataEventArgs(testData));
 
-            Assert.That(uut._currentTracks.Count.Equals(1));
+            Assert.That(uut.CurrentTracks.Count.Equals(1));
         }
         #endregion
     }
