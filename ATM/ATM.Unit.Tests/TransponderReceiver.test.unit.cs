@@ -15,25 +15,24 @@ namespace ATM.Unit.Tests
     [TestFixture]
     public class TransponderReceiver_test_unit
     {
-        double xMin = 10000;
-        double xMax = 90000;
-        double yMin = 10000;
-        double yMax = 90000;
-        double zMin = 500;
-        double zMax = 20000;
+        readonly double xMin = 10000;
+        readonly double xMax = 90000;
+        readonly double yMin = 10000;
+        readonly double yMax = 90000;
+        readonly double zMin = 500;
+        readonly double zMax = 20000;
         Airspace airspace;
         IAirspace fakeAirspace;
         IConsoleOutput consoleOutput;
         IFileOutput fileOutput;
         ITransponderReceiver transponderReceiver;
-        List<Event> seperationEvents;
         List<TrackData> tracks;
-        string timestamp;
+        
 
         ATMclass uut;
 
         [SetUp]
-        public void setup()
+        public void Setup()
         {
             //Setup stuff
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
@@ -43,7 +42,7 @@ namespace ATM.Unit.Tests
             //Make new fake TransponderReceiver.
             transponderReceiver = Substitute.For<ITransponderReceiver>(); ;
             tracks = new List<TrackData>();
-            timestamp = "235928121999";
+            
 
             uut = new ATMclass(consoleOutput, fileOutput, fakeAirspace, transponderReceiver);
         }
@@ -96,10 +95,12 @@ namespace ATM.Unit.Tests
             uut = new ATMclass(consoleOutput, fileOutput, airspace, this.transponderReceiver);
 
             // Setup test data
-            List<string> testData = new List<string>();
-            testData.Add("ATR423;39045;12932;14000;20151006213456789");
-            testData.Add("BCD123;10005;85890;12000;20151006213456789");
-            testData.Add("XYZ987;25059;75654;4000;20151006213456789");
+            List<string> testData = new List<string>
+            {
+                "ATR423;39045;12932;14000;20151006213456789",
+                "BCD123;10005;85890;12000;20151006213456789",
+                "XYZ987;25059;75654;4000;20151006213456789"
+            };
 
             //Attach uut to receiver
             transponderReceiver.Attach(uut);
@@ -124,10 +125,12 @@ namespace ATM.Unit.Tests
             uut = new ATMclass(consoleOutput, fileOutput, airspace, this.transponderReceiver);
 
             // Setup test data
-            List<string> testData = new List<string>();
-            testData.Add("ATR423;39045;12932;14000;20151006213456789");
-            testData.Add("ATR423;10005;85890;12000;20151006213456789");
-            testData.Add("ATR423;25059;75654;4000;20151006213456789");
+            List<string> testData = new List<string>
+            {
+                "ATR423;39045;12932;14000;20151006213456789",
+                "ATR423;10005;85890;12000;20151006213456789",
+                "ATR423;25059;75654;4000;20151006213456789"
+            };
 
             //Attach uut to receiver
             transponderReceiver.Attach(uut);

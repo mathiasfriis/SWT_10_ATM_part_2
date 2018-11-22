@@ -17,12 +17,12 @@ namespace ATM.Unit.Tests
     class IntervalTimer_test_unit
     {
 
-        double xMin = 10000;
-        double xMax = 90000;
-        double yMin = 10000;
-        double yMax = 90000;
-        double zMin = 500;
-        double zMax = 20000;
+        readonly double xMin = 10000;
+        readonly double xMax = 90000;
+        readonly double yMin = 10000;
+        readonly double yMax = 90000;
+        readonly double zMin = 500;
+        readonly double zMax = 20000;
         Airspace airspace;
         IAirspace fakeAirspace;
         IConsoleOutput consoleOutput;
@@ -30,12 +30,11 @@ namespace ATM.Unit.Tests
         ITransponderReceiver transponderReceiver;
         List<Event> seperationEvents;
         List<TrackData> tracks;
-        string timestamp;
 
         ATMclass uut;
 
         [SetUp]
-        public void setup()
+        public void Setup()
         {
             //Setup stuff
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
@@ -46,7 +45,6 @@ namespace ATM.Unit.Tests
             transponderReceiver = Substitute.For<ITransponderReceiver>();
             seperationEvents = new List<Event>();
             tracks = new List<TrackData>();
-            timestamp = "235928121999";
         
             uut = new ATMclass(consoleOutput, fileOutput, fakeAirspace, transponderReceiver);
         }
@@ -55,7 +53,7 @@ namespace ATM.Unit.Tests
 
         #region IntervalTimer_TrackEntered
         [Test]
-        public void intervaltimer_trackenteredevent()
+        public void Intervaltimer_trackenteredevent()
         {
             TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270, consoleOutput);
 
@@ -74,7 +72,7 @@ namespace ATM.Unit.Tests
 
         #region IntervalTimer_TrackLeft
         [Test]
-        public void intervaltimer_trackleftevent()
+        public void Intervaltimer_trackleftevent()
         {
             TrackData trackData1 = new TrackData("TEST1", 12000, 12000, 1000, "14322018", 10, 270, consoleOutput);
 

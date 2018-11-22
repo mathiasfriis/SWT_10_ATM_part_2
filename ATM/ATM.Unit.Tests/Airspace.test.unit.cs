@@ -15,12 +15,12 @@ namespace ATM.Unit.Tests
     [TestFixture]
     class Airspace_test_unit
     {
-        double xMin = 10000;
-        double xMax = 90000;
-        double yMin = 10000;
-        double yMax = 90000;
-        double zMin = 500;
-        double zMax = 20000;
+        readonly double xMin = 10000;
+        readonly double xMax = 90000;
+        readonly double yMin = 10000;
+        readonly double yMax = 90000;
+        readonly double zMin = 500;
+        readonly double zMax = 20000;
         Airspace airspace;
         IAirspace fakeAirspace;
         IConsoleOutput consoleOutput;
@@ -28,12 +28,10 @@ namespace ATM.Unit.Tests
         ITransponderReceiver transponderReceiver;
         List<Event> seperationEvents;
         List<TrackData> tracks;
-        string timestamp;
-
         ATMclass uut;
 
         [SetUp]
-        public void setup()
+        public void Setup()
         {
             //Setup stuff
             airspace = new Airspace(xMin, xMax, yMin, yMax, zMin, zMax);
@@ -44,33 +42,32 @@ namespace ATM.Unit.Tests
             transponderReceiver = Substitute.For<ITransponderReceiver>();
             seperationEvents = new List<Event>();
             tracks = new List<TrackData>();
-            timestamp = "235928121999";
 
             uut = new ATMclass(consoleOutput, fileOutput, fakeAirspace, transponderReceiver);
         }
 
         #region Airspace
         [Test]
-        public void airspace_coordinateInAirspace_returnsTrue()
+        public void Airspace_coordinateInAirspace_returnsTrue()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(50000, 50000, 1000).Equals(true));
         }
 
         #region CoordinatesTooLow
         [Test]
-        public void airspace_xCoordinateTooLow_returnsFalse()
+        public void Airspace_xCoordinateTooLow_returnsFalse()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(xMin - 1, 50000, 1000).Equals(false));
         }
 
         [Test]
-        public void airspace_yCoordinateTooLow_returnsFalse()
+        public void Airspace_yCoordinateTooLow_returnsFalse()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(50000, yMin - 1, 1000).Equals(false));
         }
 
         [Test]
-        public void airspace_zCoordinateTooLow_returnsFalse()
+        public void Airspace_zCoordinateTooLow_returnsFalse()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(50000, 50000, zMin - 1).Equals(false));
         }
@@ -78,19 +75,19 @@ namespace ATM.Unit.Tests
 
         #region CoordinatesTooHigh
         [Test]
-        public void airspace_xCoordinateTooHigh_returnsFalse()
+        public void Airspace_xCoordinateTooHigh_returnsFalse()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(xMax + 1, 50000, 1000).Equals(false));
         }
 
         [Test]
-        public void airspace_yCoordinateTooHigh_returnsFalse()
+        public void Airspace_yCoordinateTooHigh_returnsFalse()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(50000, yMax + 1, 1000).Equals(false));
         }
 
         [Test]
-        public void airspace_zCoordinateTooHigh_returnsFalse()
+        public void Airspace_zCoordinateTooHigh_returnsFalse()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(50000, 50000, zMax + 1).Equals(false));
         }
@@ -98,19 +95,19 @@ namespace ATM.Unit.Tests
 
         #region CoordinatesLowerBoundary
         [Test]
-        public void airspace_xCoordinateLowerBoundary_returnsTrue()
+        public void Airspace_xCoordinateLowerBoundary_returnsTrue()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(xMin, 50000, 1000).Equals(true));
         }
 
         [Test]
-        public void airspace_yCoordinateLowerBoundary_returnsTrue()
+        public void Airspace_yCoordinateLowerBoundary_returnsTrue()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(50000, yMin, 1000).Equals(true));
         }
 
         [Test]
-        public void airspace_zCoordinateLowerBoundary_returnsTrue()
+        public void Airspace_zCoordinateLowerBoundary_returnsTrue()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(50000, 50000, zMin).Equals(true));
         }
@@ -118,19 +115,19 @@ namespace ATM.Unit.Tests
 
         #region CoordinatesUpperBoundary
         [Test]
-        public void airspace_xCoordinateUpperBoundary_returnsTrue()
+        public void Airspace_xCoordinateUpperBoundary_returnsTrue()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(xMax, 50000, 1000).Equals(true));
         }
 
         [Test]
-        public void airspace_yCoordinateUpperBoundary_returnsTrue()
+        public void Airspace_yCoordinateUpperBoundary_returnsTrue()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(50000, yMax, 1000).Equals(true));
         }
 
         [Test]
-        public void airspace_zCoordinateUpperBoundary_returnsTrue()
+        public void Airspace_zCoordinateUpperBoundary_returnsTrue()
         {
             Assert.That(() => airspace.CheckIfInMonitoredArea(50000, 50000, zMax).Equals(true));
         }

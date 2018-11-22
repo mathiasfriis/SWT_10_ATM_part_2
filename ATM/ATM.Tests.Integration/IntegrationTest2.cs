@@ -38,7 +38,7 @@ namespace ATM.Tests.Integration
         ITransponderReceiver fakeTransponderReceiver;
 
         [SetUp]
-        public void setup()
+        public void Setup()
         {
             //Set up S's
             fakeConsoleOutput = Substitute.For<IConsoleOutput>();
@@ -182,7 +182,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAdded_RendererPrintsExpectedString()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
             ATM.HandleNewTrackData(trackData1);
@@ -197,7 +196,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAddedWaitForALongTime_ConsoleIsStillRendering()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
             ATM.HandleNewTrackData(trackData1);
@@ -314,7 +312,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAdded_LoggerExpectedString()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
             ATM.HandleNewTrackData(trackData1);
@@ -326,7 +323,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAddedWait5sec_LoggerStillOnlyWroteOnce()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
             ATM.HandleNewTrackData(trackData1);
