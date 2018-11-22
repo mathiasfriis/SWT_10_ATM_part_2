@@ -16,9 +16,9 @@ namespace ATM
 {
     public class ATMclass : IObserver
     {
-        double MIN_X_DISTANCE = 5000;
-        double MIN_Y_DISTANCE = 5000;
-        double MIN_Z_DISTANCE = 300;
+        readonly double MIN_X_DISTANCE = 5000;
+        readonly double MIN_Y_DISTANCE = 5000;
+        readonly double MIN_Z_DISTANCE = 300;
 
 
         public IConsoleOutput _outputConsole;
@@ -42,8 +42,10 @@ namespace ATM
             _currentEvents = new EventList();
             _currentTracks = new List<TrackData>();
 
-            Timer = new System.Timers.Timer();
-            Timer.Interval = 0.05;
+            Timer = new System.Timers.Timer
+            {
+                Interval = 0.05
+            };
             Timer.Elapsed += TimerElapsed;
             Timer.AutoReset = true;
             Timer.Enabled = true;
@@ -146,9 +148,11 @@ namespace ATM
                             // Add new separation event 
                             //string time = DateTime.Now.ToString();
                             string time = trackData._TimeStamp;
-                            List<TrackData> trackDataInSeperationEvent = new List<TrackData>();
-                            trackDataInSeperationEvent.Add(trackData);
-                            trackDataInSeperationEvent.Add(track);
+                            List<TrackData> trackDataInSeperationEvent = new List<TrackData>
+                            {
+                                trackData,
+                                track
+                            };
 
                             //_currentEvents.Add(SeperationEvent);
                             _currentEvents.AddSeperationEventFor(trackData, track, _outputFile);

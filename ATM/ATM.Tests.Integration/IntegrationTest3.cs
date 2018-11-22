@@ -38,12 +38,8 @@ namespace ATM.Tests.Integration
         ITransponderReceiver fakeTransponderReceiver;
         TransponderReceiver transponderReceiver;
 
-        //Test data
-        string td1 = "ABC123;30000;30000;3000;20181224200050123";
-        string td2 = "ABC123;30001;30001;3001;20181224200050123";
-
         [SetUp]
-        public void setup()
+        public void Setup()
         {
             //Set up S's
             fakeConsoleOutput = Substitute.For<IConsoleOutput>();
@@ -277,7 +273,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAdded_RendererPrintsExpectedString()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
             
             //Same track not in airspace
@@ -302,7 +297,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAddedWaitForALongTime_ConsoleIsStillRendering()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
             //Same track not in airspace
@@ -502,7 +496,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAdded_LoggerExpectedString()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
             //Same track not in airspace
             List<string> data1 = new List<string>
@@ -523,7 +516,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAddedWait5sec_LoggerStillOnlyWroteOnce()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
             //Same track not in airspace
