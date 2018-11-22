@@ -54,8 +54,8 @@ namespace ATM
 
         public void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            _outputConsole.Clear();
             CurrentEvents.cleanUpEvents();
+            _outputConsole.Clear();
             RenderEvents();
             RenderTracks();
         }
