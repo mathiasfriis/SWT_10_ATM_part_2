@@ -15,7 +15,7 @@ using TransponderReceiver;
 namespace ATM.Tests.Integration
 {
     [TestFixture]
-    class IntegrationTest2
+    class IntegrationTest3
     {
         //S's - Stubs
         private IConsoleOutput fakeConsoleOutput;
@@ -36,6 +36,11 @@ namespace ATM.Tests.Integration
 
         //TransponderReceiver, needed for creating an instance of ATMclass
         ITransponderReceiver fakeTransponderReceiver;
+        TransponderReceiver transponderReceiver;
+
+        //Test data
+        string td1 = "ABC123;30000;30000;3000;20181224200050123";
+        string td2 = "ABC123;30001;30001;3001;20181224200050123";
 
         [SetUp]
         public void setup()
@@ -55,8 +60,14 @@ namespace ATM.Tests.Integration
             //Fake transponderReceiver
             fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
 
+            //Create new ATM.TransponderReceiver for simulating inputs from the TransponderReceiver from the dll.
+            transponderReceiver = new TransponderReceiver(fakeTransponderReceiver, fakeConsoleOutput);
+
             //Set up T's
             ATM = new ATMclass(fakeConsoleOutput, fakeFileOutput, airspace, fakeTransponderReceiver);
+
+            //Attach ATM, so that updates to the transponderReceiver updates data in the ATM
+            transponderReceiver.Attach(ATM);
 
         }
 
@@ -66,8 +77,18 @@ namespace ATM.Tests.Integration
         public void TrackEnteredEvent_NewTrackInAirspaceAdded_RendererPrintsExpectedString()
         {
             string expectedString = "Track entered airspace - Occurencetime: 20181224200050123 Involved track: ABC123";
+            
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
 
-            ATM.HandleNewTrackData(trackData1);
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
 
             //Sleep for a bit, to make sure that new event has been rendered
             Thread.Sleep(200);
@@ -81,7 +102,17 @@ namespace ATM.Tests.Integration
         {
             string expectedString = "Track entered airspace - Occurencetime: 20181224200050123 Involved track: ABC123";
 
-            ATM.HandleNewTrackData(trackData1);
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
 
             //Sleep for a little less than 5 seconds
             Thread.Sleep(4800);
@@ -98,7 +129,17 @@ namespace ATM.Tests.Integration
         public void TrackEnteredEvent_TrackEnteredAirspaceMoreThan5SecondsAgo_IsNotBeingRenderedAnymore()
         {
 
-            ATM.HandleNewTrackData(trackData1);
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
 
             //Sleep for More than 5 seconds
             Thread.Sleep(5200);
@@ -120,11 +161,29 @@ namespace ATM.Tests.Integration
         {
             string expectedString = "Track left airspace - Occurencetime: 20181224200050123 Involved track: ABC123";
 
-            ATM.HandleNewTrackData(trackData1);
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
 
-            trackData1._CurrentXcord += 100000;
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
 
-            ATM.HandleNewTrackData(trackData1);
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
+
+            //Same track not in airspace
+            List<string> data2 = new List<string>
+            {
+                "ABC123;1030000;30000;3000;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent2 = new RawTransponderDataEventArgs(data2);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent2);
 
             //Sleep for a bit, to make sure that new event has been rendered
             Thread.Sleep(200);
@@ -137,11 +196,29 @@ namespace ATM.Tests.Integration
         {
             string expectedString = "Track left airspace - Occurencetime: 20181224200050123 Involved track: ABC123";
 
-            ATM.HandleNewTrackData(trackData1);
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
 
-            trackData1._CurrentXcord += 100000;
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
 
-            ATM.HandleNewTrackData(trackData1);
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
+
+            //Same track not in airspace
+            List<string> data2 = new List<string>
+            {
+                "ABC123;1030000;30000;3000;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent2 = new RawTransponderDataEventArgs(data2);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent2);
 
             //Sleep for a little less than 5 seconds
             Thread.Sleep(4800);
@@ -158,11 +235,29 @@ namespace ATM.Tests.Integration
         public void TrackLeftEvent_TrackLeftAirspaceMoreThan5SecondsAgo_IsNotBeingRenderedAnymore()
         {
 
-            ATM.HandleNewTrackData(trackData1);
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
 
-            trackData1._CurrentXcord += 100000;
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
 
-            ATM.HandleNewTrackData(trackData1);
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
+
+            //Same track not in airspace
+            List<string> data2 = new List<string>
+            {
+                "ABC123;1030000;30000;3000;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent2 = new RawTransponderDataEventArgs(data2);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent2);
 
             //Sleep for a little more than 5 seconds
             Thread.Sleep(5200);
@@ -184,9 +279,19 @@ namespace ATM.Tests.Integration
         {
             string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
+            
+            //Same track not in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123",
+                "DEF123;30001;30001;3001;20181224200050123"
+            };
 
-            ATM.HandleNewTrackData(trackData1);
-            ATM.HandleNewTrackData(trackData2);
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
 
             //Sleep for a bit, to make sure that new event has been rendered
             Thread.Sleep(200);
@@ -200,8 +305,18 @@ namespace ATM.Tests.Integration
             string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
-            ATM.HandleNewTrackData(trackData1);
-            ATM.HandleNewTrackData(trackData2);
+            //Same track not in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123",
+                "DEF123;30001;30001;3001;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
 
             //Sleep for more than 5 seconds, to make sure that seperation event does not stop being rendered after 5 seconds.
             Thread.Sleep(6000);
@@ -221,13 +336,30 @@ namespace ATM.Tests.Integration
             string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
-            //Add tracks, so that seperation Event occurs
-            ATM.HandleNewTrackData(trackData1);
-            ATM.HandleNewTrackData(trackData2);
+            //Same track not in airspace
+            List<string> data1 = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123",
+                "DEF123;30001;30001;3001;20181224200050123"
+            };
 
-            //Change x-coordinate for one track, so that seperation event does not occur anymore
-            trackData1._CurrentXcord += 5002;
-            ATM.HandleNewTrackData(trackData1);
+            //Create new event
+            RawTransponderDataEventArgs newEvent1 = new RawTransponderDataEventArgs(data1);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent1);
+
+            //Update X-coordinate of one track, so that seperation event conditions are no longer met.
+            List<string> data2 = new List<string>
+            {
+                "ABC123;50000;30000;3000;20181224200050123",
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent2 = new RawTransponderDataEventArgs(data2);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent2);
 
             //Wait for a little time to make sure that seperation event is cleared from list at next render.
             Thread.Sleep(2200);
@@ -258,7 +390,17 @@ namespace ATM.Tests.Integration
         {
             string expectedString = "Track entered airspace - Occurencetime: 20181224200050123 Involved track: ABC123";
 
-            ATM.HandleNewTrackData(trackData1);
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
 
             fakeFileOutput.Received(1).Write(Arg.Is<string>(expectedString));
         }
@@ -268,7 +410,17 @@ namespace ATM.Tests.Integration
         {
             string expectedString = "Track entered airspace - Occurencetime: 20181224200050123 Involved track: ABC123";
 
-            ATM.HandleNewTrackData(trackData1);
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
 
             //Wait 5 secs
             Thread.Sleep(5000);
@@ -283,11 +435,29 @@ namespace ATM.Tests.Integration
         {
             string expectedString = "Track left airspace - Occurencetime: 20181224200050123 Involved track: ABC123";
 
-            ATM.HandleNewTrackData(trackData1);
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
 
-            //Update track data so that the new position is out of the monitored airspace
-            trackData1._CurrentXcord += 100000;
-            ATM.HandleNewTrackData(trackData1);
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
+
+            //Same track not in airspace
+            List<string> data2 = new List<string>
+            {
+                "ABC123;1030000;30000;3000;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent2 = new RawTransponderDataEventArgs(data2);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent2);
 
             fakeFileOutput.Received(1).Write(Arg.Is<string>(expectedString));
         }
@@ -295,13 +465,31 @@ namespace ATM.Tests.Integration
         [Test]
         public void TrackLeftEvent_TrackLeftAirspace_LoggerStillOnlyWroteOnce()
         {
-            string expectedString = "Track left airspace - Occurencetime: 20181224200050123 Involved tracWk: ABC123";
+            string expectedString = "Track left airspace - Occurencetime: 20181224200050123 Involved track: ABC123";
 
-            ATM.HandleNewTrackData(trackData1);
+            //Track in airspace
+            List<string> data = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123"
+            };
 
-            //Update track data so that the new position is out of the monitored airspace
-            trackData1._CurrentXcord += 100000;
-            ATM.HandleNewTrackData(trackData1);
+            //Create new event
+            RawTransponderDataEventArgs newEvent = new RawTransponderDataEventArgs(data);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent);
+
+            //Same track not in airspace
+            List<string> data2 = new List<string>
+            {
+                "ABC123;1030000;30000;3000;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent2 = new RawTransponderDataEventArgs(data2);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent2);
 
             //Wait 5 secs
             Thread.Sleep(5000);
@@ -316,9 +504,18 @@ namespace ATM.Tests.Integration
         {
             string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
+            //Same track not in airspace
+            List<string> data1 = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123",
+                "DEF123;30001;30001;3001;20181224200050123"
+            };
 
-            ATM.HandleNewTrackData(trackData1);
-            ATM.HandleNewTrackData(trackData2);
+            //Create new event
+            RawTransponderDataEventArgs newEvent1 = new RawTransponderDataEventArgs(data1);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent1);
 
             fakeFileOutput.Received(1).Write(Arg.Is<string>(expectedString2));
         }
@@ -329,8 +526,18 @@ namespace ATM.Tests.Integration
             string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
-            ATM.HandleNewTrackData(trackData1);
-            ATM.HandleNewTrackData(trackData2);
+            //Same track not in airspace
+            List<string> data1 = new List<string>
+            {
+                "ABC123;30000;30000;3000;20181224200050123",
+                "DEF123;30001;30001;3001;20181224200050123"
+            };
+
+            //Create new event
+            RawTransponderDataEventArgs newEvent1 = new RawTransponderDataEventArgs(data1);
+
+            //Give new event to transponderReceiver
+            transponderReceiver.ReceiverOnTransponderDataReady(new object(), newEvent1);
 
             //Wait 5 secs
             Thread.Sleep(5000);
@@ -340,6 +547,5 @@ namespace ATM.Tests.Integration
 
         #endregion
         #endregion
-
     }
 }
