@@ -817,6 +817,28 @@ namespace ATM.Unit.Tests
         }
 
         [Test]
+        public void UpdateSeperationEventStatus_OneTrackLeftAirspace_isRaisedIsFalse()
+        {
+            TrackData track1 = new TrackData("ABC", 30000, 30000, 1000, timestamp, 150, 50, consoleOutput);
+            TrackData track2 = new TrackData("DEF", 50000, 50000, 5000, timestamp, 150, 50, consoleOutput);
+
+            //Add tracks in order to have some data to update from
+            uut.AddTrack(track1);
+            uut.AddTrack(track2);
+
+            //Add seperation event involving the 2 tracks already
+            uut._currentEvents.AddSeperationEventFor(track1, track2, fileOutput);
+
+            //Simulate that one track has left airspace
+            uut.RemoveTrack(track2._Tag);
+
+            uut.UpdateSeperationEventStatus();
+
+            //Check that status is true after update
+            Assert.That(uut._currentEvents.events[0]._isRaised.Equals(false));
+        }
+
+        [Test]
         public void UpdateSeperationEventStatus_SeveralEventsUpdate_isRaisedIsUpdatedCorrectly()
         {
             //Tracks that will meet seperation event conditions upon check
