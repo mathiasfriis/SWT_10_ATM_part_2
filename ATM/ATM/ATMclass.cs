@@ -95,7 +95,7 @@ namespace ATM
             // Check for potential seperation events
             CheckForSeperationEvents(trackdata);
 
-            // Remove separations event after update
+            // Update status of flightEvents' _isRaised-attribute.
             UpdateSeperationEventStatus();
 
         }
