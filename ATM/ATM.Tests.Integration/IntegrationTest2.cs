@@ -38,7 +38,7 @@ namespace ATM.Tests.Integration
         ITransponderReceiver fakeTransponderReceiver;
 
         [SetUp]
-        public void setup()
+        public void Setup()
         {
             //Set up S's
             fakeConsoleOutput = Substitute.For<IConsoleOutput>();
@@ -122,7 +122,7 @@ namespace ATM.Tests.Integration
 
             ATM.HandleNewTrackData(trackData1);
 
-            trackData1._CurrentXcord += 100000;
+            trackData1.CurrentXcord += 100000;
 
             ATM.HandleNewTrackData(trackData1);
 
@@ -139,7 +139,7 @@ namespace ATM.Tests.Integration
 
             ATM.HandleNewTrackData(trackData1);
 
-            trackData1._CurrentXcord += 100000;
+            trackData1.CurrentXcord += 100000;
 
             ATM.HandleNewTrackData(trackData1);
 
@@ -160,7 +160,7 @@ namespace ATM.Tests.Integration
 
             ATM.HandleNewTrackData(trackData1);
 
-            trackData1._CurrentXcord += 100000;
+            trackData1.CurrentXcord += 100000;
 
             ATM.HandleNewTrackData(trackData1);
 
@@ -182,7 +182,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAdded_RendererPrintsExpectedString()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
             ATM.HandleNewTrackData(trackData1);
@@ -197,7 +196,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAddedWaitForALongTime_ConsoleIsStillRendering()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
             ATM.HandleNewTrackData(trackData1);
@@ -226,7 +224,7 @@ namespace ATM.Tests.Integration
             ATM.HandleNewTrackData(trackData2);
 
             //Change x-coordinate for one track, so that seperation event does not occur anymore
-            trackData1._CurrentXcord += 5002;
+            trackData1.CurrentXcord += 5002;
             ATM.HandleNewTrackData(trackData1);
 
             //Wait for a little time to make sure that seperation event is cleared from list at next render.
@@ -286,7 +284,7 @@ namespace ATM.Tests.Integration
             ATM.HandleNewTrackData(trackData1);
 
             //Update track data so that the new position is out of the monitored airspace
-            trackData1._CurrentXcord += 100000;
+            trackData1.CurrentXcord += 100000;
             ATM.HandleNewTrackData(trackData1);
 
             fakeFileOutput.Received(1).Write(Arg.Is<string>(expectedString));
@@ -300,7 +298,7 @@ namespace ATM.Tests.Integration
             ATM.HandleNewTrackData(trackData1);
 
             //Update track data so that the new position is out of the monitored airspace
-            trackData1._CurrentXcord += 100000;
+            trackData1.CurrentXcord += 100000;
             ATM.HandleNewTrackData(trackData1);
 
             //Wait 5 secs
@@ -314,7 +312,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAdded_LoggerExpectedString()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
             ATM.HandleNewTrackData(trackData1);
@@ -326,7 +323,6 @@ namespace ATM.Tests.Integration
         [Test]
         public void SeperationEvent_CollidingTracksAddedWait5sec_LoggerStillOnlyWroteOnce()
         {
-            string expectedString1 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: ABC123, DEF123";
             string expectedString2 = "Separation event - Occurencetime: 20181224200050123 Involved tracks: DEF123, ABC123";
 
             ATM.HandleNewTrackData(trackData1);

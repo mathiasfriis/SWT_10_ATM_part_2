@@ -62,7 +62,7 @@ namespace ATM.Tests.Integration
             atmClass.HandleNewTrackData(trackData);
 
             string expectedString =
-                $"{trackData._Tag} - ( {trackData._CurrentXcord}, {trackData._CurrentYcord}, {trackData._CurrentZcord}) - Speed: {trackData._CurrentHorzVel} m/s - Course: {trackData._CurrentCourse} degrees";
+                $"{trackData.Tag} - ( {trackData.CurrentXcord}, {trackData.CurrentYcord}, {trackData.CurrentZcord}) - Speed: {trackData.CurrentHorzVel} m/s - Course: {trackData.CurrentCourse} degrees";
 
             fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
         }
@@ -97,7 +97,7 @@ namespace ATM.Tests.Integration
 
             atmClass.HandleNewTrackData(trackData2);
             string expectedString =
-                $"{trackData2._Tag} - ( {trackData2._CurrentXcord}, {trackData2._CurrentYcord}, {trackData2._CurrentZcord}) - Speed: {trackData2._CurrentHorzVel} m/s - Course: {trackData2._CurrentCourse} degrees";
+                $"{trackData2.Tag} - ( {trackData2.CurrentXcord}, {trackData2.CurrentYcord}, {trackData2.CurrentZcord}) - Speed: {trackData2.CurrentHorzVel} m/s - Course: {trackData2.CurrentCourse} degrees";
 
             fakeConsoleOutput.Received().Print(Arg.Is<string>(expectedString));
 
@@ -125,7 +125,7 @@ namespace ATM.Tests.Integration
             atmClass.HandleNewTrackData(trackData2);
 
             string expectedString =
-                $"Track left airspace - Occurencetime: {trackData2._TimeStamp} Involved track: {trackData2._Tag}";
+                $"Track left airspace - Occurencetime: {trackData2.TimeStamp} Involved track: {trackData2.Tag}";
 
             fakeConsoleOutput.Received(1).Print(Arg.Is<string>(expectedString));
         }
