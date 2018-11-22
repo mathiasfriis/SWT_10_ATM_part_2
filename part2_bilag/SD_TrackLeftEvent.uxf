@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.1.1">
-  <zoom_level>11</zoom_level>
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1078</x>
-      <y>132</y>
-      <w>110</w>
-      <h>33</h>
+      <x>936</x>
+      <y>192</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>Airspace</panel_attributes>
     <additional_attributes/>
@@ -15,10 +15,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>792</x>
-      <y>132</y>
-      <w>198</w>
-      <h>33</h>
+      <x>744</x>
+      <y>192</y>
+      <w>144</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>ATM: CurrentEvents</panel_attributes>
     <additional_attributes/>
@@ -26,10 +26,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>0</x>
-      <y>132</y>
-      <w>165</w>
-      <h>33</h>
+      <x>152</x>
+      <y>192</y>
+      <w>120</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>TransponderRecieiver</panel_attributes>
     <additional_attributes/>
@@ -37,21 +37,21 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>77</x>
-      <y>154</y>
-      <w>33</w>
-      <h>803</h>
+      <x>208</x>
+      <y>208</y>
+      <w>24</w>
+      <h>728</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;710.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;890.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>297</x>
-      <y>154</y>
-      <w>33</w>
-      <h>55</h>
+      <x>368</x>
+      <y>208</y>
+      <w>24</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
@@ -59,32 +59,32 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1122</x>
-      <y>154</y>
-      <w>33</w>
-      <h>803</h>
+      <x>968</x>
+      <y>208</y>
+      <w>24</w>
+      <h>728</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;710.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;890.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>880</x>
-      <y>154</y>
-      <w>33</w>
-      <h>803</h>
+      <x>800</x>
+      <y>208</y>
+      <w>24</w>
+      <h>728</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;710.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;890.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>77</x>
-      <y>176</y>
-      <w>242</w>
-      <h>44</h>
+      <x>208</x>
+      <y>224</y>
+      <w>176</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 Update(TrackData)</panel_attributes>
@@ -93,22 +93,22 @@ Update(TrackData)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>308</x>
-      <y>198</y>
-      <w>319</w>
-      <h>88</h>
+      <x>376</x>
+      <y>240</y>
+      <w>232</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 HandleNewTrackData(TrackData)</panel_attributes>
-    <additional_attributes>20.0;60.0;60.0;60.0;60.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;60.0;60.0;60.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>297</x>
-      <y>187</y>
-      <w>22</w>
-      <h>704</h>
+      <x>368</x>
+      <y>232</y>
+      <w>16</w>
+      <h>672</h>
     </coordinates>
     <panel_attributes>bg=GRAY</panel_attributes>
     <additional_attributes/>
@@ -116,22 +116,22 @@ HandleNewTrackData(TrackData)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>319</x>
-      <y>275</y>
-      <w>374</w>
-      <h>44</h>
+      <x>376</x>
+      <y>296</y>
+      <w>288</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 CheckIfTrackWithSameTagExist(): bool</panel_attributes>
-    <additional_attributes>320.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>340.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>583</x>
-      <y>132</y>
-      <w>187</w>
-      <h>33</h>
+      <x>584</x>
+      <y>192</y>
+      <w>136</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>ATM: List CurrentTracks</panel_attributes>
     <additional_attributes/>
@@ -139,56 +139,45 @@ CheckIfTrackWithSameTagExist(): bool</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>671</x>
-      <y>154</y>
-      <w>33</w>
-      <h>803</h>
+      <x>648</x>
+      <y>208</y>
+      <w>24</w>
+      <h>728</h>
     </coordinates>
     <panel_attributes>lt=.
 layer=-1</panel_attributes>
-    <additional_attributes>10.0;710.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;890.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>319</x>
-      <y>319</y>
-      <w>374</w>
-      <h>44</h>
+      <x>376</x>
+      <y>328</y>
+      <w>288</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
 true</panel_attributes>
-    <additional_attributes>10.0;20.0;320.0;20.0</additional_attributes>
+    <additional_attributes>10.0;20.0;340.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>308</x>
-      <y>253</y>
-      <w>22</w>
-      <h>605</h>
+      <x>376</x>
+      <y>280</y>
+      <w>16</w>
+      <h>616</h>
     </coordinates>
     <panel_attributes>bg=gray</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>297</x>
-      <y>880</y>
-      <w>33</w>
-      <h>77</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
-  </element>
-  <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>671</x>
-      <y>275</y>
-      <w>22</w>
-      <h>88</h>
+      <x>648</x>
+      <y>296</y>
+      <w>16</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>bg=GRAY
 layer=9</panel_attributes>
@@ -197,34 +186,34 @@ layer=9</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>319</x>
-      <y>363</y>
-      <w>275</w>
-      <h>88</h>
+      <x>376</x>
+      <y>360</y>
+      <w>208</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 UpdateTrackData(TrackData)</panel_attributes>
-    <additional_attributes>10.0;60.0;50.0;60.0;50.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;60.0;60.0;60.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>319</x>
-      <y>451</y>
-      <w>385</w>
-      <h>88</h>
+      <x>376</x>
+      <y>424</y>
+      <w>288</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 CheckIfTrackdataIsStillInAirspac(TrackData)</panel_attributes>
-    <additional_attributes>20.0;60.0;60.0;60.0;60.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>30.0;60.0;70.0;60.0;70.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
-      <y>528</y>
-      <w>814</w>
-      <h>44</h>
+      <x>392</x>
+      <y>480</y>
+      <w>592</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 CheckIfInMonitoredArea(TrackData.CurrentXcord, TrackData.CurrentYcord, TrackData.CurrentZcord): bool</panel_attributes>
@@ -233,10 +222,10 @@ CheckIfInMonitoredArea(TrackData.CurrentXcord, TrackData.CurrentYcord, TrackData
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>319</x>
-      <y>506</y>
-      <w>22</w>
-      <h>187</h>
+      <x>384</x>
+      <y>464</y>
+      <w>16</w>
+      <h>416</h>
     </coordinates>
     <panel_attributes>bg=gray</panel_attributes>
     <additional_attributes/>
@@ -244,10 +233,10 @@ CheckIfInMonitoredArea(TrackData.CurrentXcord, TrackData.CurrentYcord, TrackData
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>1122</x>
-      <y>528</y>
-      <w>22</w>
-      <h>88</h>
+      <x>968</x>
+      <y>480</y>
+      <w>16</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>bg=GRAY
 layer=9</panel_attributes>
@@ -256,10 +245,10 @@ layer=9</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
-      <y>561</y>
-      <w>814</w>
-      <h>44</h>
+      <x>392</x>
+      <y>504</y>
+      <w>592</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
 false</panel_attributes>
@@ -268,22 +257,22 @@ false</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
-      <y>605</y>
-      <w>572</w>
-      <h>44</h>
+      <x>392</x>
+      <y>544</y>
+      <w>424</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 AddTrackLeftEventFor(TrackData, FileOutput)</panel_attributes>
-    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>510.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>880</x>
-      <y>605</y>
-      <w>22</w>
-      <h>99</h>
+      <x>800</x>
+      <y>544</y>
+      <w>16</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>bg=GRAY
 layer=9</panel_attributes>
@@ -292,25 +281,25 @@ layer=9</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>891</x>
-      <y>616</y>
-      <w>462</w>
-      <h>88</h>
+      <x>808</x>
+      <y>552</y>
+      <w>328</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 &lt;&lt;CTOR&gt;&gt; TrackLeftEvent(TackData.TimeStamp, 
                TrackData, true, 
                        TrackData.ConsoleOutput,
            FileOutput)</panel_attributes>
-    <additional_attributes>400.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>390.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>275</x>
-      <y>143</y>
-      <w>110</w>
-      <h>33</h>
+      <x>352</x>
+      <y>200</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>Airspace</panel_attributes>
     <additional_attributes/>
@@ -318,35 +307,199 @@ layer=9</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1276</x>
-      <y>132</y>
-      <w>132</w>
-      <h>33</h>
+      <x>1080</x>
+      <y>192</y>
+      <w>96</w>
+      <h>24</h>
     </coordinates>
-    <panel_attributes>TrackLeftEvent</panel_attributes>
+    <panel_attributes>EventList</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1331</x>
-      <y>154</y>
-      <w>33</w>
-      <h>803</h>
+      <x>1120</x>
+      <y>208</y>
+      <w>24</w>
+      <h>728</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;710.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;890.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>1331</x>
-      <y>616</y>
-      <w>22</w>
+      <x>1120</x>
+      <y>552</y>
+      <w>16</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>bg=GRAY
+layer=9</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1128</x>
+      <y>568</y>
+      <w>232</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+FlightEventList.Add(TrackLeftEvent)</panel_attributes>
+    <additional_attributes>10.0;60.0;50.0;60.0;50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1304</x>
+      <y>192</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>FileOutput</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1336</x>
+      <y>208</y>
+      <w>24</w>
+      <h>728</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;890.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1128</x>
+      <y>632</y>
+      <w>224</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+Write(TrackLeftEvent.FormatData())</panel_attributes>
+    <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1336</x>
+      <y>640</y>
+      <w>16</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>bg=GRAY
+layer=9</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1344</x>
+      <y>648</y>
+      <w>248</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+StreamWriter.WriteLine(formatedData)
+</panel_attributes>
+    <additional_attributes>10.0;60.0;50.0;60.0;50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>392</x>
+      <y>704</y>
+      <w>216</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+RemoveTrack(TrackData.Tag)</panel_attributes>
+    <additional_attributes>20.0;60.0;60.0;60.0;60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>392</x>
+      <y>728</y>
+      <w>16</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>bg=gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>400</x>
+      <y>760</y>
+      <w>264</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+FindIndex(x =&gt; x.Tag.Equals(TrackData.Tag)</panel_attributes>
+    <additional_attributes>310.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>648</x>
+      <y>760</y>
+      <w>16</w>
       <h>88</h>
     </coordinates>
     <panel_attributes>bg=GRAY
 layer=9</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>400</x>
+      <y>784</y>
+      <w>264</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+int index</panel_attributes>
+    <additional_attributes>10.0;20.0;310.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>400</x>
+      <y>816</y>
+      <w>264</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+RemoveAt(index)</panel_attributes>
+    <additional_attributes>310.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>144</x>
+      <y>152</y>
+      <w>1440</w>
+      <h>800</h>
+    </coordinates>
+    <panel_attributes>*SD TrackLeftEvent - Track left airspace*</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>368</x>
+      <y>896</y>
+      <w>24</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
