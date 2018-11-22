@@ -188,7 +188,8 @@ namespace ATM
         {
 
             _currentEvents.RenderEvents();
-            Console.WriteLine("Number of separation events: " + _currentEvents.events.OfType<SeperationEvent>().Count());
+            _outputConsole.Print"Number of separation events: " + _currentEvents.events.OfType<SeperationEvent>().Count();
+            //Console.WriteLine("Number of separation events: " + _currentEvents.events.OfType<SeperationEvent>().Count());
         }
 
         public void RenderTracks()
